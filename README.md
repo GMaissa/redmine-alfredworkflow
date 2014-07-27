@@ -4,6 +4,8 @@ An [Alfred](http://alfredapp.com) workflow that speeds up access to Redmine proj
 
 [![Build Status](https://travis-ci.org/GMaissa/redmine-alfredworkflow.svg)](https://travis-ci.org/GMaissa/redmine-alfredworkflow)
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7de26d83-26e8-475b-9eaa-dcab53df8ec0/small.png)](https://insight.sensiolabs.com/projects/7de26d83-26e8-475b-9eaa-dcab53df8ec0)
+
 ### Requirements
 * [Alfred v2](http://alfredapp.com)
 * [Alfred Powerpack](http://www.alfredapp.com/powerpack)
