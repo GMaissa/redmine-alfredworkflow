@@ -85,16 +85,16 @@ class RedmineProject
         // If there is only one redmine plateform defined, no need to ask which one to use
         if (count($redmines) == 1) {
             $this->_projectMatch = trim($query);
-            return $this->_getProjects($redmines[$redmineKeys[0]]);
+            return $this->getProjects($redmines[$redmineKeys[0]]);
         } else {
             $args                = explode(' ', trim($query));
             $this->_redmineMatch = trim($args[0]);
 
             if (array_key_exists($args[0], $redmines)) {
                 $this->_projectMatch = array_key_exists(1, $args) ? trim($args[1]) : '';
-                return $this->_getProjects($redmines[$this->_redmineMatch]);
+                return $this->getProjects($redmines[$this->_redmineMatch]);
             } else {
-                return $this->_getRedmines($redmines);
+                return $this->getRedmines($redmines);
             }
         }
     }
@@ -106,7 +106,7 @@ class RedmineProject
      *
      * @return string
      */
-    function _getProjects($redmine)
+    function getProjects($redmine)
     {
         // Need to allow Client object injection for test purpose
         if (!$this->_redmineClient) {
@@ -142,7 +142,7 @@ class RedmineProject
      *
      * @return string
      */
-    protected function _getRedmines($redmines)
+    protected function getRedmines($redmines)
     {
         foreach ($redmines as $redKey => $redData) {
             if ($this->_redmineMatch == '' || preg_match('/'.trim($this->_redmineMatch).'/', $redKey)) {
