@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.gmaissa.redmine-workflow</string>
+	<key>category</key>
+	<string>Internet</string>
+	<key>connections</key>
+	<dict>
+		<key>E8CA43DF-66E3-4471-B3C4-F342B6246A4E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0D1A205C-AE6B-488A-8D85-ECE212D5F2CC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Guillaume Maïssa</string>
+	<key>description</key>
+	<string>Open redmine project page workflow</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Redmine</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>red</string>
+				<key>script</key>
+				<string>require_once( './vendor/autoload.php' );
+
+// Complete your Redmine configuration bellow
+$config='{
+    "test1":{
+        "name": "Redmine test 1",
+        "url": "http://redmine.test1.com",
+        "api-key": "key-test-1"
+    },
+    "test2":{
+        "name": "Redmine test 2",
+        "url": "http://redmine.test2.com",
+        "api-key": "key-test-2"
+    }
+}';
+
+$rw = new AlfredWorkflow\RedmineProject($config);
+$rw-&gt;run("{query}");</string>
+				<key>title</key>
+				<string>Open redmine project</string>
+				<key>type</key>
+				<integer>1</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E8CA43DF-66E3-4471-B3C4-F342B6246A4E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>plusspaces</key>
+				<false/>
+				<key>url</key>
+				<string>{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>0D1A205C-AE6B-488A-8D85-ECE212D5F2CC</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Open Redmine Project Page Workflow
+
+This workflow enable quick access to redmine project pages. It uses Redmine API with an API key. 
+
+To be able to use the workflow, you need to :
+- enable Redmine API on your redmine server
+- generate your redmine api key from /my/account
+- open the workflow « script filter », to configure your Redmine server(s) settings.
+
+version 1.0.0</string>
+	<key>uidata</key>
+	<dict>
+		<key>0D1A205C-AE6B-488A-8D85-ECE212D5F2CC</key>
+		<dict>
+			<key>ypos</key>
+			<real>180</real>
+		</dict>
+		<key>E8CA43DF-66E3-4471-B3C4-F342B6246A4E</key>
+		<dict>
+			<key>ypos</key>
+			<real>180</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>http://github.com/GMaissa/redmine-alfredworkflow</string>
+</dict>
+</plist>
