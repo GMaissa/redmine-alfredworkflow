@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="" arg="" title="Redmine server 1" subtitle="" valid="no" autocomplete=" test1">
+    <uid></uid>
+    <arg></arg>
+    <title>Redmine server 1</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> test1</autocomplete>
+  </item>
+  <item uid="" arg="" title="Redmine server 2" subtitle="" valid="no" autocomplete=" test2">
+    <uid></uid>
+    <arg></arg>
+    <title>Redmine server 2</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> test2</autocomplete>
+  </item>
+</items>
