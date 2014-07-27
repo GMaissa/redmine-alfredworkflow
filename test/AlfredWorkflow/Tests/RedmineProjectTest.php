@@ -37,22 +37,28 @@ class RedmineProjectTest extends \PHPUnit_Framework_TestCase
         $apiProjectsTest1 = json_decode(file_get_contents(__DIR__ . '/../../data/api/projects-test1.json'),   TRUE);
         $apiProjectsTest2 = json_decode(file_get_contents(__DIR__ . '/../../data/api/projects-test2.json'),   TRUE);
         $allProjectsTest1 = file_get_contents(__DIR__ . '/../../data/results/all-projects-test1.xml');
+        $myProjectsTest1  = file_get_contents(__DIR__ . '/../../data/results/my-projects-test1.xml');
+        $theProjectsTest1 = file_get_contents(__DIR__ . '/../../data/results/the-projects-test1.xml');
         $allProjectsTest2 = file_get_contents(__DIR__ . '/../../data/results/all-projects-test2.xml');
         $allRedmines      = file_get_contents(__DIR__ . '/../../data/results/all-redmines.xml');
 
         return array(
-            array($configMono,  '',        $apiProjectsTest1, $allProjectsTest1),
-            array($configMono,  ' ',       $apiProjectsTest1, $allProjectsTest1),
-            array($configMulti, '',        '',             $allRedmines),
-            array($configMulti, ' ',       '',                $allRedmines),
-            array($configMulti, 'test1',   $apiProjectsTest1, $allProjectsTest1),
-            array($configMulti, ' test1',  $apiProjectsTest1, $allProjectsTest1),
-            array($configMulti, ' test1 ', $apiProjectsTest1, $allProjectsTest1),
-            array($configMulti, 'test1 ',  $apiProjectsTest1, $allProjectsTest1),
-            array($configMulti, 'test2',   $apiProjectsTest2, $allProjectsTest2),
-            array($configMulti, ' test2',  $apiProjectsTest2, $allProjectsTest2),
-            array($configMulti, ' test2 ', $apiProjectsTest2, $allProjectsTest2),
-            array($configMulti, 'test2 ',  $apiProjectsTest2, $allProjectsTest2),
+            array($configMono,  '',           $apiProjectsTest1, $allProjectsTest1),
+            array($configMono,  ' ',          $apiProjectsTest1, $allProjectsTest1),
+            array($configMono,  ' my',        $apiProjectsTest1, $myProjectsTest1),
+            array($configMono,  ' the',       $apiProjectsTest1, $theProjectsTest1),
+            array($configMulti, '',           '',                $allRedmines),
+            array($configMulti, ' ',          '',                $allRedmines),
+            array($configMulti, 'test1',      $apiProjectsTest1, $allProjectsTest1),
+            array($configMulti, ' test1',     $apiProjectsTest1, $allProjectsTest1),
+            array($configMulti, ' test1 ',    $apiProjectsTest1, $allProjectsTest1),
+            array($configMulti, ' test1 my',  $apiProjectsTest1, $myProjectsTest1),
+            array($configMulti, ' test1 the', $apiProjectsTest1, $theProjectsTest1),
+            array($configMulti, 'test1 ',     $apiProjectsTest1, $allProjectsTest1),
+            array($configMulti, 'test2',      $apiProjectsTest2, $allProjectsTest2),
+            array($configMulti, ' test2',     $apiProjectsTest2, $allProjectsTest2),
+            array($configMulti, ' test2 ',    $apiProjectsTest2, $allProjectsTest2),
+            array($configMulti, 'test2 ',     $apiProjectsTest2, $allProjectsTest2),
         );
     }
 

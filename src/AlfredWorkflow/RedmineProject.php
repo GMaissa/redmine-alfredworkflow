@@ -91,7 +91,7 @@ class RedmineProject
             $this->_redmineMatch = trim($args[0]);
 
             if (array_key_exists($args[0], $redmines)) {
-                $this->_projectMatch = trim($args[0]);
+                $this->_projectMatch = array_key_exists(1, $args) ? trim($args[1]) : '';
                 return $this->_getProjects($redmines[$this->_redmineMatch]);
             } else {
                 return $this->_getRedmines($redmines);
@@ -154,7 +154,7 @@ class RedmineProject
                         'subtitle'     => '',
                         'icon'         => 'icon.png',
                         'valid'        => 'no',
-                        'autocomplete' => ' ' . $redKey
+                        'autocomplete' => ' ' . $redKey . ' '
                     )
                 );
             }
