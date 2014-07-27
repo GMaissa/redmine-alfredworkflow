@@ -12,9 +12,17 @@
 
 Namespace AlfredWorkflow;
 
-Use \Redmine,
-    \Alfred\Workflow;
+Use Redmine\Client,
+    Alfred\Workflow;
 
+/**
+ * Redmine Project class
+ *
+ * @category  AlfredWorkflow
+ * @package   AlfredWorkflow.Redmine
+ * @author    Guillaume Maïssa <guillaume@maissa.fr>
+ * @copyright 2014 Guillaume Maïssa
+ */
 class RedmineProject
 {
     /**
@@ -24,40 +32,50 @@ class RedmineProject
     protected $_config= false;
 
     /**
-     * Workflow onject to format data for alfred
+     * Workflow object to format data for alfred
      * @var \Alfred\Workflow $_workflow
      */
     protected $_workflow;
 
     /**
-     * Redmine key matching pattern for autocompletion
-     * @var mixed $_redminePattern
+     * Redmine Client object to communicate with Redmine servers
+     * @var \Redmine\Client $_redmineClient
      */
-    protected $_redminePattern = null;
+    protected $_redmineClient;
+
+    /**
+     * Redmine key matching pattern for autocompletion
+     * @var mixed $_redmineMatch
+     */
+    protected $_redmineMatch = null;
 
     /**
      * Project identifier matching pattern for autocompletion
-     * @var mixed $_projectPattern
+     * @var mixed $_projectMatch
      */
-    protected $_projectPattern = null;
+    protected $_projectMatch = null;
 
     /**
      * Class constructor
      *
-     * @param string $config workflow configuration
-     *
-     * @return void
+     * @param string   $config   workflow configuration
+     * @param Workflow $workflow Alfred Workflow Api object
+     * @param mixed    $client   Redmine Client object
      */
-    public function __construct($config)
+    public function __construct($config, Workflow $workflow, $client = false)
     {
-        $this->_config   = $config;
-        $this->_workflow = new Workflow('com.gmaissa.redmine-workflow');
+        $this->_config        = $config;
+        $this->_workflow      = $workflow;
+        // Need to allow Client object injection for test purpose
+        $this->_redmineClient = $client;
     }
 
     /**
      * Run the workflow
      *
      * @param string $query Alfred query string
+     *
+     * @return string
      */
     public function run($query)
     {
@@ -66,17 +84,17 @@ class RedmineProject
 
         // If there is only one redmine plateform defined, no need to ask which one to use
         if (count($redmines) == 1) {
-            $this->_projectPattern = trim($query);
-            echo $this->_getProjects($redmines[$redmineKeys[0]]);
+            $this->_projectMatch = trim($query);
+            return $this->_getProjects($redmines[$redmineKeys[0]]);
         } else {
-            $args                  = explode(' ', trim($query));
-            $this->_redminePattern = trim($args[0]);
+            $args                = explode(' ', trim($query));
+            $this->_redmineMatch = trim($args[0]);
 
             if (array_key_exists($args[0], $redmines)) {
-                $this->_projectPattern = trim($args[1]);
-                echo $this->_getProjects($redmines[$this->_redminePattern]);
+                $this->_projectMatch = trim($args[0]);
+                return $this->_getProjects($redmines[$this->_redmineMatch]);
             } else {
-                echo $this->_getRedmines($redmines);
+                return $this->_getRedmines($redmines);
             }
         }
     }
@@ -90,11 +108,17 @@ class RedmineProject
      */
     function _getProjects($redmine)
     {
-        $client   = new Redmine\Client($redmine['url'], $redmine['api-key']);
-        $projects = $client->api('project')->all();
+        // Need to allow Client object injection for test purpose
+        if (!$this->_redmineClient) {
+            // @codeCoverageIgnoreStart
+            $this->_redmineClient = new Client($redmine['url'], $redmine['api-key']);
+        }
+        // @codeCoverageIgnoreEnd
+
+        $projects    = $this->_redmineClient->api('project')->all();
         $resultArray = array();
         foreach ($projects['projects'] as $project) {
-            if ($this->_projectPattern == '' || preg_match('/'.trim($this->_projectPattern).'/', $project['identifier'])) {
+            if ($this->_projectMatch == '' || preg_match('/' . $this->_projectMatch . '/', $project['identifier'])) {
                 $this->_workflow->result(
                     $resultArray[] = array(
                         'uid'      => $project['identifier'],
@@ -121,7 +145,7 @@ class RedmineProject
     protected function _getRedmines($redmines)
     {
         foreach ($redmines as $redKey => $redData) {
-            if ($this->_redminePattern == '' || preg_match('/'.trim($this->_redminePattern).'/', $redKey)) {
+            if ($this->_redmineMatch == '' || preg_match('/'.trim($this->_redmineMatch).'/', $redKey)) {
                 $this->_workflow->result(
                     $resultArray[] = array(
                         'uid'          => '',
