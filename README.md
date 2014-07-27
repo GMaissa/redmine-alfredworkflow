@@ -21,7 +21,7 @@ Once installed, in Alfred, edit the workflow's "Script Filter" to add your Redmi
         "test1":{
             "name": "Redmine test1",
             "url": "http://test1.com",
-            "api-key": ""
+            "api-key": "api-key-test1"
         },
         "test2":{
             "name": "Redmine Test 2",
