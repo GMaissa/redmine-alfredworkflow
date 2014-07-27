@@ -18,14 +18,14 @@ Once installed, in Alfred, edit the workflow's "Script Filter" to add your Redmi
     // Complete your Redmine configuration bellow
     $config='
     {
-        "clients":{
-            "name": "Redmine clients",
-            "url": "http://clients.novactive.net",
-            "api-key": "62d47be757d978bc7152d52f3a6c570518929ddd"
+        "test1":{
+            "name": "Redmine test1",
+            "url": "http://test1.com",
+            "api-key": ""
         },
-        "hosting":{
-            "name": "Redmine hosting",
-            "url": "http://hosting.novactive.net",
-            "api-key": "4e53c95016b2b639b8f326a700280a074dbf42ff"
+        "test2":{
+            "name": "Redmine Test 2",
+            "url": "http://test2.com",
+            "api-key": "api-key-test2"
         }
     }';
