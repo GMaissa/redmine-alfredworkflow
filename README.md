@@ -4,19 +4,16 @@ An [Alfred](http://alfredapp.com) workflow that speed up access to Redmine proje
 
 [![Build Status](https://travis-ci.org/GMaissa/redmine-alfredworkflow.svg)](https://travis-ci.org/GMaissa/redmine-alfredworkflow)
 
-### Dependencies
+### Requirements
 * [Alfred v2](http://alfredapp.com)
 * [Alfred Powerpack](http://www.alfredapp.com/powerpack)
+* Enable REST API from the "/settings?tab=authentication" page on your Redmine server
+* Generate your API Key from the "/my/account" page on your Redmine server
 
 ### Installation
-To be able to use the workflow, you need to :
-1. enable Redmine API on your redmine server
-2. generate your redmine api key from /my/account
-
-
 [![Get Redmine workflow](https://raw.github.com/hzlzh/AlfredWorkflow.com/master/index/css/images/downlaod-btn.png)](https://github.com/GMaissa/redmine-alfredworkflow/raw/master/Redmine.alfredworkflow)
 
-Once installed in Alfred, edit the "Script Filter" to add your Redmine server configuration :
+Once installed, in Alfred, edit the workflow's "Script Filter" to add your Redmine server configuration :
 
     // Complete your Redmine configuration bellow
     $config='
