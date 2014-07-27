@@ -1,0 +1,12 @@
+{
+    "test1":{
+        "name": "Redmine server 1",
+        "url": "http://redmine.test1.com",
+        "api-key": "api-key-test1"
+    },
+    "test2":{
+        "name": "Redmine server 2",
+        "url": "http://redmine.test2.com",
+        "api-key": "api-key-test2"
+    }
+}
