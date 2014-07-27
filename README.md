@@ -7,7 +7,7 @@ An [Alfred](http://alfredapp.com) workflow that speed up access to Redmine proje
 ### Requirements
 * [Alfred v2](http://alfredapp.com)
 * [Alfred Powerpack](http://www.alfredapp.com/powerpack)
-* Enable REST API from the "/settings?tab=authentication" page on your Redmine server
+* Enable the REST API from the "/settings?tab=authentication" page on your Redmine server
 * Generate your API Key from the "/my/account" page on your Redmine server
 
 ### Installation
