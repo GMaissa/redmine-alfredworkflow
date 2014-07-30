@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="myproject-1-test1" arg="http://redmine.test1.com/projects/myproject-1-test1/issues" title="MyProject 1 Server 1" subtitle="-" valid="yes" autocomplete="">
+    <uid>myproject-1-test1</uid>
+    <arg>http://redmine.test1.com/projects/myproject-1-test1/issues</arg>
+    <title>MyProject 1 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+  <item uid="myproject-2-test1" arg="http://redmine.test1.com/projects/myproject-2-test1/issues" title="MyProject 2 Server 1" subtitle="-" valid="yes" autocomplete="">
+    <uid>myproject-2-test1</uid>
+    <arg>http://redmine.test1.com/projects/myproject-2-test1/issues</arg>
+    <title>MyProject 2 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+  <item uid="theproject-1-test1" arg="http://redmine.test1.com/projects/theproject-1-test1/issues" title="TheProject 1 Server 1" subtitle="-" valid="yes" autocomplete="">
+    <uid>theproject-1-test1</uid>
+    <arg>http://redmine.test1.com/projects/theproject-1-test1/issues</arg>
+    <title>TheProject 1 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+  <item uid="theproject-2-test1" arg="http://redmine.test1.com/projects/theproject-2-test1/issues" title="TheProject 2 Server 1" subtitle="-" valid="yes" autocomplete="">
+    <uid>theproject-2-test1</uid>
+    <arg>http://redmine.test1.com/projects/theproject-2-test1/issues</arg>
+    <title>TheProject 2 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+  <item uid="testproject-1-test1" arg="http://redmine.test1.com/projects/testproject-1-test1/issues" title="TestProject 1 Server 1" subtitle="-" valid="yes" autocomplete="">
+    <uid>testproject-1-test1</uid>
+    <arg>http://redmine.test1.com/projects/testproject-1-test1/issues</arg>
+    <title>TestProject 1 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+  <item uid="testproject-2-test1" arg="http://redmine.test1.com/projects/testproject-2-test1/issues" title="TestProject 2 Server 1" subtitle="-" valid="yes" autocomplete="">
+    <uid>testproject-2-test1</uid>
+    <arg>http://redmine.test1.com/projects/testproject-2-test1/issues</arg>
+    <title>TestProject 2 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+</items>

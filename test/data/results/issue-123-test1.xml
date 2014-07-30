@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="" arg="http://redmine.test1.com/issues/123" title="Display issue num 123" subtitle="" valid="yes" autocomplete="">
+    <uid></uid>
+    <arg>http://redmine.test1.com/issues/123</arg>
+    <title>Display issue num 123</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+</items>
