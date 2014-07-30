@@ -115,7 +115,13 @@ To be able to use the workflow, you need to :
 - generate your redmine api key from /my/account
 - open the workflow « script filter », to configure your Redmine server(s) settings.
 
-version 1.0.0</string>
+version 1.1.0
+
+New with version 1.1.0, you can now open :
+- a project homepage
+- a project wiki homepage
+- a project issues homepage
+- an issue page</string>
 	<key>uidata</key>
 	<dict>
 		<key>0D1A205C-AE6B-488A-8D85-ECE212D5F2CC</key>
