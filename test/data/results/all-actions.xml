@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="" arg="" title="Project homepage" subtitle="" valid="no" autocomplete=" home ">
+    <uid></uid>
+    <arg></arg>
+    <title>Project homepage</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> home </autocomplete>
+  </item>
+  <item uid="" arg="" title="Project wiki page" subtitle="" valid="no" autocomplete=" wiki ">
+    <uid></uid>
+    <arg></arg>
+    <title>Project wiki page</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> wiki </autocomplete>
+  </item>
+  <item uid="" arg="" title="Project issues page" subtitle="" valid="no" autocomplete=" issues ">
+    <uid></uid>
+    <arg></arg>
+    <title>Project issues page</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> issues </autocomplete>
+  </item>
+  <item uid="" arg="" title="Display issue num" subtitle="" valid="no" autocomplete=" issue ">
+    <uid></uid>
+    <arg></arg>
+    <title>Display issue num</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> issue </autocomplete>
+  </item>
+</items>
