@@ -29,7 +29,7 @@ class RedmineProject
      * Workflow configuration
      * @var string $_config
      */
-    protected $_config= false;
+    protected $_config = false;
 
     /**
      * Workflow object to format data for alfred
@@ -43,13 +43,17 @@ class RedmineProject
      */
     protected $_redmineClient;
 
+    /**
+     * List of available actions, and their configuration
+     * @var array $_actions
+     */
     protected $_actions = array(
-        'home' => array(
+        'home'   => array(
             'title'    => 'Project homepage',
             'method'   => 'getProjects',
             'urlParam' => ''
         ),
-        'wiki' => array(
+        'wiki'   => array(
             'title'    => 'Project wiki page',
             'method'   => 'getProjects',
             'urlParam' => '/wiki'
@@ -59,7 +63,7 @@ class RedmineProject
             'method'   => 'getProjects',
             'urlParam' => '/issues'
         ),
-        'issue' => array(
+        'issue'  => array(
             'title'  => 'Display issue num',
             'method' => 'getIssueNumber'
         )
@@ -74,8 +78,8 @@ class RedmineProject
      */
     public function __construct($config, Workflow $workflow, $client = false)
     {
-        $this->_config        = json_decode($config, TRUE);
-        $this->_workflow      = $workflow;
+        $this->_config   = json_decode($config, true);
+        $this->_workflow = $workflow;
         // Need to allow Client object injection for test purpose
         $this->_redmineClient = $client;
     }
@@ -95,14 +99,14 @@ class RedmineProject
         // If there is only one redmine plateform defined, no need to ask which one to use
         if (count($this->_config) == 1) {
             $params = $args;
-            $return = $this->dispatchAction($redmineKeys[0] ,$params);
+            $return = $this->dispatchAction($redmineKeys[0], $params);
         } else {
             $redmineId = trim($args[0]);
             array_shift($args);
             $params = $args;
 
             if (array_key_exists($redmineId, $this->_config)) {
-                $return = $this->dispatchAction($redmineId ,$params);
+                $return = $this->dispatchAction($redmineId, $params);
             } else {
                 $return = $this->getRedmines($redmineId);
             }
@@ -115,7 +119,7 @@ class RedmineProject
      * Manage actions
      *
      * @param string $redmineId redmine server identifier
-     * @param array $params     workflow parameters
+     * @param array  $params    workflow parameters
      *                          first param should be the action identifier and
      *                          second one should be the project identifier or the issue id
      *
@@ -129,13 +133,10 @@ class RedmineProject
             if ($this->_actions[$action]['method'] == 'getIssueNumber') {
                 $issueNumber = array_key_exists(1, $params) ? $params[1] : '';
                 $return      = $this->getIssueNumber($redmineId, $issueNumber);
-
             } else if ($this->_actions[$action]['method'] == 'getProjects') {
                 $projectPattern = array_key_exists(1, $params) ? trim($params[1]) : '';
                 $return         = $this->getProjects($redmineId, $action, $projectPattern);
-
             }
-
         } else {
             $return = $this->getRedmineActions($redmineId, $action);
         }
@@ -168,9 +169,10 @@ class RedmineProject
         foreach ($projects['projects'] as $project) {
             if (!$projectPattern || preg_match('/' . $projectPattern . '/', $project['identifier'])) {
                 $this->_workflow->result(
-                    $resultArray[] = array(
+                    array(
                         'uid'      => $project['identifier'],
-                        'arg'      => $redmine['url'] . '/projects/' . $project['identifier'] . $this->_actions[$action]['urlParam'],
+                        'arg'      => $redmine['url'] . '/projects/' . $project['identifier'] .
+                                      $this->_actions[$action]['urlParam'],
                         'title'    => $project['name'],
                         'subtitle' => $project['description'] ? substr($project['description'], 50) : '-',
                         'icon'     => 'icon.png',
@@ -193,9 +195,9 @@ class RedmineProject
     protected function getRedmines($redminePattern)
     {
         foreach ($this->_config as $redKey => $redData) {
-            if ($redminePattern == '' || preg_match('/'.$redminePattern.'/', $redKey)) {
+            if ($redminePattern == '' || preg_match('/' . $redminePattern . '/', $redKey)) {
                 $this->_workflow->result(
-                    $resultArray[] = array(
+                    array(
                         'uid'          => '',
                         'arg'          => '',
                         'title'        => $redData['name'],
@@ -221,7 +223,7 @@ class RedmineProject
      */
     protected function getRedmineActions($redmineId, $actionPattern)
     {
-        $redmineParam = (count($this->_config) > 1 ) ? $redmineId . ' ' : '';
+        $redmineParam = (count($this->_config) > 1) ? $redmineId . ' ' : '';
         foreach ($this->_actions as $action => $params) {
             if (!$actionPattern || preg_match('/' . $actionPattern . '/', $action)) {
                 $this->_workflow->result(
