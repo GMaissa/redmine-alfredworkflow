@@ -250,7 +250,7 @@ class RedmineProject
         $apiResult = $this->getRedmineClient()->api('wiki')->all($projectId);
 
         // Check if there are results
-        if (is_array($apiResult) && array_key_exists('wiki_pages', $apiResult) && count($apiResult)) {
+        if (is_array($apiResult) && array_key_exists('wiki_pages', $apiResult)) {
             foreach ($apiResult['wiki_pages'] as $wikiPage) {
                 // If the title of the page matches the search pattern provided
                 if (!$wikiPattern || preg_match('/' . strtolower($wikiPattern) . '/', strtolower($wikiPage['title']))) {
