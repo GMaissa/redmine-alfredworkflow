@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="" arg="http://redmine.test1.com/projects/myproject-2-test1/wiki/Wiki" title="Wiki" subtitle="" valid="yes" autocomplete="">
+    <uid></uid>
+    <arg>http://redmine.test1.com/projects/myproject-2-test1/wiki/Wiki</arg>
+    <title>Wiki</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+  <item uid="" arg="http://redmine.test1.com/projects/myproject-2-test1/wiki/Page1" title="Wiki \ Page1" subtitle="" valid="yes" autocomplete="">
+    <uid></uid>
+    <arg>http://redmine.test1.com/projects/myproject-2-test1/wiki/Page1</arg>
+    <title>Wiki \ Page1</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+  <item uid="" arg="http://redmine.test1.com/projects/myproject-2-test1/wiki/Page2" title="Wiki \ Page2" subtitle="" valid="yes" autocomplete="">
+    <uid></uid>
+    <arg>http://redmine.test1.com/projects/myproject-2-test1/wiki/Page2</arg>
+    <title>Wiki \ Page2</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+  <item uid="" arg="http://redmine.test1.com/projects/myproject-2-test1/wiki/Page3" title="Page3" subtitle="" valid="yes" autocomplete="">
+    <uid></uid>
+    <arg>http://redmine.test1.com/projects/myproject-2-test1/wiki/Page3</arg>
+    <title>Page3</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+</items>

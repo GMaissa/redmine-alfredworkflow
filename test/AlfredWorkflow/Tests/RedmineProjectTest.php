@@ -32,80 +32,91 @@ class RedmineProjectTest extends \PHPUnit_Framework_TestCase
      */
     public function getProjectsDataProvider()
     {
-        $configMono             = file_get_contents(__DIR__ . '/../../data/config/mono-server.json');
-        $configMulti            = file_get_contents(__DIR__ . '/../../data/config/multi-servers.json');
-        $apiProjectsTest1       = json_decode(file_get_contents(__DIR__ . '/../../data/api/projects-test1.json'),   TRUE);
-        $apiProjectsTest2       = json_decode(file_get_contents(__DIR__ . '/../../data/api/projects-test2.json'),   TRUE);
-        $allActions             = file_get_contents(__DIR__ . '/../../data/results/all-actions.xml');
-        $allActionsTest1        = file_get_contents(__DIR__ . '/../../data/results/all-actions-test1.xml');
-        $allProjectsTest1Wiki   = file_get_contents(__DIR__ . '/../../data/results/all-projects-test1-wiki.xml');
-        $allProjectsTest1Home   = file_get_contents(__DIR__ . '/../../data/results/all-projects-test1-home.xml');
-        $allProjectsTest1Issues = file_get_contents(__DIR__ . '/../../data/results/all-projects-test1-issues.xml');
-        $myProjectsTest1Wiki    = file_get_contents(__DIR__ . '/../../data/results/my-projects-test1-wiki.xml');
-        $myProjectsTest1Home    = file_get_contents(__DIR__ . '/../../data/results/my-projects-test1-home.xml');
-        $myProjectsTest1Issues  = file_get_contents(__DIR__ . '/../../data/results/my-projects-test1-issues.xml');
-        $theProjectsTest1Wiki   = file_get_contents(__DIR__ . '/../../data/results/the-projects-test1-wiki.xml');
-        $theProjectsTest1Home   = file_get_contents(__DIR__ . '/../../data/results/the-projects-test1-home.xml');
-        $theProjectsTest1Issues = file_get_contents(__DIR__ . '/../../data/results/the-projects-test1-issues.xml');
-        $issueTest1             = file_get_contents(__DIR__ . '/../../data/results/issue-test1.xml');
-        $issue123Test1          = file_get_contents(__DIR__ . '/../../data/results/issue-123-test1.xml');
-        $allActionsTest2        = file_get_contents(__DIR__ . '/../../data/results/all-actions-test2.xml');
-        $allProjectsTest2Wiki   = file_get_contents(__DIR__ . '/../../data/results/all-projects-test2-wiki.xml');
-        $allProjectsTest2Home   = file_get_contents(__DIR__ . '/../../data/results/all-projects-test2-home.xml');
-        $allProjectsTest2Issues = file_get_contents(__DIR__ . '/../../data/results/all-projects-test2-issues.xml');
-        $issueTest2             = file_get_contents(__DIR__ . '/../../data/results/issue-test2.xml');
-        $issue123Test2          = file_get_contents(__DIR__ . '/../../data/results/issue-123-test2.xml');
-        $allRedmines            = file_get_contents(__DIR__ . '/../../data/results/all-redmines.xml');
+        $configMono               = file_get_contents(__DIR__ . '/../../data/config/mono-server.json');
+        $configMulti              = file_get_contents(__DIR__ . '/../../data/config/multi-servers.json');
+        $apiProjectsTest1         = json_decode(file_get_contents(__DIR__ . '/../../data/api/projects-test1.json'), true);
+        $apiProjectsTest2         = json_decode(file_get_contents(__DIR__ . '/../../data/api/projects-test2.json'), true);
+        $apiMyProject1Test1Pages  = json_decode(file_get_contents(__DIR__ . '/../../data/api/wikipages-test1-myproject1.json'), true);
+        $apiMyProject2Test1Pages  = json_decode(file_get_contents(__DIR__ . '/../../data/api/wikipages-test1-myproject2.json'), true);
+        $allActions               = file_get_contents(__DIR__ . '/../../data/results/all-actions.xml');
+        $allActionsTest1          = file_get_contents(__DIR__ . '/../../data/results/all-actions-test1.xml');
+        $allProjectsTest1WikiMono = file_get_contents(__DIR__ . '/../../data/results/all-projects-test1-wiki-mono.xml');
+        $allProjectsTest1Wiki     = file_get_contents(__DIR__ . '/../../data/results/all-projects-test1-wiki.xml');
+        $allProjectsTest1Home     = file_get_contents(__DIR__ . '/../../data/results/all-projects-test1-home.xml');
+        $allProjectsTest1Issues   = file_get_contents(__DIR__ . '/../../data/results/all-projects-test1-issues.xml');
+        $myProjectsTest1Wiki      = file_get_contents(__DIR__ . '/../../data/results/my-projects-test1-wiki.xml');
+        $myProject1Test1WikiPages = file_get_contents(__DIR__ . '/../../data/results/all-wikipages-myproject1.xml');
+        $myProject2Test1WikiPages = file_get_contents(__DIR__ . '/../../data/results/all-wikipages-myproject2.xml');
+        $myProjectsTest1WikiMono  = file_get_contents(__DIR__ . '/../../data/results/my-projects-test1-wiki-mono.xml');
+        $myProjectsTest1Home      = file_get_contents(__DIR__ . '/../../data/results/my-projects-test1-home.xml');
+        $myProjectsTest1Issues    = file_get_contents(__DIR__ . '/../../data/results/my-projects-test1-issues.xml');
+        $theProjectsTest1Wiki     = file_get_contents(__DIR__ . '/../../data/results/the-projects-test1-wiki.xml');
+        $theProjectsTest1WikiMono = file_get_contents(__DIR__ . '/../../data/results/the-projects-test1-wiki-mono.xml');
+        $theProjectsTest1Home     = file_get_contents(__DIR__ . '/../../data/results/the-projects-test1-home.xml');
+        $theProjectsTest1Issues   = file_get_contents(__DIR__ . '/../../data/results/the-projects-test1-issues.xml');
+        $theProject2Test1WikiPage = file_get_contents(__DIR__ . '/../../data/results/no-wikipage-theproject2.xml');
+        $issueTest1               = file_get_contents(__DIR__ . '/../../data/results/issue-test1.xml');
+        $issue123Test1            = file_get_contents(__DIR__ . '/../../data/results/issue-123-test1.xml');
+        $allActionsTest2          = file_get_contents(__DIR__ . '/../../data/results/all-actions-test2.xml');
+        $allProjectsTest2Wiki     = file_get_contents(__DIR__ . '/../../data/results/all-projects-test2-wiki.xml');
+        $allProjectsTest2Home     = file_get_contents(__DIR__ . '/../../data/results/all-projects-test2-home.xml');
+        $allProjectsTest2Issues   = file_get_contents(__DIR__ . '/../../data/results/all-projects-test2-issues.xml');
+        $issueTest2               = file_get_contents(__DIR__ . '/../../data/results/issue-test2.xml');
+        $issue123Test2            = file_get_contents(__DIR__ . '/../../data/results/issue-123-test2.xml');
+        $allRedmines              = file_get_contents(__DIR__ . '/../../data/results/all-redmines.xml');
 
         return array(
-            array($configMono,  '',                 '',                $allActions),
-            array($configMono,  ' ',                '',                $allActions),
-            array($configMono,  'home',             $apiProjectsTest1, $allProjectsTest1Home),
-            array($configMono,  'home ',            $apiProjectsTest1, $allProjectsTest1Home),
-            array($configMono,  'home my',          $apiProjectsTest1, $myProjectsTest1Home),
-            array($configMono,  'home the',         $apiProjectsTest1, $theProjectsTest1Home),
-            array($configMono,  'wiki',             $apiProjectsTest1, $allProjectsTest1Wiki),
-            array($configMono,  'wiki ',            $apiProjectsTest1, $allProjectsTest1Wiki),
-            array($configMono,  'wiki my',          $apiProjectsTest1, $myProjectsTest1Wiki),
-            array($configMono,  'wiki the',         $apiProjectsTest1, $theProjectsTest1Wiki),
-            array($configMono,  'issues',           $apiProjectsTest1, $allProjectsTest1Issues),
-            array($configMono,  'issues ',          $apiProjectsTest1, $allProjectsTest1Issues),
-            array($configMono,  'issues my',        $apiProjectsTest1, $myProjectsTest1Issues),
-            array($configMono,  'issues the',       $apiProjectsTest1, $theProjectsTest1Issues),
-            array($configMono,  'issue ',           '',                $issueTest1),
-            array($configMono,  'issue 123',        '',                $issue123Test1),
-            array($configMulti, '',                 '',                $allRedmines),
-            array($configMulti, ' ',                '',                $allRedmines),
-            array($configMulti, 'test1',            $apiProjectsTest1, $allActionsTest1),
-            array($configMulti, ' test1',           $apiProjectsTest1, $allActionsTest1),
-            array($configMulti, ' test1 ',          $apiProjectsTest1, $allActionsTest1),
-            array($configMulti, 'test1 ',           $apiProjectsTest1, $allActionsTest1),
-            array($configMulti, 'test1 home',       $apiProjectsTest1, $allProjectsTest1Home),
-            array($configMulti, 'test1 home ',      $apiProjectsTest1, $allProjectsTest1Home),
-            array($configMulti, 'test1 home my',    $apiProjectsTest1, $myProjectsTest1Home),
-            array($configMulti, 'test1 home the',   $apiProjectsTest1, $theProjectsTest1Home),
-            array($configMulti, 'test1 wiki',       $apiProjectsTest1, $allProjectsTest1Wiki),
-            array($configMulti, 'test1 wiki ',      $apiProjectsTest1, $allProjectsTest1Wiki),
-            array($configMulti, 'test1 wiki my',    $apiProjectsTest1, $myProjectsTest1Wiki),
-            array($configMulti, 'test1 wiki the',   $apiProjectsTest1, $theProjectsTest1Wiki),
-            array($configMulti, 'test1 issues',     $apiProjectsTest1, $allProjectsTest1Issues),
-            array($configMulti, 'test1 issues ',    $apiProjectsTest1, $allProjectsTest1Issues),
-            array($configMulti, 'test1 issues my',  $apiProjectsTest1, $myProjectsTest1Issues),
-            array($configMulti, 'test1 issues the', $apiProjectsTest1, $theProjectsTest1Issues),
-            array($configMulti, 'test1 issue ',     '',                $issueTest1),
-            array($configMulti, 'test1 issue 123',  '',                $issue123Test1),
-            array($configMulti, 'test2',            $apiProjectsTest2, $allActionsTest2),
-            array($configMulti, ' test2',           $apiProjectsTest2, $allActionsTest2),
-            array($configMulti, ' test2 ',          $apiProjectsTest2, $allActionsTest2),
-            array($configMulti, 'test2 ',           $apiProjectsTest2, $allActionsTest2),
-            array($configMulti, 'test2 home',       $apiProjectsTest2, $allProjectsTest2Home),
-            array($configMulti, 'test2 home ',      $apiProjectsTest2, $allProjectsTest2Home),
-            array($configMulti, 'test2 wiki',       $apiProjectsTest2, $allProjectsTest2Wiki),
-            array($configMulti, 'test2 wiki ',      $apiProjectsTest2, $allProjectsTest2Wiki),
-            array($configMulti, 'test2 issues',     $apiProjectsTest2, $allProjectsTest2Issues),
-            array($configMulti, 'test2 issues ',    $apiProjectsTest2, $allProjectsTest2Issues),
-            array($configMulti, 'test2 issue ',     '',                $issueTest2),
-            array($configMulti, 'test2 issue 123',  '',                $issue123Test2),
+            array($configMono,  '',                        array(),                                                                  $allActions),
+            array($configMono,  ' ',                       array(),                                                                  $allActions),
+            array($configMono,  'home',                    array('project'=> $apiProjectsTest1),                                     $allProjectsTest1Home),
+            array($configMono,  'home ',                   array('project'=> $apiProjectsTest1),                                     $allProjectsTest1Home),
+            array($configMono,  'home my',                 array('project'=> $apiProjectsTest1),                                     $myProjectsTest1Home),
+            array($configMono,  'home the',                array('project'=> $apiProjectsTest1),                                     $theProjectsTest1Home),
+            array($configMono,  'wiki',                    array('project'=> $apiProjectsTest1),                                     $allProjectsTest1WikiMono),
+            array($configMono,  'wiki ',                   array('project'=> $apiProjectsTest1),                                     $allProjectsTest1WikiMono),
+            array($configMono,  'wiki my',                 array('project'=> $apiProjectsTest1),                                     $myProjectsTest1WikiMono),
+            array($configMono,  'wiki myproject-1-test1',  array('project'=> $apiProjectsTest1, 'wiki' => $apiMyProject1Test1Pages), $myProject1Test1WikiPages),
+            array($configMono,  'wiki myproject-2-test1',  array('project'=> $apiProjectsTest1, 'wiki' => $apiMyProject2Test1Pages), $myProject2Test1WikiPages),
+            array($configMono,  'wiki theproject-2-test1', array('project'=> $apiProjectsTest1, 'wiki' => ''),                       $theProject2Test1WikiPage),
+            array($configMono,  'wiki the',                array('project'=> $apiProjectsTest1),                                     $theProjectsTest1WikiMono),
+            array($configMono,  'issues',                  array('project'=> $apiProjectsTest1),                                     $allProjectsTest1Issues),
+            array($configMono,  'issues ',                 array('project'=> $apiProjectsTest1),                                     $allProjectsTest1Issues),
+            array($configMono,  'issues my',               array('project'=> $apiProjectsTest1),                                     $myProjectsTest1Issues),
+            array($configMono,  'issues the',              array('project'=> $apiProjectsTest1),                                     $theProjectsTest1Issues),
+            array($configMono,  'issue ',                  array(),                                                                  $issueTest1),
+            array($configMono,  'issue 123',               array(),                                                                  $issue123Test1),
+            array($configMulti, '',                        array(),                                                                  $allRedmines),
+            array($configMulti, ' ',                       array(),                                                                  $allRedmines),
+            array($configMulti, 'test1',                   array(),                                                                  $allActionsTest1),
+            array($configMulti, ' test1',                  array(),                                                                  $allActionsTest1),
+            array($configMulti, ' test1 ',                 array(),                                                                  $allActionsTest1),
+            array($configMulti, 'test1 ',                  array(),                                                                  $allActionsTest1),
+            array($configMulti, 'test1 home',              array('project'=>$apiProjectsTest1),                                      $allProjectsTest1Home),
+            array($configMulti, 'test1 home ',             array('project'=>$apiProjectsTest1),                                      $allProjectsTest1Home),
+            array($configMulti, 'test1 home my',           array('project'=>$apiProjectsTest1),                                      $myProjectsTest1Home),
+            array($configMulti, 'test1 home the',          array('project'=>$apiProjectsTest1),                                      $theProjectsTest1Home),
+            array($configMulti, 'test1 wiki',              array('project'=>$apiProjectsTest1),                                      $allProjectsTest1Wiki),
+            array($configMulti, 'test1 wiki ',             array('project'=>$apiProjectsTest1),                                      $allProjectsTest1Wiki),
+            array($configMulti, 'test1 wiki my',           array('project'=>$apiProjectsTest1),                                      $myProjectsTest1Wiki),
+            array($configMulti, 'test1 wiki the',          array('project'=>$apiProjectsTest1),                                      $theProjectsTest1Wiki),
+            array($configMulti, 'test1 issues',            array('project'=>$apiProjectsTest1),                                      $allProjectsTest1Issues),
+            array($configMulti, 'test1 issues ',           array('project'=>$apiProjectsTest1),                                      $allProjectsTest1Issues),
+            array($configMulti, 'test1 issues my',         array('project'=>$apiProjectsTest1),                                      $myProjectsTest1Issues),
+            array($configMulti, 'test1 issues the',        array('project'=>$apiProjectsTest1),                                      $theProjectsTest1Issues),
+            array($configMulti, 'test1 issue ',            array(),                                                                  $issueTest1),
+            array($configMulti, 'test1 issue 123',         array(),                                                                  $issue123Test1),
+            array($configMulti, 'test2',                   array(),                                                                  $allActionsTest2),
+            array($configMulti, ' test2',                  array(),                                                                  $allActionsTest2),
+            array($configMulti, ' test2 ',                 array(),                                                                  $allActionsTest2),
+            array($configMulti, 'test2 ',                  array(),                                                                  $allActionsTest2),
+            array($configMulti, 'test2 home',              array('project'=>$apiProjectsTest2),                                      $allProjectsTest2Home),
+            array($configMulti, 'test2 home ',             array('project'=>$apiProjectsTest2),                                      $allProjectsTest2Home),
+            array($configMulti, 'test2 wiki',              array('project'=>$apiProjectsTest2),                                      $allProjectsTest2Wiki),
+            array($configMulti, 'test2 wiki ',             array('project'=>$apiProjectsTest2),                                      $allProjectsTest2Wiki),
+            array($configMulti, 'test2 issues',            array('project'=>$apiProjectsTest2),                                      $allProjectsTest2Issues),
+            array($configMulti, 'test2 issues ',           array('project'=>$apiProjectsTest2),                                      $allProjectsTest2Issues),
+            array($configMulti, 'test2 issue ',            array(),                                                                  $issueTest2),
+            array($configMulti, 'test2 issue 123',         array(),                                                                  $issue123Test2),
         );
     }
 
@@ -123,13 +134,29 @@ class RedmineProjectTest extends \PHPUnit_Framework_TestCase
                        ->disableOriginalConstructor()
                        ->setMethods(array('api', 'all'))
                        ->getMock();
-        $client->expects($this->any())
-               ->method('api')
-               ->with('project')
-               ->willReturn($client);
-        $client->expects($this->any())
-               ->method('all')
-               ->willReturn($apiReturn);
+
+        if (count($apiReturn) == 2) {
+            $client->expects($this->exactly(count($apiReturn)))
+                ->method('api')
+                ->with(
+                    $this->logicalOr(
+                       $this->equalTo('project'),
+                       $this->equalTo('wiki')
+                    )
+                )
+                ->willReturn($client);
+            $client->expects($this->exactly(count($apiReturn)))
+                ->method('all')
+                ->will($this->onConsecutiveCalls($apiReturn['project'], $apiReturn['wiki']));
+        } elseif (count($apiReturn) == 1) {
+            $client->expects($this->once())
+                ->method('api')
+                ->with('project')
+                ->willReturn($client);
+            $client->expects($this->once())
+                ->method('all')
+                ->willReturn($apiReturn['project']);
+        }
 
         $redmineProject = new RedmineProject($config, new Workflow(), $client);
         $result         = $redmineProject->run($input);
