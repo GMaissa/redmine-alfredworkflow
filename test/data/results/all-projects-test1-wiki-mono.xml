@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="myproject-1-test1" arg="" title="MyProject 1 Server 1" subtitle="-" valid="no" autocomplete=" wiki myproject-1-test1 ">
+    <uid>myproject-1-test1</uid>
+    <arg></arg>
+    <title>MyProject 1 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> wiki myproject-1-test1 </autocomplete>
+  </item>
+  <item uid="myproject-2-test1" arg="" title="MyProject 2 Server 1" subtitle="-" valid="no" autocomplete=" wiki myproject-2-test1 ">
+    <uid>myproject-2-test1</uid>
+    <arg></arg>
+    <title>MyProject 2 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> wiki myproject-2-test1 </autocomplete>
+  </item>
+  <item uid="theproject-1-test1" arg="" title="TheProject 1 Server 1" subtitle="-" valid="no" autocomplete=" wiki theproject-1-test1 ">
+    <uid>theproject-1-test1</uid>
+    <arg></arg>
+    <title>TheProject 1 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> wiki theproject-1-test1 </autocomplete>
+  </item>
+  <item uid="theproject-2-test1" arg="" title="TheProject 2 Server 1" subtitle="-" valid="no" autocomplete=" wiki theproject-2-test1 ">
+    <uid>theproject-2-test1</uid>
+    <arg></arg>
+    <title>TheProject 2 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> wiki theproject-2-test1 </autocomplete>
+  </item>
+  <item uid="testproject-1-test1" arg="" title="TestProject 1 Server 1" subtitle="-" valid="no" autocomplete=" wiki testproject-1-test1 ">
+    <uid>testproject-1-test1</uid>
+    <arg></arg>
+    <title>TestProject 1 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> wiki testproject-1-test1 </autocomplete>
+  </item>
+  <item uid="testproject-2-test1" arg="" title="TestProject 2 Server 1" subtitle="-" valid="no" autocomplete=" wiki testproject-2-test1 ">
+    <uid>testproject-2-test1</uid>
+    <arg></arg>
+    <title>TestProject 2 Server 1</title>
+    <subtitle>-</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> wiki testproject-2-test1 </autocomplete>
+  </item>
+</items>
