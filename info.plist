@@ -8,11 +8,33 @@
 	<string>Internet</string>
 	<key>connections</key>
 	<dict>
+		<key>E796B712-48E8-40C1-A5B1-7723F9E1430A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F0597492-D106-40FD-BBF4-4DDBAF51064E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>E8CA43DF-66E3-4471-B3C4-F342B6246A4E</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>0D1A205C-AE6B-488A-8D85-ECE212D5F2CC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>F0597492-D106-40FD-BBF4-4DDBAF51064E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>19A5F1A9-48A4-47B0-BC93-FA36E9EFF965</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -34,9 +56,9 @@
 			<key>config</key>
 			<dict>
 				<key>argumenttype</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>escaping</key>
-				<integer>0</integer>
+				<integer>126</integer>
 				<key>keyword</key>
 				<string>red</string>
 				<key>script</key>
@@ -53,32 +75,18 @@
 
 require_once( './vendor/autoload.php' );
 
-// Complete your Redmine configuration bellow
-$config='
-{
-    "test1":{
-        "name": "Redmine test 1",
-        "url": "http://redmine.test1.com",
-        "api-key": "key-test-1"
-    },
-    "test2":{
-        "name": "Redmine test 2",
-        "url": "http://redmine.test2.com",
-        "api-key": "key-test-2"
-    }
-}';
+$alfredWorkflow   = new Alfred\Workflow();
+$workflowSettings = new AlfredWorkflow\Redmine\Settings();
+$redmineWorkflow  = new AlfredWorkflow\Redmine($workflowSettings, $alfredWorkflow);
 
-$alfredWorkflow = new Alfred\Workflow();
-$rw             = new AlfredWorkflow\RedmineProject($config, $alfredWorkflow);
-
-echo $rw-&gt;run("{query}");
+echo $redmineWorkflow-&gt;run(trim("{query}"));
 </string>
 				<key>title</key>
-				<string>Open redmine project</string>
+				<string>Open redmine pages</string>
 				<key>type</key>
 				<integer>1</integer>
 				<key>withspace</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
@@ -104,18 +112,126 @@ echo $rw-&gt;run("{query}");
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>keyword</key>
+				<string>red-conf</string>
+				<key>script</key>
+				<string>/**
+ * Alfred Workflow Redmine
+ *
+ * Open a Redmine project page
+ *
+ * @category  AlfredWorkflow
+ * @package   AlfredWorkflow.Redmine.Tests
+ * @author    Guillaume Maïssa &lt;guillaume@maissa.fr&gt;
+ * @copyright 2014 Guillaume Maïssa
+ */
+
+require_once( './vendor/autoload.php' );
+
+$alfredWorkflow   = new Alfred\Workflow();
+$workflowSettings = new AlfredWorkflow\Redmine\Settings();
+$configure        = new AlfredWorkflow\Redmine\Configure($workflowSettings, $alfredWorkflow);
+
+echo $configure-&gt;run(trim("{query}"));
+</string>
+				<key>title</key>
+				<string>Manage configuration for Redmine workflow</string>
+				<key>type</key>
+				<integer>1</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E796B712-48E8-40C1-A5B1-7723F9E1430A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
+				<integer>1</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Redmine Workflow</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>19A5F1A9-48A4-47B0-BC93-FA36E9EFF965</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>script</key>
+				<string>/**
+ * Alfred Workflow Redmine
+ *
+ * Open a Redmine project page
+ *
+ * @category  AlfredWorkflow
+ * @package   AlfredWorkflow.Redmine.Tests
+ * @author    Guillaume Maïssa &lt;guillaume@maissa.fr&gt;
+ * @copyright 2014 Guillaume Maïssa
+ */
+
+require_once( './vendor/autoload.php' );
+error_log("script called\n", 3, './debug.log');
+$alfredWorkflow   = new Alfred\Workflow();
+$workflowSettings = new AlfredWorkflow\Redmine\Settings();
+$configure        = new AlfredWorkflow\Redmine\Configure($workflowSettings, $alfredWorkflow);
+
+return $configure-&gt;save(trim("{query}"));
+</string>
+				<key>type</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>F0597492-D106-40FD-BBF4-4DDBAF51064E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>Open Redmine Project Page Workflow
 
-This workflow enable quick access to redmine project pages. It uses Redmine API with an API key. 
+This workflow enable quick access to redmine project pages. It uses Redmine API with an API key.
 
 To be able to use the workflow, you need to :
 - enable Redmine API on your redmine server
 - generate your redmine api key from /my/account
-- open the workflow « script filter », to configure your Redmine server(s) settings.
+- use the red-config command to configure your redmine servers settings
 
-version 1.1.0
+version 1.2.0
+
+New with version 1.2.0, :
+- configuration has moved from the workflow script filter to the file ./config/settings.json
+- you can now choose which wiki page to open
+
 
 New with version 1.1.0, you can now open :
 - a project homepage
@@ -127,12 +243,27 @@ New with version 1.1.0, you can now open :
 		<key>0D1A205C-AE6B-488A-8D85-ECE212D5F2CC</key>
 		<dict>
 			<key>ypos</key>
-			<real>180</real>
+			<real>140</real>
+		</dict>
+		<key>19A5F1A9-48A4-47B0-BC93-FA36E9EFF965</key>
+		<dict>
+			<key>ypos</key>
+			<real>260</real>
+		</dict>
+		<key>E796B712-48E8-40C1-A5B1-7723F9E1430A</key>
+		<dict>
+			<key>ypos</key>
+			<real>260</real>
 		</dict>
 		<key>E8CA43DF-66E3-4471-B3C4-F342B6246A4E</key>
 		<dict>
 			<key>ypos</key>
-			<real>180</real>
+			<real>140</real>
+		</dict>
+		<key>F0597492-D106-40FD-BBF4-4DDBAF51064E</key>
+		<dict>
+			<key>ypos</key>
+			<real>260</real>
 		</dict>
 	</dict>
 	<key>webaddress</key>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="" arg="" title="Add Redmine server config" subtitle="Provide params: &lt;identifier&gt; &lt;url&gt; &lt;api-key&gt; &lt;name&gt;" valid="no" autocomplete="add test ">
+    <uid></uid>
+    <arg></arg>
+    <title>Add Redmine server config</title>
+    <subtitle>Provide params: &lt;identifier&gt; &lt;url&gt; &lt;api-key&gt; &lt;name&gt;</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete>add test </autocomplete>
+  </item>
+</items>

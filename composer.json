@@ -10,7 +10,8 @@
     ],
     "require": {
         "kbsali/redmine-api": "1.4",
-        "skyzyx/alfred-workflow-builder": "~1.0"
+        "skyzyx/alfred-workflow-builder": "~1.0",
+        "camspiers/json-pretty": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",

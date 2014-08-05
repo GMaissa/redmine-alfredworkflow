@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="" arg="" title="No redmine server configuration" subtitle="Please use red-config key to setup the workflow" valid="no" autocomplete="">
+    <uid></uid>
+    <arg></arg>
+    <title>No redmine server configuration</title>
+    <subtitle>Please use red-config key to setup the workflow</subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+</items>
