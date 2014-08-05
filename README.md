@@ -16,4 +16,5 @@ An [Alfred](http://alfredapp.com) workflow that speeds up access to Redmine proj
 [![Get Redmine workflow](https://raw.github.com/hzlzh/AlfredWorkflow.com/master/index/css/images/downlaod-btn.png)](https://github.com/GMaissa/redmine-alfredworkflow/raw/master/Redmine.alfredworkflow)
 
 Once installed, use the red-config key to setup your redmine server configuration. You can use the command :
-* red-config add <redmine-server-identifier> <redmine-server-url> <api-key> <redmine-server-name>
+
+    red-config add <redmine-server-identifier> <redmine-server-url> <api-key> <redmine-server-name>
