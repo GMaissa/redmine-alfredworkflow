@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="add" arg="" title="Add new redmine configuration" subtitle="" valid="no" autocomplete=" add ">
+    <uid>add</uid>
+    <arg></arg>
+    <title>Add new redmine configuration</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> add </autocomplete>
+  </item>
+  <item uid="rm" arg="" title="Remove existing redmine configuration" subtitle="" valid="no" autocomplete=" rm ">
+    <uid>rm</uid>
+    <arg></arg>
+    <title>Remove existing redmine configuration</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete> rm </autocomplete>
+  </item>
+</items>
