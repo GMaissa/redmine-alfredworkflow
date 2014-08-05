@@ -107,20 +107,20 @@ class Configure
     {
         $subtitle = false;
         if (array_key_exists(0, $params) && $this->settings->hasRedmineServer($params[0])) {
-            $subtitle= 'Identifier ' . $params[0] . ' already exists';
+            $subtitle = 'Identifier ' . $params[0] . ' already exists';
         }
         if (array_key_exists(1, $params) && !filter_var($params[1], FILTER_VALIDATE_URL)) {
-            $subtitle= 'Redmine URL ' . $params[1] . ' not valid';
+            $subtitle = 'Redmine URL ' . $params[1] . ' not valid';
         }
         if (count($params) >= 4 && !$subtitle) {
             $this->workflow->result(
                 array(
-                    'uid'          => '',
-                    'arg'          => 'add ' . implode(' ', $params),
-                    'title'        => 'Add Redmine server config',
-                    'subtitle'     => '',
-                    'icon'         => 'icon.png',
-                    'valid'        => 'yes'
+                    'uid'      => '',
+                    'arg'      => 'add ' . implode(' ', $params),
+                    'title'    => 'Add Redmine server config',
+                    'subtitle' => '',
+                    'icon'     => 'icon.png',
+                    'valid'    => 'yes'
                 )
             );
         } else {

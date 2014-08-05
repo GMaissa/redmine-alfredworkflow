@@ -117,7 +117,8 @@ class Settings
     {
         $return = false;
         if (array_key_exists($redmineId, $this->config) &&
-            array_key_exists($paramId, $this->config[$redmineId])) {
+            array_key_exists($paramId, $this->config[$redmineId])
+        ) {
             $return = $this->config[$redmineId][$paramId];
         }
 
@@ -180,11 +181,11 @@ class Settings
     {
         $jsonContent = '';
         if (count($this->config)) {
-            $jsonPretty   = new JsonPretty();
-            $jsonContent  = $jsonPretty->prettify($this->config);
+            $jsonPretty  = new JsonPretty();
+            $jsonContent = $jsonPretty->prettify($this->config);
         }
 
-        $return       = file_put_contents($this->configFile, $jsonContent) === false ? false : true;
+        $return = file_put_contents($this->configFile, $jsonContent) === false ? false : true;
 
         return $return;
     }
