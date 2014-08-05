@@ -155,7 +155,10 @@ class Configure
             $result = array(
                 'uid'      => '',
                 'arg'      => 'rm ' . $redminePattern,
-                'title'    => sprintf('Remove %s configuration', $this->settings->getRedmineParam($redminePattern, 'name')),
+                'title'    => sprintf(
+                    'Remove %s configuration',
+                    $this->settings->getRedmineParam($redminePattern, 'name')
+                ),
                 'subtitle' => '',
                 'icon'     => 'icon.png',
                 'valid'    => 'yes'
