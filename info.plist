@@ -58,7 +58,7 @@
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
-				<integer>0</integer>
+				<integer>126</integer>
 				<key>keyword</key>
 				<string>red</string>
 				<key>script</key>
@@ -118,7 +118,7 @@ echo $redmineWorkflow-&gt;run(trim("{query}"));
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
-				<integer>127</integer>
+				<integer>126</integer>
 				<key>keyword</key>
 				<string>red-conf</string>
 				<key>script</key>
