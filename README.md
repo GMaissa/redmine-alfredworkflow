@@ -18,3 +18,7 @@ An [Alfred](http://alfredapp.com) workflow that speeds up access to Redmine proj
 Once installed, use the red-config key to setup your redmine server configuration. You can use the command :
 
     red-config add <redmine-server-identifier> <redmine-server-url> <api-key> <redmine-server-name>
+
+Example :
+
+    red-config add myredmine http://redmine.test.com my-personal-api-key My Redmine server
