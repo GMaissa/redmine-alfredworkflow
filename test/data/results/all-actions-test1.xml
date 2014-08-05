@@ -1,35 +1,35 @@
 <?xml version="1.0"?>
 <items>
-  <item uid="" arg="" title="Project homepage" subtitle="" valid="no" autocomplete=" test1 home ">
+  <item uid="" arg="" title="Project homepage" subtitle="" valid="no" autocomplete="test1 home ">
     <uid></uid>
     <arg></arg>
     <title>Project homepage</title>
     <subtitle></subtitle>
     <icon>icon.png</icon>
-    <autocomplete> test1 home </autocomplete>
+    <autocomplete>test1 home </autocomplete>
   </item>
-  <item uid="" arg="" title="Project wiki page" subtitle="" valid="no" autocomplete=" test1 wiki ">
+  <item uid="" arg="" title="Project wiki page" subtitle="" valid="no" autocomplete="test1 wiki ">
     <uid></uid>
     <arg></arg>
     <title>Project wiki page</title>
     <subtitle></subtitle>
     <icon>icon.png</icon>
-    <autocomplete> test1 wiki </autocomplete>
+    <autocomplete>test1 wiki </autocomplete>
   </item>
-  <item uid="" arg="" title="Project issues page" subtitle="" valid="no" autocomplete=" test1 issues ">
+  <item uid="" arg="" title="Project issues page" subtitle="" valid="no" autocomplete="test1 issues ">
     <uid></uid>
     <arg></arg>
     <title>Project issues page</title>
     <subtitle></subtitle>
     <icon>icon.png</icon>
-    <autocomplete> test1 issues </autocomplete>
+    <autocomplete>test1 issues </autocomplete>
   </item>
-  <item uid="" arg="" title="Display issue num" subtitle="" valid="no" autocomplete=" test1 issue ">
+  <item uid="" arg="" title="Display issue num" subtitle="" valid="no" autocomplete="test1 issue ">
     <uid></uid>
     <arg></arg>
     <title>Display issue num</title>
     <subtitle></subtitle>
     <icon>icon.png</icon>
-    <autocomplete> test1 issue </autocomplete>
+    <autocomplete>test1 issue </autocomplete>
   </item>
 </items>

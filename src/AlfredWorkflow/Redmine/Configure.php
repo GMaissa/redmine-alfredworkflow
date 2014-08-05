@@ -89,7 +89,7 @@ class Configure
                     'subtitle'     => '',
                     'icon'         => 'icon.png',
                     'valid'        => 'no',
-                    'autocomplete' => sprintf(' %s ', $identifier)
+                    'autocomplete' => sprintf('%s ', $identifier)
                 );
                 $this->workflow->result($result);
             }
@@ -136,7 +136,7 @@ class Configure
                     'subtitle'     => $subtitle,
                     'icon'         => 'icon.png',
                     'valid'        => 'no',
-                    'autocomplete' => ' add ' . $additionalAutoComp
+                    'autocomplete' => 'add ' . $additionalAutoComp
                 )
             );
         }

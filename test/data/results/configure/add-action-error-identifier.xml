@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <items>
-  <item uid="" arg="" title="Add Redmine server config" subtitle="Identifier test1 already exists" valid="no" autocomplete=" add test1 ">
+  <item uid="" arg="" title="Add Redmine server config" subtitle="Identifier test1 already exists" valid="no" autocomplete="add test1 ">
     <uid></uid>
     <arg></arg>
     <title>Add Redmine server config</title>
     <subtitle>Identifier test1 already exists</subtitle>
     <icon>icon.png</icon>
-    <autocomplete> add test1 </autocomplete>
+    <autocomplete>add test1 </autocomplete>
   </item>
 </items>

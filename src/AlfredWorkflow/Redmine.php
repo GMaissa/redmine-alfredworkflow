@@ -204,7 +204,7 @@ class Redmine
     {
         $redmine      = $this->settings->getRedmineConfig($this->redmineId);
         $projects     = $this->getProjectsData();
-        $redmineParam = ($this->settings->nbRedmineServers() > 1) ? ' ' . $this->redmineId : '';
+        $redmineParam = ($this->settings->nbRedmineServers() > 1) ? $this->redmineId . ' ' : '';
 
         foreach ($projects as $identifier => $project) {
             // If the project identifier matches the search pattern provided
@@ -220,7 +220,7 @@ class Redmine
                 if ($autocomplete) {
                     $result['arg']          = '';
                     $result['valid']        = 'no';
-                    $result['autocomplete'] = sprintf('%s %s %s ', $redmineParam, $this->action, $identifier);
+                    $result['autocomplete'] = sprintf('%s%s %s ', $redmineParam, $this->action, $identifier);
                 }
 
                 $this->workflow->result($result);
@@ -289,7 +289,7 @@ class Redmine
                         'subtitle'     => '',
                         'icon'         => 'icon.png',
                         'valid'        => 'no',
-                        'autocomplete' => sprintf(' %s ', $redKey)
+                        'autocomplete' => sprintf('%s ', $redKey)
                     )
                 );
             }
@@ -303,7 +303,7 @@ class Redmine
      */
     protected function promptRedmineActions($actionPattern)
     {
-        $redmineParam = ($this->settings->nbRedmineServers() > 1) ? ' ' . $this->redmineId : '';
+        $redmineParam = ($this->settings->nbRedmineServers() > 1) ? $this->redmineId . ' ' : '';
         foreach ($this->actions as $action => $params) {
             if (!$actionPattern || preg_match('/' . $actionPattern . '/', $action)) {
                 $this->workflow->result(
@@ -314,7 +314,7 @@ class Redmine
                         'subtitle'     => '',
                         'icon'         => 'icon.png',
                         'valid'        => 'no',
-                        'autocomplete' => sprintf('%s %s ', $redmineParam, $action)
+                        'autocomplete' => sprintf('%s%s ', $redmineParam, $action)
                     )
                 );
             }
