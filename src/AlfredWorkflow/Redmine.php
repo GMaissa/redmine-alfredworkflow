@@ -13,6 +13,7 @@
 namespace AlfredWorkflow;
 
 use Alfred\Workflow;
+use AlfredWorkflow\Redmine\Settings;
 use Redmine\Client;
 
 /**
@@ -23,19 +24,19 @@ use Redmine\Client;
  * @author    Guillaume Maïssa <guillaume@maissa.fr>
  * @copyright 2014 Guillaume Maïssa
  */
-class RedmineProject
+class Redmine
 {
     /**
      * Indicates if we are in debug mode
-     * @var bool $_debug
+     * @var bool $debug
      */
     protected $debug = true;
 
     /**
-     * Workflow configuration
-     * @var string $_config
+     * Workflow settings
+     * @var string $settings
      */
-    protected $config = false;
+    protected $settings = false;
 
     /**
      * Selected Redmine identifier
@@ -97,13 +98,13 @@ class RedmineProject
     /**
      * Class constructor
      *
-     * @param string   $config   workflow configuration
-     * @param Workflow $workflow Alfred Workflow Api object
-     * @param mixed    $client   Redmine Client object
+     * @param \AlfredWorkflow\Redmine\Settings $settings Settings object
+     * @param \Alfred\Workflow                 $workflow Alfred Workflow Api object
+     * @param mixed                            $client   Redmine Client object
      */
-    public function __construct($config, Workflow $workflow, $client = false)
+    public function __construct(Settings $settings, Workflow $workflow, $client = false)
     {
-        $this->config   = json_decode($config, true);
+        $this->settings = $settings;
         $this->workflow = $workflow;
         // Need to allow Client object injection for test purpose
         $this->redmineClient = $client;
@@ -118,38 +119,38 @@ class RedmineProject
      */
     public function run($query)
     {
-        $redmineKeys = array_keys($this->config);
-        $args        = explode(' ', trim($query));
+        $args = explode(' ', trim($query));
 
-        // If there is only one redmine plateform defined, no need to ask which one to use
-        if (count($this->config) == 1) {
-            $this->redmineId = $redmineKeys[0];
+        // If there is no redmine server configured, ask the user to configure one
+        if ($this->settings->nbRedmineServers() == 0) {
+            $this->promptSetupWorkflow();
+            // If there is only one redmine server defined, no need to ask which one to us;
+        } elseif ($this->settings->nbRedmineServers() == 1) {
+            $this->redmineId = $this->settings->getDefaultRedmineId();
             $params          = $args;
-            $return          = $this->dispatchAction($params);
+            $this->dispatchAction($params);
         } else {
-            $redminePattern = trim($args[0]);
+            $pattern = trim($args[0]);
             array_shift($args);
             $params = $args;
 
-            if (array_key_exists($redminePattern, $this->config)) {
-                $this->redmineId = $redminePattern;
-                $return          = $this->dispatchAction($params);
+            if ($this->settings->hasRedmineServer($pattern)) {
+                $this->redmineId = $pattern;
+                $this->dispatchAction($params);
             } else {
-                $return = $this->promptRedmines($redminePattern);
+                $this->promptRedmines($pattern);
             }
         }
 
-        return $return;
+        return $this->workflow->toXML();
     }
 
     /**
      * Manage actions
      *
-     * @param array $params workflow parameters
-     *                      first param should be the action identifier and
-     *                      second one should be the project identifier or the issue id
-     *
-     * @return string
+     * @param array   $params    workflow parameters
+     *                           first param should be the action identifier and
+     *                           second one should be the project identifier or the issue id
      */
     protected function dispatchAction($params)
     {
@@ -157,17 +158,16 @@ class RedmineProject
 
         if ($actionPattern && array_key_exists($actionPattern, $this->actions)) {
             $this->action = $actionPattern;
-            if ($this->getActionParam('method') == 'getIssueNumber') {
-                $issueNumber = array_key_exists(1, $params) ? $params[1] : '';
-                $return      = $this->getIssueNumber($issueNumber);
-            } elseif ($this->getActionParam('method') == 'handleProjectActions') {
-                $return = $this->handleProjectActions($params);
-            }
+            call_user_func(
+                array(
+                    $this,
+                    $this->getActionParam('method')
+                ),
+                $params
+            );
         } else {
-            $return = $this->promptRedmineActions($actionPattern);
+            $this->promptRedmineActions($actionPattern);
         }
-
-        return $return;
     }
 
     /**
@@ -178,8 +178,6 @@ class RedmineProject
      * @param array $params workflow parameters
      *                      first param should be the action identifier and
      *                      second one should be the project identifier or the issue id
-     *
-     * @return string
      */
     protected function handleProjectActions($params)
     {
@@ -189,13 +187,11 @@ class RedmineProject
 
         if ($subAction && $projectPattern && array_key_exists($projectPattern, $projects)) {
             $wikiPattern = array_key_exists(2, $params) ? trim($params[2]) : '';
-            $return      = $this->promptWikiPages($projectPattern, $wikiPattern);
+            $this->promptWikiPages($projectPattern, $wikiPattern);
         } else {
             $autocomplete = $subAction ? true : false;
-            $return       = $this->promptProjects($projectPattern, $autocomplete);
+            $this->promptProjects($projectPattern, $autocomplete);
         }
-
-        return $return;
     }
 
     /**
@@ -203,14 +199,12 @@ class RedmineProject
      *
      * @param string  $projectPattern project matching pattern
      * @param boolean $autocomplete   define if the "projects" action is the last one or not
-     *
-     * @return string
      */
     protected function promptProjects($projectPattern, $autocomplete = false)
     {
-        $redmine      = $this->config[$this->redmineId];
+        $redmine      = $this->settings->getRedmineConfig($this->redmineId);
         $projects     = $this->getProjectsData();
-        $redmineParam = (count($this->config) > 1) ? ' ' . $this->redmineId : '';
+        $redmineParam = ($this->settings->nbRedmineServers() > 1) ? $this->redmineId . ' ' : '';
 
         foreach ($projects as $identifier => $project) {
             // If the project identifier matches the search pattern provided
@@ -226,14 +220,12 @@ class RedmineProject
                 if ($autocomplete) {
                     $result['arg']          = '';
                     $result['valid']        = 'no';
-                    $result['autocomplete'] = sprintf('%s %s %s ', $redmineParam, $this->action, $identifier);
+                    $result['autocomplete'] = sprintf('%s%s %s ', $redmineParam, $this->action, $identifier);
                 }
 
                 $this->workflow->result($result);
             }
         }
-
-        return $this->workflow->toXML();
     }
 
     /**
@@ -241,12 +233,10 @@ class RedmineProject
      *
      * @param string $projectId   project identifier
      * @param string $wikiPattern wiki page identification pattern
-     *
-     * @return string
      */
     protected function promptWikiPages($projectId, $wikiPattern)
     {
-        $redmine   = $this->config[$this->redmineId];
+        $redmine   = $this->settings->getRedmineConfig($this->redmineId);
         $apiResult = $this->getRedmineClient()->api('wiki')->all($projectId);
 
         // Check if there are results
@@ -280,20 +270,16 @@ class RedmineProject
             );
             $this->workflow->result($result);
         }
-
-        return $this->workflow->toXML();
     }
 
     /**
      * Retrieve and format Redmine plateforms informations for Alfred
      *
      * @param string $redminePattern redmine identifier pattern
-     *
-     * @return string
      */
     protected function promptRedmines($redminePattern)
     {
-        foreach ($this->config as $redKey => $redData) {
+        foreach ($this->settings->getRedminesConfig() as $redKey => $redData) {
             if ($redminePattern == '' || preg_match('/' . $redminePattern . '/', $redKey)) {
                 $this->workflow->result(
                     array(
@@ -303,25 +289,21 @@ class RedmineProject
                         'subtitle'     => '',
                         'icon'         => 'icon.png',
                         'valid'        => 'no',
-                        'autocomplete' => sprintf(' %s ', $redKey)
+                        'autocomplete' => sprintf('%s ', $redKey)
                     )
                 );
             }
         }
-
-        return $this->workflow->toXML();
     }
 
     /**
      * Retrieve available workflow actions
      *
      * @param string $actionPattern action identifier pattern
-     *
-     * @return string
      */
     protected function promptRedmineActions($actionPattern)
     {
-        $redmineParam = (count($this->config) > 1) ? ' ' . $this->redmineId : '';
+        $redmineParam = ($this->settings->nbRedmineServers() > 1) ? $this->redmineId . ' ' : '';
         foreach ($this->actions as $action => $params) {
             if (!$actionPattern || preg_match('/' . $actionPattern . '/', $action)) {
                 $this->workflow->result(
@@ -332,28 +314,42 @@ class RedmineProject
                         'subtitle'     => '',
                         'icon'         => 'icon.png',
                         'valid'        => 'no',
-                        'autocomplete' => sprintf('%s %s ', $redmineParam, $action)
+                        'autocomplete' => sprintf('%s%s ', $redmineParam, $action)
                     )
                 );
             }
         }
-
-        return $this->workflow->toXML();
     }
 
     /**
-     * Manage display
-     *
-     * @param string $issueNumber id of the issue to display
-     *
-     * @return string
+     * Prompt the user to setup workflow
      */
-    protected function getIssueNumber($issueNumber)
+    protected function promptSetupWorkflow()
     {
         $this->workflow->result(
             array(
                 'uid'          => '',
-                'arg'          => $this->config[$this->redmineId]['url'] . '/issues/' . $issueNumber,
+                'arg'          => '',
+                'title'        => 'No redmine server configuration',
+                'subtitle'     => 'Please use red-config key to setup the workflow',
+                'icon'         => 'icon.png',
+                'valid'        => 'no',
+            )
+        );
+    }
+    /**
+     * Manage display
+     *
+     * @param array $params workflow parameters, first value should be the issue number
+     */
+    protected function getIssueNumber($params)
+    {
+        $redmine     = $this->settings->getRedmineConfig($this->redmineId);
+        $issueNumber = array_key_exists(1, $params) ? $params[1] : '';
+        $this->workflow->result(
+            array(
+                'uid'          => '',
+                'arg'          => $redmine['url'] . '/issues/' . $issueNumber,
                 'title'        => 'Display issue num ' . $issueNumber,
                 'subtitle'     => '',
                 'icon'         => 'icon.png',
@@ -361,8 +357,6 @@ class RedmineProject
                 'autocomplete' => ''
             )
         );
-
-        return $this->workflow->toXML();
     }
 
     /**
@@ -393,7 +387,7 @@ class RedmineProject
         // Need to allow Client object injection for test purpose
         if (!$this->redmineClient) {
             // @codeCoverageIgnoreStart
-            $redmine             = $this->config[$this->redmineId];
+            $redmine             = $this->settings->getRedmineConfig($this->redmineId);
             $this->redmineClient = new Client($redmine['url'], $redmine['api-key']);
         }
 

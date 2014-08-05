@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="" arg="add test http://redmine.test.com key Redmine server" title="Add Redmine server config" subtitle="" valid="yes" autocomplete="">
+    <uid></uid>
+    <arg>add test http://redmine.test.com key Redmine server</arg>
+    <title>Add Redmine server config</title>
+    <subtitle></subtitle>
+    <icon>icon.png</icon>
+    <autocomplete></autocomplete>
+  </item>
+</items>
