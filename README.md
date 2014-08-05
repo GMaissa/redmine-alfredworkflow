@@ -15,19 +15,5 @@ An [Alfred](http://alfredapp.com) workflow that speeds up access to Redmine proj
 ### Installation
 [![Get Redmine workflow](https://raw.github.com/hzlzh/AlfredWorkflow.com/master/index/css/images/downlaod-btn.png)](https://github.com/GMaissa/redmine-alfredworkflow/raw/master/Redmine.alfredworkflow)
 
-Once installed, in Alfred, edit the workflow's "Script Filter" to add your Redmine server configuration :
-
-    // Complete your Redmine configuration bellow
-    $config='
-    {
-        "test1":{
-            "name": "Redmine test1",
-            "url": "http://test1.com",
-            "api-key": "api-key-test1"
-        },
-        "test2":{
-            "name": "Redmine Test 2",
-            "url": "http://test2.com",
-            "api-key": "api-key-test2"
-        }
-    }';
+Once installed, use the red-config key to setup your redmine server configuration. You can use the command :
+* red-config add <redmine-server-identifier> <redmine-server-url> <api-key> <redmine-server-name>
