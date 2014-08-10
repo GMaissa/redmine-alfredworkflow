@@ -5,7 +5,7 @@
     <arg></arg>
     <title>No wiki pages for project theproject-2-test1</title>
     <subtitle></subtitle>
-    <icon>icon.png</icon>
+    <icon>assets/icons/wiki.png</icon>
     <autocomplete></autocomplete>
   </item>
 </items>

@@ -5,7 +5,7 @@
     <arg></arg>
     <title>Project homepage</title>
     <subtitle></subtitle>
-    <icon>icon.png</icon>
+    <icon>assets/icons/home.png</icon>
     <autocomplete>home </autocomplete>
   </item>
   <item uid="" arg="" title="Project wiki page" subtitle="" valid="no" autocomplete="wiki ">
@@ -13,7 +13,7 @@
     <arg></arg>
     <title>Project wiki page</title>
     <subtitle></subtitle>
-    <icon>icon.png</icon>
+    <icon>assets/icons/wiki.png</icon>
     <autocomplete>wiki </autocomplete>
   </item>
   <item uid="" arg="" title="Project issues page" subtitle="" valid="no" autocomplete="issues ">
@@ -21,7 +21,7 @@
     <arg></arg>
     <title>Project issues page</title>
     <subtitle></subtitle>
-    <icon>icon.png</icon>
+    <icon>assets/icons/issues.png</icon>
     <autocomplete>issues </autocomplete>
   </item>
   <item uid="" arg="" title="Display issue num" subtitle="" valid="no" autocomplete="issue ">
@@ -29,7 +29,7 @@
     <arg></arg>
     <title>Display issue num</title>
     <subtitle></subtitle>
-    <icon>icon.png</icon>
+    <icon>assets/icons/issue.png</icon>
     <autocomplete>issue </autocomplete>
   </item>
 </items>
