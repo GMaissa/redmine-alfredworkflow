@@ -10,9 +10,9 @@
  * @copyright 2014 Guillaume Maïssa
  */
 
-namespace AlfredWorkflow\Redmine;
+namespace AlfredWorkflow\Redmine\Actions;
 
-use Alfred\Workflow;
+use Redmine\Client;
 
 /**
  * Redmine Workflow Configuration class
@@ -22,49 +22,25 @@ use Alfred\Workflow;
  * @author    Guillaume Maïssa <guillaume@maissa.fr>
  * @copyright 2014 Guillaume Maïssa
  */
-class Configure
+class ConfigAction extends BaseAction
 {
-    /**
-     * Workflow settings
-     * @var string $settings
-     */
-    protected $settings = false;
-
-    /**
-     * Workflow object to format data for alfred
-     * @var \Alfred\Workflow $_workflow
-     */
-    protected $workflow;
-
     protected $actions = array(
         'add' => array(
             'method' => 'addRedmine',
-            'name'   => 'Add new redmine configuration'
+            'name'   => 'Add new Redmine server config',
+            'icon'   => 'assets/icons/add.png'
         ),
         'rm'  => array(
             'method' => 'removeRedmine',
-            'name'   => 'Remove existing redmine configuration'
+            'name'   => 'Remove existing Redmine server config',
+            'icon'   => 'assets/icons/remove.png'
         )
     );
-
-    /**
-     * Class constructor
-     *
-     * @param \AlfredWorkflow\Redmine\Settings $settings Settings object
-     * @param \Alfred\Workflow                 $workflow Alfred Workflow Api object
-     */
-    public function __construct(Settings $settings, Workflow $workflow)
-    {
-        $this->settings = $settings;
-        $this->workflow = $workflow;
-    }
 
     /**
      * Run the workflow
      *
      * @param string $query Alfred query string
-     *
-     * @return string
      */
     public function run($query)
     {
@@ -87,15 +63,13 @@ class Configure
                     'arg'          => '',
                     'title'        => $config['name'],
                     'subtitle'     => '',
-                    'icon'         => 'icon.png',
+                    'icon'         => $config['icon'],
                     'valid'        => 'no',
                     'autocomplete' => sprintf('%s ', $identifier)
                 );
                 $this->workflow->result($result);
             }
         }
-
-        return $this->workflow->toXML();
     }
 
     /**
@@ -106,20 +80,21 @@ class Configure
     protected function addRedmine($params)
     {
         $subtitle = false;
-        if (array_key_exists(0, $params) && $this->settings->hasRedmineServer($params[0])) {
-            $subtitle = 'Identifier ' . $params[0] . ' already exists';
-        }
-        if (array_key_exists(1, $params) && !filter_var($params[1], FILTER_VALIDATE_URL)) {
-            $subtitle = 'Redmine URL ' . $params[1] . ' not valid';
+        $config   = $this->actions['add'];
+
+        try {
+            $this->testAddParams($params);
+        } catch (Exception $e) {
+            $subtitle = $e->getMessage();
         }
         if (count($params) >= 4 && !$subtitle) {
             $this->workflow->result(
                 array(
                     'uid'      => '',
                     'arg'      => 'add ' . implode(' ', $params),
-                    'title'    => 'Add Redmine server config',
+                    'title'    => $config['name'],
                     'subtitle' => '',
-                    'icon'     => 'icon.png',
+                    'icon'     => $config['icon'],
                     'valid'    => 'yes'
                 )
             );
@@ -132,13 +107,43 @@ class Configure
                 array(
                     'uid'          => '',
                     'arg'          => '',
-                    'title'        => 'Add Redmine server config',
+                    'title'        => $config['name'],
                     'subtitle'     => $subtitle,
-                    'icon'         => 'icon.png',
+                    'icon'         => $config['icon'],
                     'valid'        => 'no',
                     'autocomplete' => 'add ' . $additionalAutoComp
                 )
             );
+        }
+    }
+
+    /**
+     * Test add action parameters
+     *
+     * @param array $params action parameters
+     *
+     * @throws \AlfredWorkflow\Redmine\Actions\Exception is on of the parameters is invalid
+     */
+    protected function testAddParams($params)
+    {
+        if (isset($params[0]) && $this->settings->hasDataForKey($params[0])) {
+            throw new Exception('Identifier ' . $params[0] . ' already exists');
+        }
+        if (isset($params[1]) && !filter_var($params[1], FILTER_VALIDATE_URL)) {
+            throw new Exception('Redmine URL ' . $params[1] . ' not valid');
+        }
+        if (isset($params[3])) {
+            $tmpClient = new Client($params[1], $params[2]);
+            try {
+                $response = $tmpClient->api('user')->getCurrentUser();
+                if (!$response) {
+                    throw new Exception(
+                        'Impossible to connect to the Redmine server with the URL and api-key provided'
+                    );
+                }
+            } catch (\Exception $e) {
+                throw new Exception('Impossible to connect to the Redmine server with the URL and api-key provided');
+            }
         }
     }
 
@@ -150,8 +155,9 @@ class Configure
     protected function removeRedmine($params)
     {
         $redminePattern = array_key_exists(0, $params) ? $params[0] : null;
+        $actionConfig   = $this->actions['rm'];
 
-        if ($this->settings->hasRedmineServer($redminePattern)) {
+        if ($this->settings->hasDataForKey($redminePattern)) {
             $result = array(
                 'uid'      => '',
                 'arg'      => 'rm ' . $redminePattern,
@@ -160,18 +166,18 @@ class Configure
                     $this->settings->getRedmineParam($redminePattern, 'name')
                 ),
                 'subtitle' => '',
-                'icon'     => 'icon.png',
+                'icon'     => $actionConfig['icon'],
                 'valid'    => 'yes'
             );
             $this->workflow->result($result);
         } else {
-            foreach ($this->settings->getRedminesConfig() as $identifier => $config) {
+            foreach ($this->settings->getData() as $identifier => $config) {
                 $result = array(
                     'uid'      => '',
                     'arg'      => 'rm ' . $identifier,
                     'title'    => sprintf('Remove %s configuration', $config['name']),
                     'subtitle' => '',
-                    'icon'     => 'icon.png',
+                    'icon'     => $actionConfig['icon'],
                     'valid'    => 'yes'
                 );
                 $this->workflow->result($result);

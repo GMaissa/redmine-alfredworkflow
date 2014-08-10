@@ -5,7 +5,7 @@
     <arg>http://redmine.test1.com/issues/</arg>
     <title>Display issue num </title>
     <subtitle></subtitle>
-    <icon>icon.png</icon>
+    <icon>assets/icons/issue.png</icon>
     <autocomplete></autocomplete>
   </item>
 </items>

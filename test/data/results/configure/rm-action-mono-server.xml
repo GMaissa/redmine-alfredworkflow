@@ -5,7 +5,7 @@
     <arg>rm test1</arg>
     <title>Remove Redmine server 1 configuration</title>
     <subtitle></subtitle>
-    <icon>icon.png</icon>
+    <icon>assets/icons/remove.png</icon>
     <autocomplete></autocomplete>
   </item>
 </items>

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <items>
-  <item uid="" arg="" title="Add Redmine server config" subtitle="Redmine URL http not valid" valid="no" autocomplete="add test http ">
+  <item uid="" arg="" title="Add new Redmine server config" subtitle="Redmine URL http not valid" valid="no" autocomplete="add test http ">
     <uid></uid>
     <arg></arg>
-    <title>Add Redmine server config</title>
+    <title>Add new Redmine server config</title>
     <subtitle>Redmine URL http not valid</subtitle>
-    <icon>icon.png</icon>
+    <icon>assets/icons/add.png</icon>
     <autocomplete>add test http </autocomplete>
   </item>
 </items>

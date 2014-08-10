@@ -10,27 +10,29 @@
  * @copyright 2014 Guillaume Maïssa
  */
 
-namespace AlfredWorkflow\Tests\Redmine;
+namespace AlfredWorkflow\Tests\Redmine\Actions;
 
 use Alfred\Workflow;
-use AlfredWorkflow\Redmine\Configure;
-use AlfredWorkflow\Redmine\Settings;
+use AlfredWorkflow\Redmine;
+use AlfredWorkflow\Redmine\Storage\Settings;
 
 /**
- * Test class for AlfredWorkflow\Redmine\Configure
+ * Test class for AlfredWorkflow\Redmine\Actions\ConfigAction class
  *
  * @category  AlfredWorkflow
  * @package   AlfredWorkflow.Redmine
  * @author    Guillaume Maïssa <guillaume@maissa.fr>
  * @copyright 2014 Guillaume Maïssa
  */
-class ConfigureTest extends \PHPUnit_Framework_TestCase
+class ConfigActionTest extends \PHPUnit_Framework_TestCase
 {
-    protected $tmpDir = '';
+    protected $tmpDir        = '';
+    protected $bundleId      = 'test';
+    const TEST_ASSETS_PATH   = '/../../../../data/';
 
     public function setUp()
     {
-        $this->tmpDir = __DIR__ . '/../../../tmp/';
+        $this->tmpDir = __DIR__ . '/../../../../tmp/';
         if (!file_exists($this->tmpDir)) {
             mkdir($this->tmpDir, 0755, true);
         }
@@ -43,17 +45,17 @@ class ConfigureTest extends \PHPUnit_Framework_TestCase
      */
     public function runTestDataProvider()
     {
-        $configEmpty              = __DIR__ . '/../../../data/config/empty.json';
-        $configMono               = __DIR__ . '/../../../data/config/mono-server.json';
-        $configMulti              = __DIR__ . '/../../../data/config/multi-servers.json';
-        $allActions               = file_get_contents(__DIR__ . '/../../../data/results/configure/all-actions.xml');
-        $addAction                = file_get_contents(__DIR__ . '/../../../data/results/configure/add-action.xml');
-        $addActionTest            = file_get_contents(__DIR__ . '/../../../data/results/configure/add-action-test.xml');
-        $addActionErrorIdentifier = file_get_contents(__DIR__ . '/../../../data/results/configure/add-action-error-identifier.xml');
-        $addActionErrorUrl        = file_get_contents(__DIR__ . '/../../../data/results/configure/add-action-error-url.xml');
-        $addActionParamsComplete  = file_get_contents(__DIR__ . '/../../../data/results/configure/add-action-params-complete.xml');
-        $rmActionMonoServer       = file_get_contents(__DIR__ . '/../../../data/results/configure/rm-action-mono-server.xml');
-        $rmActionMultiServers     = file_get_contents(__DIR__ . '/../../../data/results/configure/rm-action-multi-servers.xml');
+        $configEmpty              = __DIR__ . self::TEST_ASSETS_PATH . 'config/empty/';
+        $configMono               = __DIR__ . self::TEST_ASSETS_PATH . 'config/mono-server/';
+        $configMulti              = __DIR__ . self::TEST_ASSETS_PATH . 'config/multi-servers/';
+        $allActions               = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/configure/all-actions.xml');
+        $addAction                = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/configure/add-action.xml');
+        $addActionTest            = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/configure/add-action-test.xml');
+        $addActionErrorIdentifier = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/configure/add-action-error-identifier.xml');
+        $addActionErrorUrl        = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/configure/add-action-error-url.xml');
+        $addActionParamsComplete  = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/configure/add-action-params-complete.xml');
+        $rmActionMonoServer       = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/configure/rm-action-mono-server.xml');
+        $rmActionMultiServers     = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/configure/rm-action-multi-servers.xml');
         return array(
             array($configEmpty, '',                                                      $allActions),
             array($configEmpty, ' ',                                                     $allActions),
@@ -66,8 +68,8 @@ class ConfigureTest extends \PHPUnit_Framework_TestCase
             array($configEmpty, ' add test ',                                            $addActionTest),
             array($configEmpty, ' add test http',                                        $addActionErrorUrl),
             array($configEmpty, ' add test http ',                                       $addActionErrorUrl),
-            array($configEmpty, ' add test http://redmine.test.com key Redmine server',  $addActionParamsComplete),
-            array($configEmpty, ' add test http://redmine.test.com key Redmine server ', $addActionParamsComplete),
+            //array($configEmpty, ' add test http://redmine.test.com key Redmine server',  $addActionParamsComplete),
+            //array($configEmpty, ' add test http://redmine.test.com key Redmine server ', $addActionParamsComplete),
             array($configMono,  'rm',                                                    $rmActionMonoServer),
             array($configMono,  ' rm',                                                   $rmActionMonoServer),
             array($configMono,  'rm ',                                                   $rmActionMonoServer),
@@ -84,15 +86,18 @@ class ConfigureTest extends \PHPUnit_Framework_TestCase
     /**
      * Test run method for AlfredWorkflow\Redmine\Configure class
      *
-     * @covers       AlfredWorkflow\Redmine\Configure
-     * @covers       AlfredWorkflow\Redmine\Settings
+     * @covers       AlfredWorkflow\Redmine
+     * @covers       AlfredWorkflow\Redmine\Storage\Settings
+     * @covers       AlfredWorkflow\Redmine\Storage\Json
+     * @covers AlfredWorkflow\Redmine\Actions\ConfigAction
+     * @covers AlfredWorkflow\Redmine\Actions\BaseAction
      * @dataProvider runTestDataProvider
      * @test
      */
-    public function testRun($configFile, $input, $expectedResultReturn)
+    public function testRun($config, $input, $expectedResultReturn)
     {
-        $configureWorkflow = new Configure(new Settings($configFile), new Workflow());
-        $result            = $configureWorkflow->run($input);
+        $redmine = new Redmine(new Settings('test', $config), new Workflow());
+        $result  = $redmine->run('config', $input);
 
         $this->assertEquals($expectedResultReturn, $result);
     }
@@ -104,9 +109,9 @@ class ConfigureTest extends \PHPUnit_Framework_TestCase
      */
     public function saveTestDataProvider()
     {
-        $configEmpty              = __DIR__ . '/../../../data/config/empty.json';
-        $configMono               = __DIR__ . '/../../../data/config/mono-server.json';
-        $configMulti              = __DIR__ . '/../../../data/config/multi-servers.json';
+        $configEmpty              = __DIR__ . self::TEST_ASSETS_PATH . 'config/empty/';
+        $configMono               = __DIR__ . self::TEST_ASSETS_PATH . 'config/mono-server/';
+        $configMulti              = __DIR__ . self::TEST_ASSETS_PATH . 'config/multi-servers/';
         return array(
             array($configEmpty, 'add test1 http://redmine.test1.com api-key-test1 Redmine server 1', 'Configuration added',   $configMono),
             array($configMono,  'add test2 http://redmine.test2.com api-key-test2 Redmine server 2', 'Configuration added',   $configMulti),
@@ -117,23 +122,30 @@ class ConfigureTest extends \PHPUnit_Framework_TestCase
     /**
      * Test save method for AlfredWorkflow\Redmine\Configure class
      *
-     * @covers       AlfredWorkflow\Redmine\Configure
-     * @covers       AlfredWorkflow\Redmine\Settings
+     * @covers       AlfredWorkflow\Redmine
+     * @covers       AlfredWorkflow\Redmine\Storage\Settings
+     * @covers       AlfredWorkflow\Redmine\Storage\Json
+     * @covers AlfredWorkflow\Redmine\Actions\ConfigAction
+     * @covers AlfredWorkflow\Redmine\Actions\BaseAction
      * @dataProvider saveTestDataProvider
      * @test
      */
-    public function saveTest($configFile, $input, $expectedResult, $expectedSettingsFile)
+    public function saveTest($configDir, $input, $expectedResult, $expectedSettingsFile)
     {
         // Create a temporary file for test purpose
-        $tmpFile = $this->tmpDir . basename($configFile);
-        copy($configFile, $tmpFile);
+        $fileName = 'settings.json';
+        $tmpDir = $this->tmpDir . basename($configDir) . '/';
+        if (!file_exists($tmpDir)) {
+            mkdir($tmpDir, 0755, true);
+        }
+        copy($configDir . $fileName, $tmpDir . $fileName);
 
-        $configureWorkflow = new Configure(new Settings($tmpFile), new Workflow());
-        $result            = $configureWorkflow->save($input);
+        $redmine = new Redmine(new Settings('test', $tmpDir), new Workflow());
+        $result  = $redmine->save('config', $input);
 
-        $this->assertJsonStringEqualsJsonString(file_get_contents($expectedSettingsFile), file_get_contents($tmpFile));
+        $this->assertJsonStringEqualsJsonString(file_get_contents($expectedSettingsFile . $fileName), file_get_contents($tmpDir . $fileName));
         // Remove the temporary settings file
-        unlink($tmpFile);
+        unlink($tmpDir . $fileName);
 
         $this->assertEquals($expectedResult, $result);
     }

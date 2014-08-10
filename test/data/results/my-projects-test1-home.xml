@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <items>
-  <item uid="myproject-1-test1" arg="http://redmine.test1.com/projects/myproject-1-test1" title="MyProject 1 Server 1" subtitle="-" valid="yes" autocomplete="">
+  <item uid="myproject-1-test1" arg="http://redmine.test1.com/projects/myproject-1-test1" title="MyProject 1 Server 1" subtitle="" valid="yes" autocomplete="">
     <uid>myproject-1-test1</uid>
     <arg>http://redmine.test1.com/projects/myproject-1-test1</arg>
     <title>MyProject 1 Server 1</title>
-    <subtitle>-</subtitle>
-    <icon>icon.png</icon>
+    <subtitle></subtitle>
+    <icon>assets/icons/home.png</icon>
     <autocomplete></autocomplete>
   </item>
-  <item uid="myproject-2-test1" arg="http://redmine.test1.com/projects/myproject-2-test1" title="MyProject 2 Server 1" subtitle="-" valid="yes" autocomplete="">
+  <item uid="myproject-2-test1" arg="http://redmine.test1.com/projects/myproject-2-test1" title="MyProject 2 Server 1" subtitle="" valid="yes" autocomplete="">
     <uid>myproject-2-test1</uid>
     <arg>http://redmine.test1.com/projects/myproject-2-test1</arg>
     <title>MyProject 2 Server 1</title>
-    <subtitle>-</subtitle>
-    <icon>icon.png</icon>
+    <subtitle></subtitle>
+    <icon>assets/icons/home.png</icon>
     <autocomplete></autocomplete>
   </item>
 </items>

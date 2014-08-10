@@ -5,7 +5,7 @@
     <arg></arg>
     <title>Redmine server 1</title>
     <subtitle></subtitle>
-    <icon>icon.png</icon>
+    <icon>assets/icons/redmine.png</icon>
     <autocomplete>test1 </autocomplete>
   </item>
   <item uid="" arg="" title="Redmine server 2" subtitle="" valid="no" autocomplete="test2 ">
@@ -13,7 +13,7 @@
     <arg></arg>
     <title>Redmine server 2</title>
     <subtitle></subtitle>
-    <icon>icon.png</icon>
+    <icon>assets/icons/redmine.png</icon>
     <autocomplete>test2 </autocomplete>
   </item>
 </items>
