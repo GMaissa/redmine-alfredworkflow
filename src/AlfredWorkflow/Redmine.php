@@ -13,7 +13,6 @@
 namespace AlfredWorkflow;
 
 use Alfred\Workflow;
-use AlfredWorkflow\Redmine\Actions;
 use AlfredWorkflow\Redmine\Storage\Settings;
 
 /**
