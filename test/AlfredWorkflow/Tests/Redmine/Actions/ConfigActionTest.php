@@ -15,7 +15,6 @@ namespace AlfredWorkflow\Tests\Redmine\Actions;
 use Alfred\Workflow;
 use AlfredWorkflow\Redmine;
 use AlfredWorkflow\Redmine\Storage\Settings;
-use AlfredWorkflow\Redmine\Storage\Cache;
 
 /**
  * Test class for AlfredWorkflow\Redmine\Actions\ConfigAction class
