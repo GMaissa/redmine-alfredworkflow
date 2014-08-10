@@ -36,7 +36,7 @@ abstract class Json
      * The data directory for the workflow
      * @type string $dataPath
      */
-    private $dataPath = null;
+    protected $dataPath = null;
 
     /**
      * The data filename for the workflow
@@ -48,31 +48,31 @@ abstract class Json
      * The cached data for the workflow
      * @var array $cacheData
      */
-    private $data = array();
+    protected $data = array();
 
     /**
      * The bundle ID for the workflow.
      * @type string $bundle
      */
-    private $bundle = null;
+    protected $bundle = null;
 
     /**
      * The working directory for the workflow.
      * @type string $path
      */
-    private $path = null;
+    protected $path = null;
 
     /**
      * The current user's `$HOME` directory.
      * @type string $home
      */
-    private $home = null;
+    protected $home = null;
 
     /**
      * Filesystem object
      * @var mixed $fSys
      */
-    private $fSys = false;
+    protected $fSys = false;
 
     /**
      * Getter for data property
