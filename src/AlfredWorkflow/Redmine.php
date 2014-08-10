@@ -56,7 +56,7 @@ class Redmine
      * @param \AlfredWorkflow\Redmine\Storage\Settings $settings Settings object
      * @param \Alfred\Workflow                         $workflow Alfred Workflow Api object
      * @param mixed                                    $cache    Workflow Cache object
-     * @param mixed                                    $clients  array of Redmine Client objects
+     * @param array                                    $clients  array of Redmine Client objects
      */
     public function __construct(Settings $settings, Workflow $workflow, $cache = false, $clients = array())
     {

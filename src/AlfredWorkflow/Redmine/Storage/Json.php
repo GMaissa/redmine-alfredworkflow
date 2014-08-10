@@ -46,7 +46,7 @@ abstract class Json
 
     /**
      * The cached data for the workflow
-     * @var mixed $cacheData
+     * @var array $cacheData
      */
     private $data = array();
 
