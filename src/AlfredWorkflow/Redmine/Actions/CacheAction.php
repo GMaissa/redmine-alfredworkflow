@@ -22,6 +22,10 @@ namespace AlfredWorkflow\Redmine\Actions;
  */
 class CacheAction extends BaseAction
 {
+    /**
+     * List of available actions, and their configuration
+     * @var array $actions
+     */
     protected $actions = array(
         'clear' => array(
             'uid'      => 'clear-cache',

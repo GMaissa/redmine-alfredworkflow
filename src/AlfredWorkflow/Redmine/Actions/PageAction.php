@@ -28,19 +28,19 @@ class PageAction extends BaseAction
 {
     /**
      * Selected Redmine identifier
-     * @var boolean/string $redmineId
+     * @var mixed $redmineId
      */
     protected $redmineId = false;
 
     /**
      * Array of Redmine Client object to communicate with Redmine servers
-     * @var array $_redmineClient
+     * @var array $redmineClient
      */
     protected $redmineClient = array();
 
     /**
      * List of available actions, and their configuration
-     * @var array $_actions
+     * @var array $actions
      */
     protected $actions = array(
         'home'   => array(
@@ -75,7 +75,7 @@ class PageAction extends BaseAction
 
     /**
      * List of projects per redmine
-     * @var array $_redmineProjectsCache
+     * @var array $redmineProjectsCache
      */
     protected $redmineProjectsCache = array();
 

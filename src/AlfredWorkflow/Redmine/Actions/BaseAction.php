@@ -33,9 +33,9 @@ abstract class BaseAction
 
     /**
      * Workflow settings
-     * @var string $settings
+     * @var \AlfredWorkflow\Redmine\Storage\Settings $settings
      */
-    protected $settings = false;
+    protected $settings;
 
     /**
      * Workflow cache management object
@@ -45,7 +45,7 @@ abstract class BaseAction
 
     /**
      * Selected workflow action
-     * @var boolean/string $action
+     * @var mixed $action
      */
     protected $action = false;
 

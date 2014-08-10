@@ -28,9 +28,9 @@ class Redmine
 {
     /**
      * Workflow settings
-     * @var string $settings
+     * @var \AlfredWorkflow\Redmine\Storage\Settings $settings
      */
-    protected $settings = false;
+    protected $settings;
 
     /**
      * Workflow object to format data for alfred

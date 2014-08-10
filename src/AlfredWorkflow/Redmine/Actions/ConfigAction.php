@@ -24,6 +24,10 @@ use Redmine\Client;
  */
 class ConfigAction extends BaseAction
 {
+    /**
+     * List of available actions, and their configuration
+     * @var array $actions
+     */
     protected $actions = array(
         'add' => array(
             'method' => 'addRedmine',

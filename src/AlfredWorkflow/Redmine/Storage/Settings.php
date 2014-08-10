@@ -43,7 +43,7 @@ class Settings extends Json
     /**
      * Retrieve the default redmine identifier
      *
-     * @return bool|string
+     * @return mixed
      */
     public function getDefaultRedmineId()
     {
@@ -61,7 +61,7 @@ class Settings extends Json
      * @param string $redmineId redmine identifier
      * @param string $paramId   redmine param identifier
      *
-     * @return bool|string
+     * @return mixed
      */
     public function getRedmineParam($redmineId, $paramId)
     {

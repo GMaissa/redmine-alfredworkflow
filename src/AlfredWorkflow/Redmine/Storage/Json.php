@@ -83,7 +83,7 @@ abstract class Json
      *
      * @param mixed $data data to store
      *
-     * @return void
+     * @return \AlfredWorkflow\Redmine\Storage\JSon
      */
     public function setData($data)
     {

@@ -15,6 +15,7 @@ namespace AlfredWorkflow\Tests\Redmine\Actions;
 use Alfred\Workflow;
 use AlfredWorkflow\Redmine;
 use AlfredWorkflow\Redmine\Storage\Settings;
+use AlfredWorkflow\Redmine\Storage\Cache;
 
 /**
  * Test class for AlfredWorkflow\Redmine\Actions\ConfigAction class
@@ -86,9 +87,9 @@ class ConfigActionTest extends \PHPUnit_Framework_TestCase
     /**
      * Test run method for AlfredWorkflow\Redmine\Configure class
      *
-     * @covers       AlfredWorkflow\Redmine
-     * @covers       AlfredWorkflow\Redmine\Storage\Settings
-     * @covers       AlfredWorkflow\Redmine\Storage\Json
+     * @covers AlfredWorkflow\Redmine
+     * @covers AlfredWorkflow\Redmine\Storage\Settings
+     * @covers AlfredWorkflow\Redmine\Storage\Json
      * @covers AlfredWorkflow\Redmine\Actions\ConfigAction
      * @covers AlfredWorkflow\Redmine\Actions\BaseAction
      * @dataProvider runTestDataProvider
@@ -122,9 +123,9 @@ class ConfigActionTest extends \PHPUnit_Framework_TestCase
     /**
      * Test save method for AlfredWorkflow\Redmine\Configure class
      *
-     * @covers       AlfredWorkflow\Redmine
-     * @covers       AlfredWorkflow\Redmine\Storage\Settings
-     * @covers       AlfredWorkflow\Redmine\Storage\Json
+     * @covers AlfredWorkflow\Redmine
+     * @covers AlfredWorkflow\Redmine\Storage\Settings
+     * @covers AlfredWorkflow\Redmine\Storage\Json
      * @covers AlfredWorkflow\Redmine\Actions\ConfigAction
      * @covers AlfredWorkflow\Redmine\Actions\BaseAction
      * @dataProvider saveTestDataProvider
