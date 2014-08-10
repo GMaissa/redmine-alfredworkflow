@@ -52,7 +52,7 @@ class Settings extends Json
     public function getDefaultRedmineId()
     {
         $return = false;
-        if (count($this->getData()) == 1) {
+        if (is_array($this->getData()) && count($this->getData()) == 1) {
             $return = key($this->getData());
         }
 

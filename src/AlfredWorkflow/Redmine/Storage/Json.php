@@ -87,7 +87,7 @@ abstract class Json
     /**
      * Setter for data property
      *
-     * @param mixed $data data to store
+     * @param array $data data to store
      *
      * @return \AlfredWorkflow\Redmine\Storage\JSon
      */
@@ -201,7 +201,10 @@ abstract class Json
         if ($this->fSys->exists($this->dataPath . $this->dataFile) &&
             file_get_contents($this->dataPath . $this->dataFile) != ''
         ) {
-            $this->data = json_decode(file_get_contents($this->dataPath . $this->dataFile), true);
+            $tmpData = json_decode(file_get_contents($this->dataPath . $this->dataFile), true);
+            if (is_array($tmpData)) {
+                $this->data = $tmpData;
+            }
         }
     }
 
