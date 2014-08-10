@@ -39,4 +39,27 @@ class Cache extends Json
      * @var integer $cacheDuration
      */
     protected $dataDuration = 86400;
+
+
+    /**
+     * Load file data
+     *
+     * @throws \AlfredWorkflow\Redmine\Storage\Exception if a data filename is not defined
+     */
+    public function load()
+    {
+        if (!$this->dataFile) {
+            throw new Exception('You need to define a data filename');
+        }
+
+        if ($this->fSys->exists($this->dataPath . $this->dataFile) &&
+            file_get_contents($this->dataPath . $this->dataFile) != '' &&
+            filemtime($this->dataPath . $this->dataFile) > time() - $this->dataDuration
+        ) {
+            $tmpData = json_decode(file_get_contents($this->dataPath . $this->dataFile), true);
+            if (is_array($tmpData)) {
+                $this->data = $tmpData;
+            }
+        }
+    }
 }
