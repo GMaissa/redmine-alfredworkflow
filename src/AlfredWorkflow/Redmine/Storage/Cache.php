@@ -22,6 +22,10 @@ namespace AlfredWorkflow\Redmine\Storage;
  */
 class Cache extends Json
 {
+    /**
+     * Path to Alfred storage directory
+     * @var string $alfredDataPath
+     */
     protected $alfredDataPath = '/Library/Caches/com.runningwithcrayons.Alfred-2/Workflow Data';
 
     /**

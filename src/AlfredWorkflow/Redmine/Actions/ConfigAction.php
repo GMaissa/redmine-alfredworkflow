@@ -200,6 +200,7 @@ class ConfigAction extends BaseAction
      */
     public function save($query)
     {
+        $return = false;
         $params = explode(' ', $query);
         $action = $params[0];
         array_shift($params);

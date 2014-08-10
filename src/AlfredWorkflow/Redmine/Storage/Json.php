@@ -27,6 +27,12 @@ use Camspiers\JsonPretty\JsonPretty;
 abstract class Json
 {
     /**
+     * Path to Alfred storage directory
+     * @var string $alfredDataPath
+     */
+    protected $alfredDataPath = '';
+
+    /**
      * The data directory for the workflow
      * @type string $dataPath
      */
@@ -40,7 +46,7 @@ abstract class Json
 
     /**
      * The cached data for the workflow
-     * @var false $cacheData
+     * @var mixed $cacheData
      */
     private $data = array();
 

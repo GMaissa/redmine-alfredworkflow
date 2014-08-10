@@ -58,7 +58,7 @@ class Redmine
      * @param mixed                                    $cache    Workflow Cache object
      * @param mixed                                    $clients  array of Redmine Client objects
      */
-    public function __construct(Settings $settings, Workflow $workflow, $cache = false, $clients = false)
+    public function __construct(Settings $settings, Workflow $workflow, $cache = false, $clients = array())
     {
         $this->settings = $settings;
         $this->workflow = $workflow;

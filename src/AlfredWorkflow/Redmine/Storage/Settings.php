@@ -22,6 +22,10 @@ namespace AlfredWorkflow\Redmine\Storage;
  */
 class Settings extends Json
 {
+    /**
+     * Path to Alfred storage directory
+     * @var string $alfredDataPath
+     */
     protected $alfredDataPath = '/Library/Application Support/Alfred 2/Workflow Data';
 
     /**

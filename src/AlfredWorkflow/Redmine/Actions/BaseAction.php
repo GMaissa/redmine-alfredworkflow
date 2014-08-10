@@ -56,6 +56,12 @@ abstract class BaseAction
     protected $workflow;
 
     /**
+     * Array of Redmine Client object to communicate with Redmine servers
+     * @var array $redmineClient
+     */
+    protected $redmineClient = array();
+
+    /**
      * List of available actions, and their configuration
      * @var array $actions
      */
@@ -69,7 +75,7 @@ abstract class BaseAction
      * @param mixed                                    $cache    Workflow Cache object
      * @param mixed                                    $clients  array of Redmine Client objects
      */
-    public function __construct(Settings $settings, Workflow $workflow, $cache = false, $clients = false)
+    public function __construct(Settings $settings, Workflow $workflow, $cache = false, $clients = array())
     {
         $this->settings = $settings;
         $this->workflow = $workflow;
