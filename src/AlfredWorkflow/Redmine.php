@@ -84,8 +84,18 @@ class Redmine
      */
     public function run($actionGroup, $query)
     {
-        $actionsObj = $this->factory($actionGroup);
-        $actionsObj->run($query);
+        try{
+            $actionsObj = $this->factory($actionGroup);
+            $actionsObj->run($query);
+        } catch (AlfredWorkflow\Redmine\Actions\Exception $exception) {
+            $this->workflow->result(
+                array(
+                    'title'    => 'No action for this query',
+                    'icon'     => 'assets/icons/error.png',
+                    'valid'    => 'no',
+                )
+            );
+        }
 
         return $this->workflow->toXML();
     }
