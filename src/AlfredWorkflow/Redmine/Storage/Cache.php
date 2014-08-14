@@ -32,7 +32,7 @@ class Cache extends Json
      * Path to the workflow data file
      * @var string $dataFile
      */
-    protected $dataFile = 'cache-projects.json';
+    protected $dataFile = 'projects.json';
 
     /**
      * Cache validity duration
@@ -40,18 +40,11 @@ class Cache extends Json
      */
     protected $dataDuration = 86400;
 
-
     /**
      * Load file data
-     *
-     * @throws \AlfredWorkflow\Redmine\Storage\Exception if a data filename is not defined
      */
     public function load()
     {
-        if (!$this->dataFile) {
-            throw new Exception('You need to define a data filename');
-        }
-
         if ($this->fSys->exists($this->dataPath . $this->dataFile) &&
             file_get_contents($this->dataPath . $this->dataFile) != '' &&
             filemtime($this->dataPath . $this->dataFile) > time() - $this->dataDuration
@@ -60,6 +53,28 @@ class Cache extends Json
             if (is_array($tmpData)) {
                 $this->data = $tmpData;
             }
+        }
+    }
+
+    /**
+     * Getter for data duration
+     *
+     * @return integer
+     */
+    public function getDataDuration()
+    {
+        return $this->dataDuration;
+    }
+
+    /**
+     * Setter for data duration
+     *
+     * @param integer $duration data duration value
+     */
+    public function setDataDuration($duration)
+    {
+        if (is_int($duration)) {
+            $this->dataDuration = $duration;
         }
     }
 }
