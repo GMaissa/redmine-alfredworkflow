@@ -120,8 +120,7 @@ class PageAction extends BaseAction
 
         // If there is no redmine server configured, ask the user to configure one
         if ($this->settings->nbRedmineServers() == 0) {
-            Redmine::log(sprintf('%s: No worflow configuration set', __METHOD__), Logger::DEBUG);
-            throw new Exception('No redmine server configuration. Use "red conf" key first.');
+            $this->throwException('No redmine server configuration. Use "red conf" key first.', __METHOD__);
             // If there is only one redmine server defined, no need to ask which one to us;
         } elseif ($this->settings->nbRedmineServers() == 1) {
             $this->redmineId = $this->settings->getDefaultRedmineId();
@@ -232,11 +231,10 @@ class PageAction extends BaseAction
                 }
             }
             if (!count($this->workflow->__get('results'))) {
-                throw new Exception('No matching wiki page found');
+                $this->throwException('No matching wiki page found', __METHOD__);
             }
         } else {
-            Redmine::log(sprintf('%s: no wiki page for project %s', __METHOD__, $projectId));
-            throw new Exception('No wiki pages for project ' . $projectId);
+            $this->throwException('No wiki pages for project ' . $projectId, __METHOD__, Logger::WARNING);
         }
     }
 
@@ -262,7 +260,7 @@ class PageAction extends BaseAction
             }
         }
         if (!count($this->workflow->__get('results'))) {
-            throw new Exception('No matching redmine configuration found');
+            $this->throwException('No matching redmine configuration found', __METHOD__);
         }
     }
 
@@ -303,7 +301,7 @@ class PageAction extends BaseAction
                 }
             }
             if (!count($this->workflow->__get('results'))) {
-                throw new Exception('No matching redmine action found');
+                $this->throwException('No matching redmine action found', __METHOD__);
             }
         }
     }
@@ -349,8 +347,7 @@ class PageAction extends BaseAction
 
         $matchingResults = $this->redmineProjectsCache[$redmineId];
         if (!count($matchingResults)) {
-            Redmine::log(sprintf('%s: no project for redmine server %s', __METHOD__, $redmineId), Logger::WARNING);
-            throw new Exception('No project found for redmine server ' . $redmineId);
+            $this->throwException('No project found for redmine server ' . $redmineId, __METHOD__, Logger::WARNING);
         }
 
         if ($identifierPattern) {
@@ -361,7 +358,7 @@ class PageAction extends BaseAction
                 }
             );
             if (!count($matchingResults)) {
-                throw new Exception('No matching project found');
+                $this->throwException('No matching project found', __METHOD__);
             }
         }
 

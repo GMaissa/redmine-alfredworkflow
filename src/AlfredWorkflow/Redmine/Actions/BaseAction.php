@@ -13,7 +13,9 @@
 namespace AlfredWorkflow\Redmine\Actions;
 
 use Alfred\Workflow;
+use AlfredWorkflow\Redmine;
 use AlfredWorkflow\Redmine\Storage\Settings;
+use Monolog\Logger;
 
 /**
  * Redmine Page actions class
@@ -88,5 +90,21 @@ abstract class BaseAction
     protected function getActionParam($param)
     {
         return isset($this->actions[$this->action][$param]) ? $this->actions[$this->action][$param] : false;
+    }
+
+    /**
+     * Throw an exception that will be catched by the \AlfredWorkflow\Redmine object
+     * to display the error message
+     *
+     * @param string  $message  message to log
+     * @param string  $method   method name that requested to throw the exception
+     * @param integer $logLevel log level
+     *
+     * @throws \AlfredWorkflow\Redmine\Actions\Exception
+     */
+    protected function throwException($message, $method, $logLevel = Logger::DEBUG)
+    {
+        Redmine::log(sprintf('%s: %s', $method, $message), $logLevel);
+        throw new Exception($message);
     }
 }
