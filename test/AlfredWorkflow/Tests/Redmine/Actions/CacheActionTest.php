@@ -99,11 +99,9 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
             array($cacheEmpty, 'clear-cache', 'Cache cleared', $cacheEmpty),
             array($cacheMono,  'clear-cache', 'Cache cleared', $cacheEmpty),
             array($cacheMulti, 'clear-cache', 'Cache cleared', $cacheEmpty),
-            array($cacheEmpty, 'clear',       '',              $cacheEmpty),
-            array($cacheMono,  'clear',       '',              $cacheMono),
-            array($cacheMulti, 'clear',       '',              $cacheMulti),
         );
     }
+
     /**
      * Test save method for AlfredWorkflow\Redmine\Configure class
      *
@@ -133,5 +131,38 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
         unlink($tmpDir . $fileName);
 
         $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * Data provider for saveExceptionTest method
+     *
+     * @return array
+     */
+    public function saveExceptionTestDataProvider()
+    {
+        return array(
+            array('clear', '\AlfredWorkflow\Redmine\Actions\Exception', 'Cache action clear does not exists.'),
+        );
+    }
+
+    /**
+     * Test save method for AlfredWorkflow\Redmine\Configure class
+     *
+     * @covers AlfredWorkflow\Redmine
+     * @covers AlfredWorkflow\Redmine\Storage\Cache
+     * @covers AlfredWorkflow\Redmine\Storage\Json
+     * @covers AlfredWorkflow\Redmine\Actions\CacheAction
+     * @covers AlfredWorkflow\Redmine\Actions\BaseAction
+     * @dataProvider saveExceptionTestDataProvider
+     * @test
+     */
+    public function saveExceptionTest($input, $expectedClass, $expectedMsg)
+    {
+        $this->setExpectedException(
+            $expectedClass, $expectedMsg
+        );
+        $redmine = new Redmine(new Settings('test'), new Workflow(), new Cache('test'));
+        $redmine->save('cache', $input);
+
     }
 }

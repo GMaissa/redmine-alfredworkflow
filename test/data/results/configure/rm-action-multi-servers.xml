@@ -16,4 +16,12 @@
     <icon>assets/icons/remove.png</icon>
     <autocomplete></autocomplete>
   </item>
+  <item uid="" arg="rm test4" title="Remove Redmine server 4 configuration" subtitle="" valid="yes" autocomplete="">
+    <uid></uid>
+    <arg>rm test4</arg>
+    <title>Remove Redmine server 4 configuration</title>
+    <subtitle></subtitle>
+    <icon>assets/icons/remove.png</icon>
+    <autocomplete></autocomplete>
+  </item>
 </items>

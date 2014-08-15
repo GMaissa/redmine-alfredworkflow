@@ -112,11 +112,12 @@ class ConfigActionTest extends \PHPUnit_Framework_TestCase
         $configEmpty              = __DIR__ . self::TEST_ASSETS_PATH . 'config/empty/';
         $configMono               = __DIR__ . self::TEST_ASSETS_PATH . 'config/mono-server/';
         $configMulti              = __DIR__ . self::TEST_ASSETS_PATH . 'config/multi-servers/';
+        $configTwoServers         = __DIR__ . self::TEST_ASSETS_PATH . 'config/2-servers/';
         return array(
-            array($configEmpty, 'add test1 http://redmine.test1.com api-key-test1 Redmine server 1', 'Configuration added',   $configMono),
-            array($configMono,  'add test2 http://redmine.test2.com api-key-test2 Redmine server 2', 'Configuration added',   $configMulti),
-            array($configMono,  'rm test1',                                                          'Configuration removed', $configEmpty),
-            array($configMulti, 'rm test2',                                                          'Configuration removed', $configMono),
+            array($configEmpty,      'add test1 http://redmine.test1.com api-key-test1 Redmine server 1', 'Configuration added',   $configMono),
+            array($configMono,       'add test2 http://redmine.test2.com api-key-test2 Redmine server 2', 'Configuration added',   $configTwoServers),
+            array($configMono,       'rm test1',                                                          'Configuration removed', $configEmpty),
+            array($configTwoServers, 'rm test2',                                                          'Configuration removed', $configMono),
         );
     }
     /**

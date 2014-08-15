@@ -13,6 +13,7 @@
 namespace AlfredWorkflow;
 
 use Alfred\Workflow;
+use AlfredWorkflow\Redmine\Actions\Exception;
 use AlfredWorkflow\Redmine\Storage\Settings;
 
 /**
@@ -59,6 +60,10 @@ class Redmine
      */
     public function __construct(Settings $settings, Workflow $workflow, $cache = false, $clients = array())
     {
+        // Need this line to be sure that the php timezone is set before comparing dates
+        // Otherwise a notice can be triggered
+        date_default_timezone_set('Europe/Paris');
+
         $this->settings = $settings;
         $this->workflow = $workflow;
         $this->cache    = $cache;
@@ -84,15 +89,15 @@ class Redmine
      */
     public function run($actionGroup, $query)
     {
-        try{
+        try {
             $actionsObj = $this->factory($actionGroup);
             $actionsObj->run($query);
-        } catch (AlfredWorkflow\Redmine\Actions\Exception $exception) {
+        } catch (Exception $exception) {
             $this->workflow->result(
                 array(
-                    'title'    => 'No action for this query',
-                    'icon'     => 'assets/icons/error.png',
-                    'valid'    => 'no',
+                    'title' => $exception->getMessage(),
+                    'icon'  => 'assets/icons/warning.png',
+                    'valid' => 'no',
                 )
             );
         }

@@ -8,10 +8,5 @@
         "name": "Redmine server 2",
         "url": "http://redmine.test2.com",
         "api-key": "api-key-test2"
-    },
-    "test4":{
-        "name": "Redmine server 4",
-        "url": "http://redmine.test4.com",
-        "api-key": "api-key-test4"
     }
 }

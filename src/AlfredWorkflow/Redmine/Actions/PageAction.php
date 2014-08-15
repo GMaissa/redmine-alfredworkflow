@@ -13,6 +13,7 @@
 namespace AlfredWorkflow\Redmine\Actions;
 
 use Alfred\Workflow;
+use AlfredWorkflow\Redmine;
 use AlfredWorkflow\Redmine\Storage\Settings;
 use Redmine\Client;
 
@@ -109,6 +110,8 @@ class PageAction extends BaseAction
      * Run the workflow
      *
      * @param string $query Alfred query string
+     *
+     * @throws \AlfredWorkflow\Redmine\actions\Exception if no redmine server configured
      */
     public function run($query)
     {
@@ -116,7 +119,7 @@ class PageAction extends BaseAction
 
         // If there is no redmine server configured, ask the user to configure one
         if ($this->settings->nbRedmineServers() == 0) {
-            $this->promptSetupWorkflow();
+            throw new Exception('No redmine server configuration. Use "red conf" key first.');
             // If there is only one redmine server defined, no need to ask which one to us;
         } elseif ($this->settings->nbRedmineServers() == 1) {
             $this->redmineId = $this->settings->getDefaultRedmineId();
@@ -147,34 +150,19 @@ class PageAction extends BaseAction
      */
     protected function handleProjectActions($params)
     {
-        $projectPattern = array_key_exists(1, $params) ? trim($params[1]) : '';
+        $projectPattern = $this->extractDataFromArray($params, 1);
         $subAction      = $this->getActionParam('subAction');
 
         if ($subAction &&
             $projectPattern &&
             array_key_exists($projectPattern, $this->getProjectsData($projectPattern))
         ) {
-            $wikiPattern = array_key_exists(2, $params) ? trim($params[2]) : '';
+            $wikiPattern = $this->extractDataFromArray($params, 2);
             $this->promptWikiPages($projectPattern, $wikiPattern);
         } else {
             $autocomplete = $subAction ? true : false;
             $this->promptProjects($projectPattern, $autocomplete);
         }
-    }
-
-    /**
-     * Prompt the user to setup workflow
-     */
-    protected function promptSetupWorkflow()
-    {
-        $this->workflow->result(
-            array(
-                'title'    => 'No redmine server configuration',
-                'subtitle' => 'Please use "red config" key to setup the workflow',
-                'icon'     => 'assets/icons/config.png',
-                'valid'    => 'no',
-            )
-        );
     }
 
     /**
@@ -214,6 +202,8 @@ class PageAction extends BaseAction
      *
      * @param string $projectId   project identifier
      * @param string $wikiPattern wiki page identification pattern
+     *
+     * @throws \AlfredWorkflow\Redmine\actions\Exception if no wiki page found for project
      */
     protected function promptWikiPages($projectId, $wikiPattern)
     {
@@ -222,10 +212,10 @@ class PageAction extends BaseAction
         $config    = $this->actions['wiki'];
 
         // Check if there are results
-        if (isset($apiResult['wiki_pages'])) {
+        if (isset($apiResult['wiki_pages']) && count($apiResult['wiki_pages'])) {
             foreach ($apiResult['wiki_pages'] as $wikiPage) {
                 // If the title of the page matches the search pattern provided
-                if (!$wikiPattern || preg_match('/' . strtolower($wikiPattern) . '/', strtolower($wikiPage['title']))) {
+                if (preg_match('/' . strtolower($wikiPattern) . '/', strtolower($wikiPage['title']))) {
                     $pageTitle = $wikiPage['title'];
                     if (isset($wikiPage['parent'])) {
                         $pageTitle = $wikiPage['parent']['title'] . ' \ ' . $pageTitle;
@@ -239,13 +229,11 @@ class PageAction extends BaseAction
                     $this->workflow->result($result);
                 }
             }
+            if (!count($this->workflow->__get('results'))) {
+                throw new Exception('No matching wiki page found');
+            }
         } else {
-            $result = array(
-                'title' => 'No wiki pages for project ' . $projectId,
-                'icon'  => $config['icon'],
-                'valid' => 'no'
-            );
-            $this->workflow->result($result);
+            throw new Exception('No wiki pages for project ' . $projectId);
         }
     }
 
@@ -253,11 +241,13 @@ class PageAction extends BaseAction
      * Retrieve and format Redmine plateforms informations for Alfred
      *
      * @param string $redminePattern redmine identifier pattern
+     *
+     * @throws \AlfredWorkflow\Redmine\actions\Exception if no matching redmine config found
      */
     protected function promptRedmines($redminePattern)
     {
         foreach ($this->settings->getData() as $redKey => $redData) {
-            if ($redminePattern == '' || preg_match('/' . $redminePattern . '/', $redKey)) {
+            if (preg_match('/' . $redminePattern . '/', $redKey)) {
                 $this->workflow->result(
                     array(
                         'title'        => $redData['name'],
@@ -268,6 +258,9 @@ class PageAction extends BaseAction
                 );
             }
         }
+        if (!count($this->workflow->__get('results'))) {
+            throw new Exception('No matching redmine configuration found');
+        }
     }
 
     /**
@@ -276,10 +269,12 @@ class PageAction extends BaseAction
      * @param array $params workflow parameters
      *                      first param should be the action identifier and
      *                      second one should be the project identifier or the issue id
+     *
+     * @throws \AlfredWorkflow\Redmine\actions\Exception if no matching redmine action found
      */
     protected function promptRedmineActions($params)
     {
-        $actionPattern = array_key_exists(0, $params) ? $params[0] : false;
+        $actionPattern = $this->extractDataFromArray($params, 0);
 
         if ($actionPattern && array_key_exists($actionPattern, $this->actions)) {
             $this->action = $actionPattern;
@@ -293,7 +288,7 @@ class PageAction extends BaseAction
         } else {
             $redmineParam = ($this->settings->nbRedmineServers() > 1) ? $this->redmineId . ' ' : '';
             foreach ($this->actions as $action => $params) {
-                if (!$actionPattern || preg_match('/' . $actionPattern . '/', $action)) {
+                if (preg_match('/' . $actionPattern . '/', $action)) {
                     $this->workflow->result(
                         array(
                             'title'        => $params['title'],
@@ -303,6 +298,9 @@ class PageAction extends BaseAction
                         )
                     );
                 }
+            }
+            if (!count($this->workflow->__get('results'))) {
+                throw new Exception('No matching redmine action found');
             }
         }
     }
@@ -315,7 +313,7 @@ class PageAction extends BaseAction
     protected function getIssueNumber($params)
     {
         $redmine     = $this->settings->getDataForKey($this->redmineId);
-        $issueNumber = array_key_exists(1, $params) ? $params[1] : '';
+        $issueNumber = $this->extractDataFromArray($params, 1);
         $config      = $this->actions['issue'];
         $this->workflow->result(
             array(
@@ -334,6 +332,7 @@ class PageAction extends BaseAction
      *
      * @param string $identifierPattern project identifier matching pattern
      *
+     * @throws \AlfredWorkflow\Redmine\actions\Exception if no project found for redmine server
      * @return mixed
      */
     protected function getProjectsData($identifierPattern = null)
@@ -346,6 +345,10 @@ class PageAction extends BaseAction
         // @codeCoverageIgnoreEnd
 
         $matchingResults = $this->redmineProjectsCache[$redmineId];
+        if (!count($matchingResults)) {
+            throw new Exception('No project found for redmine server ' . $redmineId);
+        }
+
         if ($identifierPattern) {
             $matchingResults = array_filter(
                 $this->redmineProjectsCache[$redmineId],
@@ -353,6 +356,9 @@ class PageAction extends BaseAction
                     return preg_match('/' . $identifierPattern . '/', $project['identifier']);
                 }
             );
+            if (!count($matchingResults)) {
+                throw new Exception('No matching project found');
+            }
         }
 
         return $matchingResults;
@@ -402,9 +408,6 @@ class PageAction extends BaseAction
             $page++;
         } while (count($this->redmineProjectsCache[$redmineId]) < $result['total_count']);
 
-        // Need this line to be sure that the php timezone is set before comparing dates
-        // Otherwise a notice can be triggered
-        date_default_timezone_set('Europe/Paris');
         uasort(
             $this->redmineProjectsCache[$redmineId],
             function ($first, $second) {
@@ -415,5 +418,18 @@ class PageAction extends BaseAction
         if ($this->cache) {
             $this->cache->setData($this->redmineProjectsCache)->save();
         }
+    }
+
+    /**
+     * Extract data from array
+     *
+     * @param array  $array array from which to extract data
+     * @param string $key   array key to extract
+     *
+     * @return mixed
+     */
+    protected function extractDataFromArray($array, $key)
+    {
+        return array_key_exists($key, $array) ? $array[$key] : '';
     }
 }
