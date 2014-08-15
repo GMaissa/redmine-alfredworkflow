@@ -15,6 +15,7 @@ namespace AlfredWorkflow\Redmine\Actions;
 use Alfred\Workflow;
 use AlfredWorkflow\Redmine;
 use AlfredWorkflow\Redmine\Storage\Settings;
+use AlfredWorkflow\Redmine\Storage\Cache;
 use Monolog\Logger;
 
 /**
@@ -35,9 +36,9 @@ abstract class BaseAction
 
     /**
      * Workflow cache management object
-     * @var mixed $cache
+     * @var \AlfredWorkflow\Redmine\Storage\Cache $cache
      */
-    protected $cache = false;
+    protected $cache;
 
     /**
      * Selected workflow action
@@ -68,10 +69,10 @@ abstract class BaseAction
      *
      * @param \AlfredWorkflow\Redmine\Storage\Settings $settings Settings object
      * @param \Alfred\Workflow                         $workflow Alfred Workflow Api object
-     * @param mixed                                    $cache    Workflow Cache object
+     * @param \AlfredWorkflow\Redmine\Storage\Cache    $cache    Workflow Cache object
      * @param array                                    $clients  array of Redmine Client objects
      */
-    public function __construct(Settings $settings, Workflow $workflow, $cache = false, $clients = array())
+    public function __construct(Settings $settings, Workflow $workflow, Cache $cache, $clients = array())
     {
         $this->settings = $settings;
         $this->workflow = $workflow;

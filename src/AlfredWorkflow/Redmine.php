@@ -15,6 +15,7 @@ namespace AlfredWorkflow;
 use Alfred\Workflow;
 use AlfredWorkflow\Redmine\Actions\Exception;
 use AlfredWorkflow\Redmine\Storage\Settings;
+use AlfredWorkflow\Redmine\Storage\Cache;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -43,9 +44,9 @@ class Redmine
 
     /**
      * Workflow cache management object
-     * @var mixed $cache
+     * @var \AlfredWorkflow\Redmine\Storage\Cache $cache
      */
-    protected $cache = false;
+    protected $cache;
 
     /**
      * Array of Redmine Client object to communicate with Redmine servers
@@ -76,10 +77,10 @@ class Redmine
      *
      * @param \AlfredWorkflow\Redmine\Storage\Settings $settings Settings object
      * @param \Alfred\Workflow                         $workflow Alfred Workflow Api object
-     * @param mixed                                    $cache    Workflow Cache object
+     * @param \AlfredWorkflow\Redmine\Storage\Cache    $cache    Workflow Cache object
      * @param array                                    $clients  array of Redmine Client objects
      */
-    public function __construct(Settings $settings, Workflow $workflow, $cache = false, $clients = array())
+    public function __construct(Settings $settings, Workflow $workflow, Cache $cache, $clients = array())
     {
         // Need this line to be sure that the php timezone is set before comparing dates
         // Otherwise a notice can be triggered

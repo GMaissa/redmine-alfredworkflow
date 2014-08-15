@@ -15,6 +15,7 @@ namespace AlfredWorkflow\Tests\Redmine\Actions;
 use Alfred\Workflow;
 use AlfredWorkflow\Redmine;
 use AlfredWorkflow\Redmine\Storage\Settings;
+use AlfredWorkflow\Redmine\Storage\Cache;
 
 /**
  * Test class for AlfredWorkflow\Redmine\Actions\ConfigAction class
@@ -96,7 +97,7 @@ class ConfigActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testRun($config, $input, $expectedResultReturn)
     {
-        $redmine = new Redmine(new Settings('test', $config), new Workflow());
+        $redmine = new Redmine(new Settings('test', $config), new Workflow(), new Cache('test'));
         $result  = $redmine->run('config', $input);
 
         $this->assertEquals($expectedResultReturn, $result);
@@ -140,7 +141,7 @@ class ConfigActionTest extends \PHPUnit_Framework_TestCase
         }
         copy($configDir . $fileName, $tmpDir . $fileName);
 
-        $redmine = new Redmine(new Settings('test', $tmpDir), new Workflow());
+        $redmine = new Redmine(new Settings('test', $tmpDir), new Workflow(), new Cache('test'));
         $result  = $redmine->save('config', $input);
 
         $this->assertJsonStringEqualsJsonString(file_get_contents($expectedSettingsFile . $fileName), file_get_contents($tmpDir . $fileName));
