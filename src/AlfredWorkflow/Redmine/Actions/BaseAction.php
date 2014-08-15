@@ -107,4 +107,17 @@ abstract class BaseAction
         Redmine::log(sprintf('%s: %s', $method, $message), $logLevel);
         throw new Exception($message);
     }
+
+    /**
+     * Extract data from array
+     *
+     * @param array  $array array from which to extract data
+     * @param string $key   array key to extract
+     *
+     * @return mixed
+     */
+    protected function extractDataFromArray($array, $key)
+    {
+        return array_key_exists($key, $array) ? $array[$key] : '';
+    }
 }
