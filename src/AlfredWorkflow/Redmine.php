@@ -121,7 +121,20 @@ class Redmine
                     'valid' => 'no',
                 )
             );
+        // @codeCoverageIgnoreStart
+        } catch (\Exception $exception) {
+            self::log($exception->getMessage(), Logger::ERROR);
+            $this->workflow->result(
+                array(
+                    'arg'      => 'http://git.io/OZ_3vA',
+                    'title'    => 'An error occured',
+                    'subtitle' => 'Please submit an issue on http://git.io/OZ_3vA',
+                    'icon'     => 'assets/icons/warning.png',
+                    'valid'    => 'yes',
+                )
+            );
         }
+        // @codeCoverageIgnoreEnd
 
         return $this->workflow->toXML();
     }
@@ -146,11 +159,15 @@ class Redmine
      *
      * @param string $actionGroup action class identifier
      *
+     * @throws \Exception if the action class does not exists
      * @return object
      */
     protected function factory($actionGroup)
     {
         $className = "AlfredWorkflow\Redmine\Actions\\" . ucfirst($actionGroup) . 'Action';
+        if (!class_exists($className)) {
+            throw new \Exception(sprintf('Class %s not found', $className));
+        }
 
         return new $className($this->settings, $this->workflow, $this->cache, $this->redmineClient);
     }
