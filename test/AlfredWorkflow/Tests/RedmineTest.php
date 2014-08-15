@@ -30,14 +30,17 @@ use Monolog\Logger;
  */
 class RedmineTest extends \PHPUnit_Framework_TestCase
 {
-    protected $tmpDir   = '';
-    protected $bundleId = 'test';
+    protected $tmpDir      = '';
+    protected $tmpCacheDir = '';
+    protected $bundleId    = 'test';
 
     public function setUp()
     {
-        $this->tmpDir = __DIR__ . '/../../tmp/';
-        if (!file_exists($this->tmpDir)) {
-            mkdir($this->tmpDir, 0755, true);
+        defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
+        $this->tmpDir      = __DIR__ . '/../../tmp/';
+        $this->tmpCacheDir = $this->tmpDir . 'cache/';
+        if (!file_exists($this->tmpCacheDir)) {
+            mkdir($this->tmpCacheDir, 0755, true);
         }
     }
 
@@ -62,7 +65,7 @@ class RedmineTest extends \PHPUnit_Framework_TestCase
      */
     public function runExceptionTest($actionGroup, $query)
     {
-        $redmine = new Redmine(new Settings($this->bundleId), new Workflow(), new Cache($this->bundleId));
+        $redmine = new Redmine(new Settings($this->bundleId), new Workflow(), new Cache($this->bundleId, $this->tmpDir . '/cache'));
         $result  = $redmine->run($actionGroup, $query);
 
         $this->assertContains('An error occured', $result);
@@ -98,7 +101,7 @@ class RedmineTest extends \PHPUnit_Framework_TestCase
     {
         $testMsg  = 'Test message';
         $handler  = $this->initLoggerHandler($debug);
-        $redmine  = new Redmine(new Settings($this->bundleId), new Workflow(), new Cache($this->bundleId));
+        $redmine  = new Redmine(new Settings($this->bundleId), new Workflow(), new Cache($this->bundleId, $this->tmpCacheDir));
         $redmine->setDebug($debug);
         $redmine->setLoggerHandler($handler);
         $redmine->log($testMsg, $msgLevel);
@@ -134,5 +137,10 @@ class RedmineTest extends \PHPUnit_Framework_TestCase
         }
 
         return new TestHandler($level);
+    }
+
+    public function tearDown()
+    {
+        exec('rm -rf ' . $this->tmpDir);
     }
 }

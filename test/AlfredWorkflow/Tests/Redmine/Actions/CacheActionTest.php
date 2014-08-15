@@ -28,14 +28,17 @@ use AlfredWorkflow\Redmine\Storage\Cache;
 class CacheActionTest extends \PHPUnit_Framework_TestCase
 {
     protected $tmpDir        = '';
+    protected $tmpCacheDir   = '';
     protected $bundleId      = 'test';
     const TEST_ASSETS_PATH   = '/../../../../data/';
 
     public function setUp()
     {
-        $this->tmpDir = __DIR__ . '/../../../../tmp/';
-        if (!file_exists($this->tmpDir)) {
-            mkdir($this->tmpDir, 0755, true);
+        defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
+        $this->tmpDir      = __DIR__ . '/../../../../tmp/';
+        $this->tmpCacheDir = $this->tmpDir . 'cache/';
+        if (!file_exists($this->tmpCacheDir)) {
+            mkdir($this->tmpCacheDir, 0755, true);
         }
     }
 
@@ -79,7 +82,7 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testRun($config, $input, $expectedResultReturn)
     {
-        $redmine = new Redmine(new Settings('test', $config), new Workflow(), new Cache('test'));
+        $redmine = new Redmine(new Settings($this->bundleId, $config), new Workflow(), new Cache($this->bundleId, $this->tmpCacheDir));
         $result  = $redmine->run('cache', $input);
 
         $this->assertEquals($expectedResultReturn, $result);
@@ -117,13 +120,13 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
     {
         // Create a temporary file for test purpose
         $fileName = 'cache-projects.json';
-        $tmpDir = $this->tmpDir . basename($cacheDir) . '/';
+        $tmpDir = $this->tmpCacheDir . basename($cacheDir) . '/';
         if (!file_exists($tmpDir)) {
             mkdir($tmpDir, 0755, true);
         }
         copy($cacheDir . $fileName, $tmpDir . $fileName);
 
-        $redmine = new Redmine(new Settings('test'), new Workflow(), new Cache('test', $tmpDir));
+        $redmine = new Redmine(new Settings($this->bundleId), new Workflow(), new Cache($this->bundleId, $tmpDir));
         $result  = $redmine->save('cache', $input);
 
         $this->assertJsonStringEqualsJsonString(file_get_contents($expectedSettingsFile . $fileName), file_get_contents($tmpDir . $fileName));
@@ -161,8 +164,13 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(
             $expectedClass, $expectedMsg
         );
-        $redmine = new Redmine(new Settings('test'), new Workflow(), new Cache('test'));
+        $redmine = new Redmine(new Settings($this->bundleId), new Workflow(), new Cache($this->bundleId));
         $redmine->save('cache', $input);
 
+    }
+
+    public function tearDown()
+    {
+        exec('rm -rf ' . $this->tmpDir);
     }
 }

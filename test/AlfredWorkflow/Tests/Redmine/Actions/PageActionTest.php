@@ -27,13 +27,16 @@ use Alfred\Workflow;
  */
 class PageActionTest extends \PHPUnit_Framework_TestCase
 {
-    protected $tmpCacheDir   = '';
-    protected $bundleId      = 'test';
-    const TEST_ASSETS_PATH   = '/../../../../data/';
+    protected $tmpDir      = '';
+    protected $tmpCacheDir = '';
+    protected $bundleId    = 'test';
+    const TEST_ASSETS_PATH = '/../../../../data/';
 
     public function setUp()
     {
-        $this->tmpCacheDir   = __DIR__ . '/../../../../tmp/cache/';
+        defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
+        $this->tmpDir      = __DIR__ . '/../../../../tmp/';
+        $this->tmpCacheDir = $this->tmpDir . 'cache/';
         if (!file_exists($this->tmpCacheDir . $this->bundleId)) {
             mkdir($this->tmpCacheDir . $this->bundleId, 0755, true);
         }
@@ -46,9 +49,9 @@ class PageActionTest extends \PHPUnit_Framework_TestCase
      */
     public function getProjectsDataProvider()
     {
-        $configEmpty              = __DIR__ . self::TEST_ASSETS_PATH . 'config/empty';
-        $configMono               = __DIR__ . self::TEST_ASSETS_PATH . 'config/mono-server';
-        $configMulti              = __DIR__ . self::TEST_ASSETS_PATH . 'config/multi-servers';
+        $configEmpty              = __DIR__ . self::TEST_ASSETS_PATH . 'config/empty/';
+        $configMono               = __DIR__ . self::TEST_ASSETS_PATH . 'config/mono-server/';
+        $configMulti              = __DIR__ . self::TEST_ASSETS_PATH . 'config/multi-servers/';
         $apiProjectsTest1         = json_decode(file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'api/projects-test1.json'), true);
         $apiProjectsMonoServer    = array($apiProjectsTest1);
         $apiProjectsTest2         = json_decode(file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'api/projects-test2.json'), true);
@@ -175,7 +178,7 @@ class PageActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testRun($config, $input, $apiReturn, $expectedResult)
     {
-        $configArray = json_decode(file_get_contents($config . '/settings.json'), true);
+        $configArray = json_decode(file_get_contents($config . $this->bundleId . DS . 'settings.json'), true);
         $clients     = array();
 
         if (is_array($configArray) && count($configArray)) {
@@ -206,21 +209,11 @@ class PageActionTest extends \PHPUnit_Framework_TestCase
                 $project->expects($this->exactly(count($apiReturn['project'])))
                     ->method('all')
                     ->will($this->onConsecutiveCalls($apiReturn['project'][0], $apiReturn['project'][1], $apiReturn['project'][2]));
-                //->will(
-                //    $this->returnValueMap(
-                //        $apiReturn['project']
-                //    )
-                //);
 
             } else {
                 $project->expects($this->exactly(count($apiReturn['project'])))
                     ->method('all')
                     ->will($this->returnValue($apiReturn['project'][0]));
-                //->will(
-                //    $this->returnValueMap(
-                //        $apiReturn['project']
-                //    )
-                //);
             }
 
             if (count($apiReturn) == 2) {
@@ -234,7 +227,7 @@ class PageActionTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        $redmine = new Redmine(new Settings('test', $config), new Workflow(), new Cache('test', $this->tmpCacheDir), $clients);
+        $redmine = new Redmine(new Settings($this->bundleId, $config), new Workflow(), new Cache($this->bundleId, $this->tmpCacheDir), $clients);
         $result  = $redmine->run('page', $input);
 
         $this->assertEquals($expectedResult, $result);
@@ -242,6 +235,6 @@ class PageActionTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        exec('rm -rf ' . $this->tmpCacheDir);
+        exec('rm -rf ' . $this->tmpDir);
     }
 }
