@@ -231,10 +231,14 @@ class PageAction extends BaseAction
             }
             if (!count($this->workflow->__get('results'))) {
                 $this->throwException('No matching wiki page found', __METHOD__);
+                // @codeCoverageIgnoreStart
             }
+            // @codeCoverageIgnoreEnd
         } else {
             $this->throwException('No wiki pages for project ' . $projectId, __METHOD__, Logger::WARNING);
+            // @codeCoverageIgnoreStart
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -260,7 +264,9 @@ class PageAction extends BaseAction
         }
         if (!count($this->workflow->__get('results'))) {
             $this->throwException('No matching redmine configuration found', __METHOD__);
+            // @codeCoverageIgnoreStart
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -301,7 +307,9 @@ class PageAction extends BaseAction
             }
             if (!count($this->workflow->__get('results'))) {
                 $this->throwException('No matching redmine action found', __METHOD__);
+                // @codeCoverageIgnoreStart
             }
+            // @codeCoverageIgnoreEnd
         }
     }
 
@@ -347,7 +355,9 @@ class PageAction extends BaseAction
         $matchingResults = $this->redmineProjectsCache[$redmineId];
         if (!count($matchingResults)) {
             $this->throwException('No project found for redmine server ' . $redmineId, __METHOD__, Logger::WARNING);
+            // @codeCoverageIgnoreStart
         }
+        // @codeCoverageIgnoreEnd
 
         if ($identifierPattern) {
             $matchingResults = array_filter(
@@ -358,7 +368,9 @@ class PageAction extends BaseAction
             );
             if (!count($matchingResults)) {
                 $this->throwException('No matching project found', __METHOD__);
+                // @codeCoverageIgnoreStart
             }
+            // @codeCoverageIgnoreEnd
         }
 
         return $matchingResults;
