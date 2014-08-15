@@ -172,7 +172,7 @@ abstract class Json
         $this->bundle = $bundleId;
 
         if ($dataPath) {
-            $this->dataPath = $dataPath;
+            $this->dataPath = $dataPath . DS . $this->bundle;
         } else {
             // @codeCoverageIgnoreStart
             $this->dataPath = $this->home . $this->alfredDataPath . DS . $this->bundle;
@@ -195,8 +195,10 @@ abstract class Json
     public function load()
     {
         if (!$this->dataFile) {
+            // @codeCoverageIgnoreStart
             throw new Exception('You need to define a data filename');
         }
+        // @codeCoverageIgnoreEnd
 
         if ($this->fSys->exists($this->dataPath . $this->dataFile) &&
             file_get_contents($this->dataPath . $this->dataFile) != ''

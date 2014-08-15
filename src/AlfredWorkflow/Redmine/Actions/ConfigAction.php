@@ -137,9 +137,13 @@ class ConfigAction extends BaseAction
             throw new Exception('Redmine URL ' . $params[1] . ' not valid');
         }
         if (isset($params[3])) {
-            $tmpClient = new Client($params[1], $params[2]);
+            if (!isset($this->redmineClient[$params[0]])) {
+                // @codeCoverageIgnoreStart
+                $this->redmineClient[$params[0]] = new Client($params[1], $params[2]);
+            }
+            // @codeCoverageIgnoreEnd
             try {
-                $response = $tmpClient->api('user')->getCurrentUser();
+                $response = $this->redmineClient[$params[0]]->api('user')->getCurrentUser();
                 if (!$response) {
                     throw new Exception(
                         'Impossible to connect to the Redmine server with the URL and api-key provided'
