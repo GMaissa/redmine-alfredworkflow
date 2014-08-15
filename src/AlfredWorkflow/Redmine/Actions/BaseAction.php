@@ -26,12 +26,6 @@ use AlfredWorkflow\Redmine\Storage\Settings;
 abstract class BaseAction
 {
     /**
-     * Indicates if we are in debug mode
-     * @var bool $debug
-     */
-    protected $debug = true;
-
-    /**
      * Workflow settings
      * @var \AlfredWorkflow\Redmine\Storage\Settings $settings
      */

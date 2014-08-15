@@ -12,6 +12,9 @@
 
 namespace AlfredWorkflow\Redmine\Actions;
 
+use AlfredWorkflow\Redmine;
+use Monolog\Logger;
+
 /**
  * Redmine Workflow Configuration class
  *
@@ -71,6 +74,7 @@ class CacheAction extends BaseAction
         if ('clear-cache' == $action && $this->cache->setData(array())->save()) {
             $return = 'Cache cleared';
         } else {
+            Redmine::log(sprintf('%s: cache action "%s" does not exists', __METHOD__, $action), Logger::ERROR);
             throw new Exception(sprintf('Cache action %s does not exists.', $action));
         }
 

@@ -15,6 +15,7 @@ namespace AlfredWorkflow\Redmine\Actions;
 use Alfred\Workflow;
 use AlfredWorkflow\Redmine;
 use AlfredWorkflow\Redmine\Storage\Settings;
+use Monolog\Logger;
 use Redmine\Client;
 
 /**
@@ -119,6 +120,7 @@ class PageAction extends BaseAction
 
         // If there is no redmine server configured, ask the user to configure one
         if ($this->settings->nbRedmineServers() == 0) {
+            Redmine::log(sprintf('%s: No worflow configuration set', __METHOD__), Logger::DEBUG);
             throw new Exception('No redmine server configuration. Use "red conf" key first.');
             // If there is only one redmine server defined, no need to ask which one to us;
         } elseif ($this->settings->nbRedmineServers() == 1) {
@@ -233,6 +235,7 @@ class PageAction extends BaseAction
                 throw new Exception('No matching wiki page found');
             }
         } else {
+            Redmine::log(sprintf('%s: no wiki page for project %s', __METHOD__, $projectId));
             throw new Exception('No wiki pages for project ' . $projectId);
         }
     }
@@ -346,6 +349,7 @@ class PageAction extends BaseAction
 
         $matchingResults = $this->redmineProjectsCache[$redmineId];
         if (!count($matchingResults)) {
+            Redmine::log(sprintf('%s: no project for redmine server %s', __METHOD__, $redmineId), Logger::WARNING);
             throw new Exception('No project found for redmine server ' . $redmineId);
         }
 
