@@ -111,7 +111,6 @@ class ConfigActionTest extends \PHPUnit_Framework_TestCase
     {
         $configEmpty              = __DIR__ . self::TEST_ASSETS_PATH . 'config/empty/';
         $configMono               = __DIR__ . self::TEST_ASSETS_PATH . 'config/mono-server/';
-        $configMulti              = __DIR__ . self::TEST_ASSETS_PATH . 'config/multi-servers/';
         $configTwoServers         = __DIR__ . self::TEST_ASSETS_PATH . 'config/2-servers/';
         return array(
             array($configEmpty,      'add test1 http://redmine.test1.com api-key-test1 Redmine server 1', 'Configuration added',   $configMono),
