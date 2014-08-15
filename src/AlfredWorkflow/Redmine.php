@@ -14,9 +14,10 @@ namespace AlfredWorkflow;
 
 use Alfred\Workflow;
 use AlfredWorkflow\Redmine\Actions\Exception;
-use AlfredWorkflow\Redmine\Storage\Settings;
 use AlfredWorkflow\Redmine\Storage\Cache;
+use AlfredWorkflow\Redmine\Storage\Settings;
 use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\AbstractHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
@@ -73,6 +74,12 @@ class Redmine
     protected static $logger = false;
 
     /**
+     * Logger handler object
+     * @var \Monolog\Handler\AbstractHandler $loggerHandler
+     */
+    protected static $loggerHandler;
+
+    /**
      * Class constructor
      *
      * @param \AlfredWorkflow\Redmine\Storage\Settings $settings Settings object
@@ -122,7 +129,6 @@ class Redmine
                     'valid' => 'no',
                 )
             );
-        // @codeCoverageIgnoreStart
         } catch (\Exception $exception) {
             self::log($exception->getMessage(), Logger::ERROR);
             $this->workflow->result(
@@ -135,7 +141,6 @@ class Redmine
                 )
             );
         }
-        // @codeCoverageIgnoreEnd
 
         return $this->workflow->toXML();
     }
@@ -156,7 +161,7 @@ class Redmine
     }
 
     /**
-     * Instanciate action class
+     * Instantiate action class
      *
      * @param string $actionGroup action class identifier
      *
@@ -188,16 +193,21 @@ class Redmine
             if (self::$debug) {
                 $level = Logger::DEBUG;
             }
-            $formatter     = new LineFormatter($output, $dateFormat);
-            $streamHandler = new StreamHandler(self::$logFile, $level);
-            $streamHandler->setFormatter($formatter);
+            $formatter = new LineFormatter($output, $dateFormat);
+            if (!self::$loggerHandler) {
+                self::$loggerHandler = new StreamHandler(self::$logFile, $level);
+            }
+            self::$loggerHandler->setFormatter($formatter);
 
             self::$logger = new Logger('REDMINE WORKFLOW');
-            self::$logger->pushHandler($streamHandler);
+            self::$logger->pushHandler(self::$loggerHandler);
         }
         switch ($msgLevel) {
             case Logger::DEBUG:
                 self::$logger->addDebug($message);
+                break;
+            case Logger::INFO:
+                self::$logger->addInfo($message);
                 break;
             case Logger::WARNING:
                 self::$logger->addWarning($message);
@@ -206,5 +216,25 @@ class Redmine
                 self::$logger->addError($message);
                 break;
         }
+    }
+
+    /**
+     * Set Logger object to use
+     *
+     * @param \Monolog\Handler\AbstractHandler
+     */
+    public function setLoggerHandler(AbstractHandler $loggerHandler)
+    {
+        self::$loggerHandler = $loggerHandler;
+    }
+
+    /**
+     * Enable / disable debug mode
+     *
+     * @param boolean $debug debug mode value
+     */
+    public function setDebug($debug)
+    {
+        self::$debug = $debug;
     }
 }
