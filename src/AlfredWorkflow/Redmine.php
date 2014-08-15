@@ -57,7 +57,7 @@ class Redmine
      * Indicates if we are in debug mode
      * @var bool $debug
      */
-    protected static $debug = true;
+    protected static $debug = false;
 
     /**
      * Debug log file
