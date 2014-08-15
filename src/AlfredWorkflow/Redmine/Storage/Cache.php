@@ -57,16 +57,6 @@ class Cache extends Json
     }
 
     /**
-     * Getter for data duration
-     *
-     * @return integer
-     */
-    public function getDataDuration()
-    {
-        return $this->dataDuration;
-    }
-
-    /**
      * Setter for data duration
      *
      * @param integer $duration data duration value
