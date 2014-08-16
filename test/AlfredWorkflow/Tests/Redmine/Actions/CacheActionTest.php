@@ -103,9 +103,9 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
         $cacheMono  = __DIR__ . self::TEST_ASSETS_PATH . 'cache/mono-server/';
         $cacheMulti = __DIR__ . self::TEST_ASSETS_PATH . 'cache/multi-servers/';
         return array(
-            array($cacheEmpty, 'clear-cache', 'Cache cleared', $cacheEmpty),
-            array($cacheMono,  'clear-cache', 'Cache cleared', $cacheEmpty),
-            array($cacheMulti, 'clear-cache', 'Cache cleared', $cacheEmpty),
+            array($cacheEmpty, 'clear', 'Cache cleared', $cacheEmpty),
+            array($cacheMono,  'clear', 'Cache cleared', $cacheEmpty),
+            array($cacheMulti, 'clear', 'Cache cleared', $cacheEmpty),
         );
     }
 
@@ -150,7 +150,7 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
     public function saveExceptionTestDataProvider()
     {
         return array(
-            array('clear', '\AlfredWorkflow\Redmine\Actions\Exception', 'Cache action clear does not exists.'),
+            array('clear-cache', '\AlfredWorkflow\Redmine\Actions\Exception', 'Cache action clear-cache does not exists.'),
         );
     }
 

@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <items>
-  <item uid="add" arg="" title="Add new Redmine server config" subtitle="" valid="no" autocomplete="add ">
+  <item uid="add" arg="" title="add" subtitle="Add new Redmine server config" valid="no" autocomplete="add ">
     <uid>add</uid>
     <arg></arg>
-    <title>Add new Redmine server config</title>
-    <subtitle></subtitle>
+    <title>add</title>
+    <subtitle>Add new Redmine server config</subtitle>
     <icon>assets/icons/add.png</icon>
     <autocomplete>add </autocomplete>
   </item>
-  <item uid="rm" arg="" title="Remove existing Redmine server config" subtitle="" valid="no" autocomplete="rm ">
-    <uid>rm</uid>
+  <item uid="remove" arg="" title="remove" subtitle="Remove existing Redmine server config" valid="no" autocomplete="remove ">
+    <uid>remove</uid>
     <arg></arg>
-    <title>Remove existing Redmine server config</title>
-    <subtitle></subtitle>
+    <title>remove</title>
+    <subtitle>Remove existing Redmine server config</subtitle>
     <icon>assets/icons/remove.png</icon>
-    <autocomplete>rm </autocomplete>
+    <autocomplete>remove </autocomplete>
   </item>
 </items>

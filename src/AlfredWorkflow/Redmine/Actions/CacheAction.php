@@ -30,10 +30,10 @@ class CacheAction extends BaseAction
      */
     protected $actions = array(
         'clear' => array(
-            'uid'      => 'clear-cache',
-            'arg'      => 'clear-cache',
-            'title'    => 'Clear workflow cache data',
-            'subtitle' => '',
+            'uid'      => 'clear',
+            'arg'      => 'clear',
+            'title'    => 'clear',
+            'subtitle' => 'Clear workflow cache data',
             'icon'     => 'assets/icons/clear-cache.png',
             'valid'    => 'yes'
         )
@@ -70,7 +70,7 @@ class CacheAction extends BaseAction
         $action = $params[0];
         $return = false;
 
-        if ('clear-cache' == $action && $this->cache->setData(array())->save()) {
+        if ('clear' == $action && $this->cache->setData(array())->save()) {
             $return = 'Cache cleared';
         } else {
             $this->throwException(sprintf('Cache action %s does not exists.', $action), __METHOD__, Logger::ERROR);

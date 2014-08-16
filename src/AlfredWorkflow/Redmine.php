@@ -120,7 +120,7 @@ class Redmine
     {
         try {
             $actionsObj = $this->factory($actionGroup);
-            $actionsObj->run($query);
+            $actionsObj->run(trim($query));
         } catch (Exception $exception) {
             $this->workflow->result(
                 array(
@@ -130,7 +130,7 @@ class Redmine
                 )
             );
         } catch (\Exception $exception) {
-            self::log($exception->getMessage(), Logger::ERROR);
+            self::log($exception->__toString(), Logger::ERROR);
             $this->workflow->result(
                 array(
                     'arg'      => 'http://git.io/OZ_3vA',
@@ -157,7 +157,7 @@ class Redmine
     {
         $actionsObj = $this->factory($actionGroup);
 
-        return $actionsObj->save($query);
+        return $actionsObj->save(trim($query));
     }
 
     /**
@@ -193,7 +193,7 @@ class Redmine
             if (self::$debug) {
                 $level = Logger::DEBUG;
             }
-            $formatter = new LineFormatter($output, $dateFormat);
+            $formatter = new LineFormatter($output, $dateFormat, true);
             if (!self::$loggerHandler) {
                 self::$loggerHandler = new StreamHandler(self::$logFile, $level);
             }
