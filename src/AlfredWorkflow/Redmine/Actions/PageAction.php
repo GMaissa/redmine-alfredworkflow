@@ -14,7 +14,6 @@ namespace AlfredWorkflow\Redmine\Actions;
 
 use Alfred\Workflow;
 use AlfredWorkflow\Redmine\Storage\Settings;
-use Monolog\Logger;
 use Redmine\Client;
 
 /**
