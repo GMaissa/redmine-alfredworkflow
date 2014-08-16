@@ -10,5 +10,6 @@ An [Alfred](http://alfredapp.com) workflow that speeds up access to Redmine proj
 # Documentation
 You can find the documentation, on how to install / configure / use this workflow, in the [wiki](https://github.com/GMaissa/redmine-alfredworkflow/wiki)
 
+# Download
 [![Get Redmine workflow](https://raw.github.com/hzlzh/AlfredWorkflow.com/master/index/css/images/downlaod-btn.png)](https://github.com/GMaissa/redmine-alfredworkflow/raw/master/Redmine.alfredworkflow)
 
