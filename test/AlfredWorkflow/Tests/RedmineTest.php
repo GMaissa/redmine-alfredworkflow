@@ -102,7 +102,7 @@ class RedmineTest extends \PHPUnit_Framework_TestCase
         $testMsg  = 'Test message';
         $handler  = $this->initLoggerHandler($debug);
         $redmine  = new Redmine(new Settings($this->bundleId), new Workflow(), new Cache($this->bundleId, $this->tmpCacheDir));
-        $redmine->setDebug($debug);
+        Redmine::setDebug($debug);
         $redmine->setLoggerHandler($handler);
         $redmine->log($testMsg, $msgLevel);
 

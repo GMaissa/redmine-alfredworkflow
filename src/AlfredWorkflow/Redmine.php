@@ -233,7 +233,7 @@ class Redmine
      *
      * @param boolean $debug debug mode value
      */
-    public function setDebug($debug)
+    public static function setDebug($debug)
     {
         self::$debug = $debug;
     }
