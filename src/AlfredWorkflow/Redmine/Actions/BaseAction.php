@@ -13,7 +13,10 @@
 namespace AlfredWorkflow\Redmine\Actions;
 
 use Alfred\Workflow;
+use AlfredWorkflow\Redmine;
 use AlfredWorkflow\Redmine\Storage\Settings;
+use AlfredWorkflow\Redmine\Storage\Cache;
+use Monolog\Logger;
 
 /**
  * Redmine Page actions class
@@ -26,12 +29,6 @@ use AlfredWorkflow\Redmine\Storage\Settings;
 abstract class BaseAction
 {
     /**
-     * Indicates if we are in debug mode
-     * @var bool $debug
-     */
-    protected $debug = true;
-
-    /**
      * Workflow settings
      * @var \AlfredWorkflow\Redmine\Storage\Settings $settings
      */
@@ -39,9 +36,9 @@ abstract class BaseAction
 
     /**
      * Workflow cache management object
-     * @var mixed $cache
+     * @var \AlfredWorkflow\Redmine\Storage\Cache $cache
      */
-    protected $cache = false;
+    protected $cache;
 
     /**
      * Selected workflow action
@@ -72,10 +69,10 @@ abstract class BaseAction
      *
      * @param \AlfredWorkflow\Redmine\Storage\Settings $settings Settings object
      * @param \Alfred\Workflow                         $workflow Alfred Workflow Api object
-     * @param mixed                                    $cache    Workflow Cache object
+     * @param \AlfredWorkflow\Redmine\Storage\Cache    $cache    Workflow Cache object
      * @param array                                    $clients  array of Redmine Client objects
      */
-    public function __construct(Settings $settings, Workflow $workflow, $cache = false, $clients = array())
+    public function __construct(Settings $settings, Workflow $workflow, Cache $cache, $clients = array())
     {
         $this->settings = $settings;
         $this->workflow = $workflow;
@@ -94,5 +91,34 @@ abstract class BaseAction
     protected function getActionParam($param)
     {
         return isset($this->actions[$this->action][$param]) ? $this->actions[$this->action][$param] : false;
+    }
+
+    /**
+     * Throw an exception that will be catched by the \AlfredWorkflow\Redmine object
+     * to display the error message
+     *
+     * @param string  $message  message to log
+     * @param string  $method   method name that requested to throw the exception
+     * @param integer $logLevel log level
+     *
+     * @throws \AlfredWorkflow\Redmine\Actions\Exception
+     */
+    protected function throwException($message, $method, $logLevel = Logger::DEBUG)
+    {
+        Redmine::log(sprintf('%s: %s', $method, $message), $logLevel);
+        throw new Exception($message);
+    }
+
+    /**
+     * Extract data from array
+     *
+     * @param array  $array array from which to extract data
+     * @param string $key   array key to extract
+     *
+     * @return mixed
+     */
+    protected function extractDataFromArray($array, $key)
+    {
+        return array_key_exists($key, $array) ? $array[$key] : '';
     }
 }

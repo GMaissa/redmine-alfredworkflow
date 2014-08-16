@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<items>
+  <item uid="" arg="" title="Add new Redmine server config" subtitle="Impossible to connect to the Redmine server with the URL and api-key provided" valid="no" autocomplete="add test http://redmine.test.com wrong-key Redmine Server ">
+    <uid></uid>
+    <arg></arg>
+    <title>Add new Redmine server config</title>
+    <subtitle>Impossible to connect to the Redmine server with the URL and api-key provided</subtitle>
+    <icon>assets/icons/add.png</icon>
+    <autocomplete>add test http://redmine.test.com wrong-key Redmine Server </autocomplete>
+  </item>
+</items>

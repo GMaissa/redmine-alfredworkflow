@@ -28,14 +28,17 @@ use AlfredWorkflow\Redmine\Storage\Cache;
 class CacheActionTest extends \PHPUnit_Framework_TestCase
 {
     protected $tmpDir        = '';
+    protected $tmpCacheDir   = '';
     protected $bundleId      = 'test';
     const TEST_ASSETS_PATH   = '/../../../../data/';
 
     public function setUp()
     {
-        $this->tmpDir = __DIR__ . '/../../../../tmp/';
-        if (!file_exists($this->tmpDir)) {
-            mkdir($this->tmpDir, 0755, true);
+        defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
+        $this->tmpDir      = __DIR__ . '/../../../../tmp/';
+        $this->tmpCacheDir = $this->tmpDir . 'cache/';
+        if (!file_exists($this->tmpCacheDir)) {
+            mkdir($this->tmpCacheDir, 0755, true);
         }
     }
 
@@ -49,20 +52,23 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
         $configEmpty = __DIR__ . self::TEST_ASSETS_PATH . 'config/empty/';
         $configMono  = __DIR__ . self::TEST_ASSETS_PATH . 'config/mono-server/';
         $configMulti = __DIR__ . self::TEST_ASSETS_PATH . 'config/multi-servers/';
+        $cacheEmpty  = __DIR__ . self::TEST_ASSETS_PATH . 'cache/empty/';
+        $cacheMono   = __DIR__ . self::TEST_ASSETS_PATH . 'cache/mono-server/';
+        $cacheMulti  = __DIR__ . self::TEST_ASSETS_PATH . 'cache/multi-servers/';
         $allActions  = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/cache/all-actions.xml');
         return array(
-            array($configEmpty, '',            $allActions),
-            array($configMono,  '',            $allActions),
-            array($configMulti, '',            $allActions),
-            array($configEmpty, ' ',           $allActions),
-            array($configMono,  ' ',           $allActions),
-            array($configMulti, ' ',           $allActions),
-            array($configEmpty, 'clear',       $allActions),
-            array($configMono,  'clear',       $allActions),
-            array($configMulti, 'clear',       $allActions),
-            array($configEmpty, 'clear-cache', $allActions),
-            array($configMono,  'clear-cache', $allActions),
-            array($configMulti, 'clear-cache', $allActions),
+            array($configEmpty, '',            $cacheEmpty, $allActions),
+            array($configMono,  '',            $cacheMono,  $allActions),
+            array($configMulti, '',            $cacheMulti, $allActions),
+            array($configEmpty, ' ',           $cacheEmpty, $allActions),
+            array($configMono,  ' ',           $cacheMono,  $allActions),
+            array($configMulti, ' ',           $cacheMulti, $allActions),
+            array($configEmpty, 'clear',       $cacheEmpty, $allActions),
+            array($configMono,  'clear',       $cacheMono,  $allActions),
+            array($configMulti, 'clear',       $cacheMulti, $allActions),
+            array($configEmpty, 'clear-cache', $cacheEmpty, $allActions),
+            array($configMono,  'clear-cache', $cacheMono,  $allActions),
+            array($configMulti, 'clear-cache', $cacheMulti, $allActions),
         );
     }
 
@@ -77,9 +83,10 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
      * @dataProvider runTestDataProvider
      * @test
      */
-    public function testRun($config, $input, $expectedResultReturn)
+    public function testRun($config, $input, $cacheDir, $expectedResultReturn)
     {
-        $redmine = new Redmine(new Settings('test', $config), new Workflow(), new Cache('test'));
+        Cache::setDataDuration(10);
+        $redmine = new Redmine(new Settings($this->bundleId, $config), new Workflow(), new Cache($this->bundleId, $cacheDir));
         $result  = $redmine->run('cache', $input);
 
         $this->assertEquals($expectedResultReturn, $result);
@@ -99,11 +106,9 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
             array($cacheEmpty, 'clear-cache', 'Cache cleared', $cacheEmpty),
             array($cacheMono,  'clear-cache', 'Cache cleared', $cacheEmpty),
             array($cacheMulti, 'clear-cache', 'Cache cleared', $cacheEmpty),
-            array($cacheEmpty, 'clear',       '',              $cacheEmpty),
-            array($cacheMono,  'clear',       '',              $cacheMono),
-            array($cacheMulti, 'clear',       '',              $cacheMulti),
         );
     }
+
     /**
      * Test save method for AlfredWorkflow\Redmine\Configure class
      *
@@ -118,20 +123,60 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
     public function saveTest($cacheDir, $input, $expectedResult, $expectedSettingsFile)
     {
         // Create a temporary file for test purpose
-        $fileName = 'cache-projects.json';
-        $tmpDir = $this->tmpDir . basename($cacheDir) . '/';
-        if (!file_exists($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
+        $fileName = 'projects.json';
+        $tmpDir = $this->tmpCacheDir . basename($cacheDir) . '/';
+        if (!file_exists($tmpDir . $this->bundleId)) {
+            mkdir($tmpDir . $this->bundleId, 0755, true);
         }
-        copy($cacheDir . $fileName, $tmpDir . $fileName);
+        copy($cacheDir . $this->bundleId . DS . $fileName, $tmpDir . $this->bundleId . DS . $fileName);
 
-        $redmine = new Redmine(new Settings('test'), new Workflow(), new Cache('test', $tmpDir));
+        $redmine = new Redmine(new Settings($this->bundleId), new Workflow(), new Cache($this->bundleId, $tmpDir));
+        $redmine->setDebug(true);
         $result  = $redmine->save('cache', $input);
 
-        $this->assertJsonStringEqualsJsonString(file_get_contents($expectedSettingsFile . $fileName), file_get_contents($tmpDir . $fileName));
-        // Remove the temporary cache file
-        unlink($tmpDir . $fileName);
+        $this->assertJsonStringEqualsJsonString(
+            file_get_contents($expectedSettingsFile . $this->bundleId . DS . $fileName),
+            file_get_contents($tmpDir . $this->bundleId . DS . $fileName)
+        );
 
         $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * Data provider for saveExceptionTest method
+     *
+     * @return array
+     */
+    public function saveExceptionTestDataProvider()
+    {
+        return array(
+            array('clear', '\AlfredWorkflow\Redmine\Actions\Exception', 'Cache action clear does not exists.'),
+        );
+    }
+
+    /**
+     * Test save method for AlfredWorkflow\Redmine\Configure class
+     *
+     * @covers AlfredWorkflow\Redmine
+     * @covers AlfredWorkflow\Redmine\Storage\Cache
+     * @covers AlfredWorkflow\Redmine\Storage\Json
+     * @covers AlfredWorkflow\Redmine\Actions\CacheAction
+     * @covers AlfredWorkflow\Redmine\Actions\BaseAction
+     * @dataProvider saveExceptionTestDataProvider
+     * @test
+     */
+    public function saveExceptionTest($input, $expectedClass, $expectedMsg)
+    {
+        $this->setExpectedException(
+            $expectedClass, $expectedMsg
+        );
+        $redmine = new Redmine(new Settings($this->bundleId), new Workflow(), new Cache($this->bundleId));
+        $redmine->save('cache', $input);
+
+    }
+
+    public function tearDown()
+    {
+        exec('rm -rf ' . $this->tmpDir);
     }
 }

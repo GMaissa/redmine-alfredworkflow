@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <items>
-  <item uid="" arg="" title="No wiki pages for project theproject-2-test1" subtitle="" valid="no" autocomplete="">
+  <item uid="" arg="" title="No matching redmine configuration found" subtitle="" valid="no" autocomplete="">
     <uid></uid>
     <arg></arg>
-    <title>No wiki pages for project theproject-2-test1</title>
+    <title>No matching redmine configuration found</title>
     <subtitle></subtitle>
     <icon>assets/icons/warning.png</icon>
     <autocomplete></autocomplete>
