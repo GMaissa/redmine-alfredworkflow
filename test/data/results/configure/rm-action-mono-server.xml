@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <items>
-  <item uid="" arg="rm test1" title="Remove Redmine server 1 configuration" subtitle="" valid="yes" autocomplete="">
+  <item uid="" arg="remove test1" title="test1" subtitle="Remove Redmine server 1 configuration" valid="yes" autocomplete="">
     <uid></uid>
-    <arg>rm test1</arg>
-    <title>Remove Redmine server 1 configuration</title>
-    <subtitle></subtitle>
+    <arg>remove test1</arg>
+    <title>test1</title>
+    <subtitle>Remove Redmine server 1 configuration</subtitle>
     <icon>assets/icons/remove.png</icon>
     <autocomplete></autocomplete>
   </item>

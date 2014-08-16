@@ -34,7 +34,7 @@ class ConfigAction extends BaseAction
             'name'   => 'Add new Redmine server config',
             'icon'   => 'assets/icons/add.png'
         ),
-        'rm'  => array(
+        'remove'  => array(
             'method' => 'removeRedmine',
             'name'   => 'Remove existing Redmine server config',
             'icon'   => 'assets/icons/remove.png'
@@ -62,16 +62,18 @@ class ConfigAction extends BaseAction
             );
         } else {
             foreach ($this->actions as $identifier => $config) {
-                $result = array(
-                    'uid'          => $identifier,
-                    'arg'          => '',
-                    'title'        => $config['name'],
-                    'subtitle'     => '',
-                    'icon'         => $config['icon'],
-                    'valid'        => 'no',
-                    'autocomplete' => sprintf('%s ', $identifier)
-                );
-                $this->workflow->result($result);
+                if (preg_match('/' . $actionPattern . '/', $identifier)) {
+                    $result = array(
+                        'uid'          => $identifier,
+                        'arg'          => '',
+                        'title'        => $identifier,
+                        'subtitle'     => $config['name'],
+                        'icon'         => $config['icon'],
+                        'valid'        => 'no',
+                        'autocomplete' => sprintf('%s ', $identifier)
+                    );
+                    $this->workflow->result($result);
+                }
             }
         }
     }
@@ -163,17 +165,17 @@ class ConfigAction extends BaseAction
     protected function removeRedmine($params)
     {
         $redminePattern = array_key_exists(0, $params) ? $params[0] : null;
-        $actionConfig   = $this->actions['rm'];
+        $actionConfig   = $this->actions['remove'];
 
         if ($this->settings->hasDataForKey($redminePattern)) {
             $result = array(
                 'uid'      => '',
-                'arg'      => 'rm ' . $redminePattern,
-                'title'    => sprintf(
+                'arg'      => 'remove ' . $redminePattern,
+                'title'    => $redminePattern,
+                'subtitle' => sprintf(
                     'Remove %s configuration',
                     $this->settings->getRedmineParam($redminePattern, 'name')
                 ),
-                'subtitle' => '',
                 'icon'     => $actionConfig['icon'],
                 'valid'    => 'yes'
             );
@@ -182,9 +184,9 @@ class ConfigAction extends BaseAction
             foreach ($this->settings->getData() as $identifier => $config) {
                 $result = array(
                     'uid'      => '',
-                    'arg'      => 'rm ' . $identifier,
-                    'title'    => sprintf('Remove %s configuration', $config['name']),
-                    'subtitle' => '',
+                    'arg'      => 'remove ' . $identifier,
+                    'title'    => $identifier,
+                    'subtitle' => sprintf('Remove %s configuration', $config['name']),
                     'icon'     => $actionConfig['icon'],
                     'valid'    => 'yes'
                 );
@@ -198,7 +200,7 @@ class ConfigAction extends BaseAction
      *
      * @param string $query parameters for save actions, can be
      *                      "add <identifier> <url> <api-key> <name>"
-     *                      "rm <identifier>"
+     *                      "remove <identifier>"
      *
      * @return string
      */
@@ -211,7 +213,7 @@ class ConfigAction extends BaseAction
 
         if ('add' == $action && $this->settings->addRedmineConfig($params)) {
             $return = 'Configuration added';
-        } elseif ('rm' == $action && $this->settings->removeRedmineConfig($params[0])) {
+        } elseif ('remove' == $action && $this->settings->removeRedmineConfig($params[0])) {
             $return = 'Configuration removed';
         }
 

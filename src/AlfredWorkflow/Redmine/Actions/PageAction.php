@@ -176,7 +176,7 @@ class PageAction extends BaseAction
         $redmineParam = ($this->settings->nbRedmineServers() > 1) ? $this->redmineId . ' ' : '';
         $config       = $this->actions[$this->action];
 
-        $projects = array_slice($this->getProjectsData($projectPattern), 0, 10);
+        $projects = array_slice($this->getProjectsData($projectPattern), 0, 9);
         foreach ($projects as $identifier => $project) {
             $result = array(
                 'uid'      => $identifier,
@@ -253,7 +253,8 @@ class PageAction extends BaseAction
             if (preg_match('/' . $redminePattern . '/', $redKey)) {
                 $this->workflow->result(
                     array(
-                        'title'        => $redData['name'],
+                        'title'        => $redKey,
+                        'subtitle'     => $redData['name'],
                         'icon'         => 'assets/icons/redmine.png',
                         'valid'        => 'no',
                         'autocomplete' => sprintf('%s ', $redKey)
@@ -296,7 +297,8 @@ class PageAction extends BaseAction
                 if (preg_match('/' . $actionPattern . '/', $action)) {
                     $this->workflow->result(
                         array(
-                            'title'        => $params['title'],
+                            'title'        => $action,
+                            'subtitle'     => $params['title'],
                             'icon'         => $params['icon'],
                             'valid'        => $params['valid'],
                             'autocomplete' => sprintf('%s%s ', $redmineParam, $action)
@@ -362,7 +364,15 @@ class PageAction extends BaseAction
             $matchingResults = array_filter(
                 $this->redmineProjectsCache[$redmineId],
                 function ($project) use ($identifierPattern) {
-                    return preg_match('/' . $identifierPattern . '/', $project['identifier']);
+                    $identifier = preg_match(
+                        '/' . strtolower($identifierPattern) . '/',
+                        strtolower($project['identifier'])
+                    );
+                    $name       = preg_match(
+                        '/' . strtolower($identifierPattern) . '/',
+                        strtolower($project['identifier'])
+                    );
+                    return ($identifier || $name) ? true : false;
                 }
             );
             if (!count($matchingResults)) {

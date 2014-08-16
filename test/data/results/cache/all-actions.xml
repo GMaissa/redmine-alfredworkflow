@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <items>
-  <item uid="clear-cache" arg="clear-cache" title="Clear workflow cache data" subtitle="" valid="yes" autocomplete="">
-    <uid>clear-cache</uid>
-    <arg>clear-cache</arg>
-    <title>Clear workflow cache data</title>
-    <subtitle></subtitle>
+  <item uid="clear" arg="clear" title="clear" subtitle="Clear workflow cache data" valid="yes" autocomplete="">
+    <uid>clear</uid>
+    <arg>clear</arg>
+    <title>clear</title>
+    <subtitle>Clear workflow cache data</subtitle>
     <icon>assets/icons/clear-cache.png</icon>
     <autocomplete></autocomplete>
   </item>

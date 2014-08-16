@@ -56,18 +56,18 @@ class ConfigActionTest extends \PHPUnit_Framework_TestCase
         $rmActionMonoServer       = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/configure/rm-action-mono-server.xml');
         $rmActionMultiServers     = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/configure/rm-action-multi-servers.xml');
         return array(
-            array($configEmpty, '',          $allActions),
-            array($configEmpty, ' ',         $allActions),
-            array($configMono,  'rm',        $rmActionMonoServer),
-            array($configMono,  ' rm',       $rmActionMonoServer),
-            array($configMono,  'rm ',       $rmActionMonoServer),
-            array($configMono,  ' rm ',      $rmActionMonoServer),
-            array($configMono,  ' rm test1', $rmActionMonoServer),
-            array($configMulti, 'rm',        $rmActionMultiServers),
-            array($configMulti, ' rm',       $rmActionMultiServers),
-            array($configMulti, 'rm ',       $rmActionMultiServers),
-            array($configMulti, ' rm ',      $rmActionMultiServers),
-            array($configMulti, ' rm test1', $rmActionMonoServer),
+            array($configEmpty, '',              $allActions),
+            array($configEmpty, ' ',             $allActions),
+            array($configMono,  'remove',        $rmActionMonoServer),
+            array($configMono,  ' remove',       $rmActionMonoServer),
+            array($configMono,  'remove ',       $rmActionMonoServer),
+            array($configMono,  ' remove ',      $rmActionMonoServer),
+            array($configMono,  ' remove test1', $rmActionMonoServer),
+            array($configMulti, 'remove',        $rmActionMultiServers),
+            array($configMulti, ' remove',       $rmActionMultiServers),
+            array($configMulti, 'remove ',       $rmActionMultiServers),
+            array($configMulti, ' remove ',      $rmActionMultiServers),
+            array($configMulti, ' remove test1', $rmActionMonoServer),
         );
     }
 
@@ -189,8 +189,8 @@ class ConfigActionTest extends \PHPUnit_Framework_TestCase
         return array(
             array($configEmpty,      'add test1 http://redmine.test1.com api-key-test1 Redmine server 1', 'Configuration added',   $configMono),
             array($configMono,       'add test2 http://redmine.test2.com api-key-test2 Redmine server 2', 'Configuration added',   $configTwoServers),
-            array($configMono,       'rm test1',                                                          'Configuration removed', $configEmpty),
-            array($configTwoServers, 'rm test2',                                                          'Configuration removed', $configMono),
+            array($configMono,       'remove test1',                                                      'Configuration removed', $configEmpty),
+            array($configTwoServers, 'remove test2',                                                      'Configuration removed', $configMono),
         );
     }
     /**
