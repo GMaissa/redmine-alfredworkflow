@@ -235,7 +235,7 @@ class PageAction extends BaseAction
             }
             // @codeCoverageIgnoreEnd
         } else {
-            $this->throwException('No wiki pages for project ' . $projectId, __METHOD__, Logger::WARNING);
+            $this->throwException('No wiki pages for project ' . $projectId, __METHOD__);
             // @codeCoverageIgnoreStart
         }
         // @codeCoverageIgnoreEnd
@@ -354,7 +354,7 @@ class PageAction extends BaseAction
 
         $matchingResults = $this->redmineProjectsCache[$redmineId];
         if (!count($matchingResults)) {
-            $this->throwException('No project found for redmine server ' . $redmineId, __METHOD__, Logger::WARNING);
+            $this->throwException('No project found for redmine server ' . $redmineId, __METHOD__);
             // @codeCoverageIgnoreStart
         }
         // @codeCoverageIgnoreEnd
