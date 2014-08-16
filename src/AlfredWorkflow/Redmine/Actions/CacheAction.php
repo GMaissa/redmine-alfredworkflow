@@ -12,7 +12,6 @@
 
 namespace AlfredWorkflow\Redmine\Actions;
 
-use AlfredWorkflow\Redmine;
 use Monolog\Logger;
 
 /**

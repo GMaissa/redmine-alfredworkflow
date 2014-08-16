@@ -52,20 +52,23 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
         $configEmpty = __DIR__ . self::TEST_ASSETS_PATH . 'config/empty/';
         $configMono  = __DIR__ . self::TEST_ASSETS_PATH . 'config/mono-server/';
         $configMulti = __DIR__ . self::TEST_ASSETS_PATH . 'config/multi-servers/';
+        $cacheEmpty  = __DIR__ . self::TEST_ASSETS_PATH . 'cache/empty/';
+        $cacheMono   = __DIR__ . self::TEST_ASSETS_PATH . 'cache/mono-server/';
+        $cacheMulti  = __DIR__ . self::TEST_ASSETS_PATH . 'cache/multi-servers/';
         $allActions  = file_get_contents(__DIR__ . self::TEST_ASSETS_PATH . 'results/cache/all-actions.xml');
         return array(
-            array($configEmpty, '',            $allActions),
-            array($configMono,  '',            $allActions),
-            array($configMulti, '',            $allActions),
-            array($configEmpty, ' ',           $allActions),
-            array($configMono,  ' ',           $allActions),
-            array($configMulti, ' ',           $allActions),
-            array($configEmpty, 'clear',       $allActions),
-            array($configMono,  'clear',       $allActions),
-            array($configMulti, 'clear',       $allActions),
-            array($configEmpty, 'clear-cache', $allActions),
-            array($configMono,  'clear-cache', $allActions),
-            array($configMulti, 'clear-cache', $allActions),
+            array($configEmpty, '',            $cacheEmpty, $allActions),
+            array($configMono,  '',            $cacheMono,  $allActions),
+            array($configMulti, '',            $cacheMulti, $allActions),
+            array($configEmpty, ' ',           $cacheEmpty, $allActions),
+            array($configMono,  ' ',           $cacheMono,  $allActions),
+            array($configMulti, ' ',           $cacheMulti, $allActions),
+            array($configEmpty, 'clear',       $cacheEmpty, $allActions),
+            array($configMono,  'clear',       $cacheMono,  $allActions),
+            array($configMulti, 'clear',       $cacheMulti, $allActions),
+            array($configEmpty, 'clear-cache', $cacheEmpty, $allActions),
+            array($configMono,  'clear-cache', $cacheMono,  $allActions),
+            array($configMulti, 'clear-cache', $cacheMulti, $allActions),
         );
     }
 
@@ -80,9 +83,10 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
      * @dataProvider runTestDataProvider
      * @test
      */
-    public function testRun($config, $input, $expectedResultReturn)
+    public function testRun($config, $input, $cacheDir, $expectedResultReturn)
     {
-        $redmine = new Redmine(new Settings($this->bundleId, $config), new Workflow(), new Cache($this->bundleId, $this->tmpCacheDir));
+        Cache::setDataDuration(10);
+        $redmine = new Redmine(new Settings($this->bundleId, $config), new Workflow(), new Cache($this->bundleId, $cacheDir));
         $result  = $redmine->run('cache', $input);
 
         $this->assertEquals($expectedResultReturn, $result);
@@ -119,19 +123,21 @@ class CacheActionTest extends \PHPUnit_Framework_TestCase
     public function saveTest($cacheDir, $input, $expectedResult, $expectedSettingsFile)
     {
         // Create a temporary file for test purpose
-        $fileName = 'cache-projects.json';
+        $fileName = 'projects.json';
         $tmpDir = $this->tmpCacheDir . basename($cacheDir) . '/';
-        if (!file_exists($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
+        if (!file_exists($tmpDir . $this->bundleId)) {
+            mkdir($tmpDir . $this->bundleId, 0755, true);
         }
-        copy($cacheDir . $fileName, $tmpDir . $fileName);
+        copy($cacheDir . $this->bundleId . DS . $fileName, $tmpDir . $this->bundleId . DS . $fileName);
 
         $redmine = new Redmine(new Settings($this->bundleId), new Workflow(), new Cache($this->bundleId, $tmpDir));
+        $redmine->setDebug(true);
         $result  = $redmine->save('cache', $input);
 
-        $this->assertJsonStringEqualsJsonString(file_get_contents($expectedSettingsFile . $fileName), file_get_contents($tmpDir . $fileName));
-        // Remove the temporary cache file
-        unlink($tmpDir . $fileName);
+        $this->assertJsonStringEqualsJsonString(
+            file_get_contents($expectedSettingsFile . $this->bundleId . DS . $fileName),
+            file_get_contents($tmpDir . $this->bundleId . DS . $fileName)
+        );
 
         $this->assertEquals($expectedResult, $result);
     }

@@ -38,7 +38,7 @@ class Cache extends Json
      * Cache validity duration
      * @var integer $cacheDuration
      */
-    protected $dataDuration = 86400;
+    protected static $dataDuration = 86400;
 
     /**
      * Load file data
@@ -47,7 +47,7 @@ class Cache extends Json
     {
         if ($this->fSys->exists($this->dataPath . $this->dataFile) &&
             file_get_contents($this->dataPath . $this->dataFile) != '' &&
-            filemtime($this->dataPath . $this->dataFile) > time() - $this->dataDuration
+            filemtime($this->dataPath . $this->dataFile) > time() - self::$dataDuration
         ) {
             $tmpData = json_decode(file_get_contents($this->dataPath . $this->dataFile), true);
             if (is_array($tmpData)) {
@@ -61,10 +61,10 @@ class Cache extends Json
      *
      * @param integer $duration data duration value
      */
-    public function setDataDuration($duration)
+    public static function setDataDuration($duration)
     {
         if (is_int($duration)) {
-            $this->dataDuration = $duration;
+            self::$dataDuration = $duration;
         }
     }
 }
