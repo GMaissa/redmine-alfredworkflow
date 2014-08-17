@@ -121,4 +121,18 @@ abstract class BaseAction
     {
         return array_key_exists($key, $array) ? $array[$key] : '';
     }
+
+    /**
+     * Add a result to display if the identifier matches the search pattern
+     *
+     * @param string $identifier result identifier
+     * @param array  $params     result parameters
+     * @param mixed  $pattern    identifier matching pattern
+     */
+    protected function addResult($identifier, $params, $pattern = null)
+    {
+        if (preg_match('/' . strtolower($pattern) . '/', strtolower($identifier))) {
+            $this->workflow->result($params);
+        }
+    }
 }
