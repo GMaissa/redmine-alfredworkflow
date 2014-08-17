@@ -14,6 +14,7 @@ namespace AlfredWorkflow\Redmine\Actions;
 
 use Alfred\Workflow;
 use AlfredWorkflow\Redmine\Storage\Settings;
+use AlfredWorkflow\Redmine;
 use Redmine\Client;
 
 /**
@@ -191,8 +192,7 @@ class PageAction extends BaseAction
                 $result['valid']        = 'no';
                 $result['autocomplete'] = sprintf('%s%s %s ', $redmineParam, $this->action, $identifier);
             }
-
-            $this->workflow->result($result);
+            $this->addResult($identifier, $result);
         }
     }
 
@@ -211,30 +211,28 @@ class PageAction extends BaseAction
         $config    = $this->actions['wiki'];
 
         // Check if there are results
-        if (isset($apiResult['wiki_pages']) && count($apiResult['wiki_pages'])) {
-            foreach ($apiResult['wiki_pages'] as $wikiPage) {
-                // If the title of the page matches the search pattern provided
-                if (preg_match('/' . strtolower($wikiPattern) . '/', strtolower($wikiPage['title']))) {
-                    $pageTitle = $wikiPage['title'];
-                    if (isset($wikiPage['parent'])) {
-                        $pageTitle = $wikiPage['parent']['title'] . ' \ ' . $pageTitle;
-                    }
-                    $result = array(
-                        'arg'   => $redmine['url'] . '/projects/' . $projectId . '/wiki/' . $wikiPage['title'],
-                        'title' => $pageTitle,
-                        'icon'  => $config['icon'],
-                        'valid' => 'yes'
-                    );
-                    $this->workflow->result($result);
-                }
-            }
-            if (!count($this->workflow->__get('results'))) {
-                $this->throwException('No matching wiki page found', __METHOD__);
-                // @codeCoverageIgnoreStart
-            }
-            // @codeCoverageIgnoreEnd
-        } else {
+        if (!isset($apiResult['wiki_pages']) || !count($apiResult['wiki_pages'])) {
             $this->throwException('No wiki pages for project ' . $projectId, __METHOD__);
+            // @codeCoverageIgnoreStart
+        }
+        // @codeCoverageIgnoreEnd
+
+        foreach ($apiResult['wiki_pages'] as $wikiPage) {
+            $pageTitle = $wikiPage['title'];
+            if (isset($wikiPage['parent'])) {
+                $pageTitle = $wikiPage['parent']['title'] . ' \ ' . $pageTitle;
+            }
+            $result = array(
+                'arg'   => $redmine['url'] . '/projects/' . $projectId . '/wiki/' . $wikiPage['title'],
+                'title' => $pageTitle,
+                'icon'  => $config['icon'],
+                'valid' => 'yes'
+            );
+
+            $this->addResult($wikiPage['title'], $result, $wikiPattern);
+        }
+        if (!count($this->workflow->__get('results'))) {
+            $this->throwException('No matching wiki page found', __METHOD__);
             // @codeCoverageIgnoreStart
         }
         // @codeCoverageIgnoreEnd
@@ -250,17 +248,14 @@ class PageAction extends BaseAction
     protected function promptRedmines($redminePattern)
     {
         foreach ($this->settings->getData() as $redKey => $redData) {
-            if (preg_match('/' . $redminePattern . '/', $redKey)) {
-                $this->workflow->result(
-                    array(
-                        'title'        => $redKey,
-                        'subtitle'     => $redData['name'],
-                        'icon'         => 'assets/icons/redmine.png',
-                        'valid'        => 'no',
-                        'autocomplete' => sprintf('%s ', $redKey)
-                    )
-                );
-            }
+            $result = array(
+                'title'        => $redKey,
+                'subtitle'     => $redData['name'],
+                'icon'         => 'assets/icons/redmine.png',
+                'valid'        => 'no',
+                'autocomplete' => sprintf('%s ', $redKey)
+            );
+            $this->addResult($redKey, $result, $redminePattern);
         }
         if (!count($this->workflow->__get('results'))) {
             $this->throwException('No matching redmine configuration found', __METHOD__);
@@ -294,17 +289,14 @@ class PageAction extends BaseAction
         } else {
             $redmineParam = ($this->settings->nbRedmineServers() > 1) ? $this->redmineId . ' ' : '';
             foreach ($this->actions as $action => $params) {
-                if (preg_match('/' . $actionPattern . '/', $action)) {
-                    $this->workflow->result(
-                        array(
-                            'title'        => $action,
-                            'subtitle'     => $params['title'],
-                            'icon'         => $params['icon'],
-                            'valid'        => $params['valid'],
-                            'autocomplete' => sprintf('%s%s ', $redmineParam, $action)
-                        )
-                    );
-                }
+                $result = array(
+                    'title'        => $action,
+                    'subtitle'     => $params['title'],
+                    'icon'         => $params['icon'],
+                    'valid'        => $params['valid'],
+                    'autocomplete' => sprintf('%s%s ', $redmineParam, $action)
+                );
+                $this->addResult($action, $result, $actionPattern);
             }
             if (!count($this->workflow->__get('results'))) {
                 $this->throwException('No matching redmine action found', __METHOD__);
@@ -372,6 +364,7 @@ class PageAction extends BaseAction
                         '/' . strtolower($identifierPattern) . '/',
                         strtolower($project['identifier'])
                     );
+
                     return ($identifier || $name) ? true : false;
                 }
             );
@@ -413,6 +406,7 @@ class PageAction extends BaseAction
      */
     protected function loadRedmineData($redmineId)
     {
+        Redmine::log(sprintf('%s: Loading projects data for server %s', __METHOD__, $redmineId));
         $limit                                  = 100;
         $page                                   = 0;
         $this->redmineProjectsCache[$redmineId] = array();

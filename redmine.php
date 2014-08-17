@@ -12,6 +12,10 @@
 
 require_once( './vendor/autoload.php' );
 
+if (isset($debug)) {
+    AlfredWorkflow\Redmine::setDebug($debug);
+}
+
 $alfredWorkflow   = new Alfred\Workflow();
 $workflowSettings = new AlfredWorkflow\Redmine\Storage\Settings("com.gmaissa.redmine-workflow");
 $workflowCache    = new AlfredWorkflow\Redmine\Storage\Cache("com.gmaissa.redmine-workflow");

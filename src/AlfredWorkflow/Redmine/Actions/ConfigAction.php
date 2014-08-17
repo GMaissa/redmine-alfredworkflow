@@ -62,18 +62,16 @@ class ConfigAction extends BaseAction
             );
         } else {
             foreach ($this->actions as $identifier => $config) {
-                if (preg_match('/' . $actionPattern . '/', $identifier)) {
-                    $result = array(
-                        'uid'          => $identifier,
-                        'arg'          => '',
-                        'title'        => $identifier,
-                        'subtitle'     => $config['name'],
-                        'icon'         => $config['icon'],
-                        'valid'        => 'no',
-                        'autocomplete' => sprintf('%s ', $identifier)
-                    );
-                    $this->workflow->result($result);
-                }
+                $result = array(
+                    'uid'          => $identifier,
+                    'arg'          => '',
+                    'title'        => $identifier,
+                    'subtitle'     => $config['name'],
+                    'icon'         => $config['icon'],
+                    'valid'        => 'no',
+                    'autocomplete' => sprintf('%s ', $identifier)
+                );
+                $this->addResult($identifier, $result, $actionPattern);
             }
         }
     }
@@ -190,7 +188,7 @@ class ConfigAction extends BaseAction
                     'icon'     => $actionConfig['icon'],
                     'valid'    => 'yes'
                 );
-                $this->workflow->result($result);
+                $this->addResult($identifier, $result);
             }
         }
     }

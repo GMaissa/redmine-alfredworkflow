@@ -108,6 +108,8 @@
 EOD;
 $actionGroup = 'page';
 $method      = 'run';
+// Uncomment this line to enable debug mode
+//$debug       = true;
 
 require_once('redmine.php');</string>
 				<key>title</key>
@@ -139,6 +141,8 @@ require_once('redmine.php');</string>
 EOD;
 $actionGroup = 'config';
 $method      = 'run';
+// Uncomment this line to enable debug mode
+//$debug       = true;
 
 require_once('redmine.php');</string>
 				<key>title</key>
@@ -218,6 +222,8 @@ require_once('redmine.php');</string>
 EOD;
 $actionGroup = 'cache';
 $method      = 'run';
+// Uncomment this line to enable debug mode
+//$debug       = true;
 
 require_once('redmine.php');</string>
 				<key>title</key>

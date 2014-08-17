@@ -119,6 +119,7 @@ class Redmine
     public function run($actionGroup, $query)
     {
         try {
+            self::log(sprintf('Running %s action with query: %s', $actionGroup, $query));
             $actionsObj = $this->factory($actionGroup);
             $actionsObj->run(trim($query));
         } catch (Exception $exception) {
@@ -155,6 +156,7 @@ class Redmine
      */
     public function save($actionGroup, $query)
     {
+        self::log(sprintf('Saving action %s with query: %s', $actionGroup, $query));
         $actionsObj = $this->factory($actionGroup);
 
         return $actionsObj->save(trim($query));
