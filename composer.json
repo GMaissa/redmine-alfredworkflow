@@ -8,6 +8,12 @@
             "email": "guillaume@maissa.fr"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:GMaissa/phpcs-standards.git"
+        }
+    ],
     "require": {
         "kbsali/redmine-api": "1.4",
         "skyzyx/alfred-workflow-builder": "~1.0",
@@ -20,7 +26,8 @@
         "phpmd/phpmd": "~2.0",
         "sebastian/phpcpd": "~2.0",
         "squizlabs/php_codesniffer": "~1.5",
-        "scrutinizer/ocular": "~1.1"
+        "scrutinizer/ocular": "~1.1",
+        "gmaissa/phpcs-standards": "~1.0"
     },
     "autoload": {
         "psr-0": {

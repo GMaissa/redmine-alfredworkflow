@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e56730cfb04ed829a9e9ed1a0b3bf609",
+    "hash": "e31873902f07385f36c8a9b7835fd02a",
     "packages": [
         {
             "name": "camspiers/json-pretty",
@@ -515,6 +515,40 @@
                 "parser"
             ],
             "time": "2013-01-12 18:59:04"
+        },
+        {
+            "name": "gmaissa/phpcs-standards",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GMaissa/phpcs-standards.git",
+                "reference": "a27e4569a31a52b99a56183a53af26b28f09d74e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GMaissa/phpcs-standards/zipball/a27e4569a31a52b99a56183a53af26b28f09d74e",
+                "reference": "a27e4569a31a52b99a56183a53af26b28f09d74e",
+                "shasum": ""
+            },
+            "require": {
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "license": [
+                "OSL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Guillaume Maïssa",
+                    "email": "guillaume@maissa.fr"
+                }
+            ],
+            "description": "PHPCS Standards",
+            "support": {
+                "source": "https://github.com/GMaissa/phpcs-standards/tree/1.0.0",
+                "issues": "https://github.com/GMaissa/phpcs-standards/issues"
+            },
+            "time": "2014-08-24 20:41:14"
         },
         {
             "name": "guzzle/guzzle",
