@@ -126,7 +126,7 @@ class ConfigAction extends BaseAction
      *
      * @param array $params action parameters
      *
-     * @throws \AlfredWorkflow\Redmine\Actions\Exception is on of the parameters is invalid
+     * @throws Exception is on of the parameters is invalid
      */
     protected function testAddParams($params)
     {

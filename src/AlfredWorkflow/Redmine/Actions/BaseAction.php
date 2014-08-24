@@ -101,7 +101,7 @@ abstract class BaseAction
      * @param string  $method   method name that requested to throw the exception
      * @param integer $logLevel log level
      *
-     * @throws \AlfredWorkflow\Redmine\Actions\Exception
+     * @throws Exception
      */
     protected function throwException($message, $method, $logLevel = Logger::DEBUG)
     {

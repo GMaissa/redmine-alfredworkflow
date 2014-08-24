@@ -34,13 +34,13 @@ abstract class Json
 
     /**
      * The data directory for the workflow
-     * @type string $dataPath
+     * @var string $dataPath
      */
     protected $dataPath = null;
 
     /**
      * The data filename for the workflow
-     * @type string $dataFile
+     * @var string $dataFile
      */
     protected $dataFile = false;
 
@@ -52,19 +52,19 @@ abstract class Json
 
     /**
      * The bundle ID for the workflow.
-     * @type string $bundle
+     * @var string $bundle
      */
     protected $bundle = null;
 
     /**
      * The working directory for the workflow.
-     * @type string $path
+     * @var string $path
      */
     protected $path = null;
 
     /**
      * The current user's `$HOME` directory.
-     * @type string $home
+     * @var string $home
      */
     protected $home = null;
 
@@ -123,7 +123,7 @@ abstract class Json
     /**
      * Retrieve data for provided key
      *
-     * @param string $key  data key to retrieve
+     * @param string $key data key to retrieve
      *
      * @return mixed
      */
@@ -190,7 +190,7 @@ abstract class Json
     /**
      * Load file data
      *
-     * @throws \AlfredWorkflow\Redmine\Storage\Exception if a data filename is not defined
+     * @throws Exception if a data filename is not defined
      */
     public function load()
     {

@@ -2,12 +2,13 @@
 /**
  * Alfred Workflow Redmine
  *
- * Open a Redmine project page
+ * Open a Redmine project page.
  *
  * @category  AlfredWorkflow
  * @package   AlfredWorkflow.Redmine
  * @author    Guillaume Maïssa <guillaume@maissa.fr>
  * @copyright 2014 Guillaume Maïssa
+ * @license   OSL-3.0 http://opensource.org/licenses/OSL-3.0
  */
 
 namespace AlfredWorkflow;
@@ -223,7 +224,7 @@ class Redmine
     /**
      * Set Logger object to use
      *
-     * @param \Monolog\Handler\AbstractHandler
+     * @param \Monolog\Handler\AbstractHandler $loggerHandler logger handler
      */
     public function setLoggerHandler(AbstractHandler $loggerHandler)
     {

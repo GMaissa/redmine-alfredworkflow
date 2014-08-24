@@ -104,7 +104,9 @@ class Settings extends Json
     }
 
     /**
-     * @param $redmineId
+     * Remove a redmine server configuration from settings file
+     *
+     * @param string $redmineId redmine server identifier
      *
      * @return bool
      */
