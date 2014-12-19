@@ -27,7 +27,8 @@
         "sebastian/phpcpd": "~2.0",
         "squizlabs/php_codesniffer": "~1.5",
         "scrutinizer/ocular": "~1.1",
-        "gmaissa/phpcs-standards": "~1.0"
+        "gmaissa/phpcs-standards": "~1.0",
+        "pdepend/pdepend": "~2.0"
     },
     "autoload": {
         "psr-0": {

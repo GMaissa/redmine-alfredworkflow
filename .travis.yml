@@ -6,13 +6,15 @@ php:
   - "5.6"
 
 install:
+  - rm -rf build && mkdir -p build/logs build/pdepend build/coverage
   - composer install --dev --prefer-source --no-interaction
 
 script:
-  - ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-  - ./vendor/bin/phpcs --standard=vendor/gmaissa/phpcs-standards/Standards/PSR2Plus src/
-  - ./vendor/bin/phpmd src/ text codesize,unusedcode,naming
-  - ./vendor/bin/phpcpd src
+  - ./vendor/bin/phpunit --log-junit=build/logs/junit.xml --coverage-text --coverage-clover=build/logs/clover.xml --coverage-html=build/coverage
+  - ./vendor/bin/phpcs --standard=vendor/gmaissa/phpcs-standards/Standards/PSR2Plus src/ --report-xml=build/logs/checkstyle.xml
+  - ./vendor/bin/phpmd src/ text codesize,unusedcode,naming --reportfile build/logs/pmd.xml
+  - ./vendor/bin/phpcpd src --log-pmd build/logs/pmd-cpd.xml
+  - ./vendor/bin/pdepend --summary-xml=build/logs/jdepend.xml --jdepend-chart=build/pdepend/dependencies.svg  --overview-pyramid=build/pdepend/overview-pyramid.svg src
 
 after_script:  
   - ./vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
