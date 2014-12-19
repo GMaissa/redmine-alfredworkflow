@@ -11,11 +11,11 @@ install:
 
 script:
   - ./vendor/bin/phpunit --log-junit=build/logs/junit.xml --coverage-text --coverage-clover=build/logs/clover.xml --coverage-html=build/coverage
-  - ./vendor/bin/phpcs --standard=vendor/gmaissa/phpcs-standards/Standards/PSR2Plus src/ --report-xml=build/logs/checkstyle.xml
-  - ./vendor/bin/phpmd src/ text codesize,unusedcode,naming --reportfile build/logs/pmd.xml
+  - ./vendor/bin/phpcs --standard=vendor/gmaissa/phpcs-standards/Standards/PSR2Plus src/ --report-checkstyle=build/logs/checkstyle.xml
+  - ./vendor/bin/phpmd src/ xml codesize,unusedcode,naming --reportfile build/logs/pmd.xml
   - ./vendor/bin/phpcpd src --log-pmd build/logs/pmd-cpd.xml
-  - ./vendor/bin/pdepend --summary-xml=build/logs/jdepend.xml --jdepend-chart=build/pdepend/dependencies.svg  --overview-pyramid=build/pdepend/overview-pyramid.svg src
+  - ./vendor/bin/pdepend --jdepend-xml=build/logs/jdepend.xml --jdepend-chart=build/pdepend/dependencies.svg  --overview-pyramid=build/pdepend/overview-pyramid.svg src
 
-after_script:  
-  - ./vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+after_script:
+  - ./vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
 
