@@ -3,6 +3,7 @@ Alfred Workflow for Redmine
 An [Alfred](http://alfredapp.com) workflow that speeds up access to Redmine project pages
 
 [![Build Status](https://travis-ci.org/GMaissa/redmine-alfredworkflow.svg)](https://travis-ci.org/GMaissa/redmine-alfredworkflow)
+[![Coverage Status](https://img.shields.io/coveralls/GMaissa/redmine-alfredworkflow.svg)](https://coveralls.io/r/GMaissa/redmine-alfredworkflow?branch=develop)
 [![Code Coverage](https://scrutinizer-ci.com/g/GMaissa/redmine-alfredworkflow/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/GMaissa/redmine-alfredworkflow/?branch=develop)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/GMaissa/redmine-alfredworkflow/badges/quality-score.png)](https://scrutinizer-ci.com/g/GMaissa/redmine-alfredworkflow/?branch=develop)
 
