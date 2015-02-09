@@ -1,6 +1,5 @@
 /vendor/
-/coverage/
-/pdepend/
+/build/
 /config/settings.json
 /test/tmp/
 debug.log
