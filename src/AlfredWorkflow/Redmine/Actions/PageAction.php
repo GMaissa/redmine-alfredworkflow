@@ -352,7 +352,7 @@ class PageAction extends BaseAction
         }
         // @codeCoverageIgnoreEnd
 
-        if ($identifierPattern) {
+        if (null !== $identifierPattern) {
             $matchingResults = array_filter(
                 $this->redmineProjectsCache[$redmineId],
                 function ($project) use ($identifierPattern) {
