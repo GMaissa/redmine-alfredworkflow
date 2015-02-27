@@ -403,6 +403,8 @@ class PageAction extends BaseAction
      * Retrieve data (project details) from Redmine server
      *
      * @param string $redmineId redmine server identifier
+     *
+     * @return void
      */
     protected function loadRedmineData($redmineId)
     {
