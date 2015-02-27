@@ -12,11 +12,10 @@ install:
   - composer install --dev --prefer-source --no-interaction
 
 script:
-  - ./vendor/bin/phpunit --log-junit=build/logs/junit.xml --coverage-text --coverage-clover=build/logs/clover.xml --coverage-html=build/coverage
-  - ./vendor/bin/phpcs --standard=vendor/novactive/phpcs-novastandards/src/NovaPSR2 src/ --report-checkstyle=build/logs/checkstyle.xml
-  - ./vendor/bin/phpmd src/ xml codesize,unusedcode,naming --reportfile build/logs/pmd.xml
-  - ./vendor/bin/phpcpd src --log-pmd build/logs/pmd-cpd.xml
-  - ./vendor/bin/pdepend --jdepend-xml=build/logs/jdepend.xml --jdepend-chart=build/pdepend/dependencies.svg  --overview-pyramid=build/pdepend/overview-pyramid.svg src
+  - ./vendor/bin/phpunit --log-junit=build/logs/junit.xml --coverage-text --coverage-clover=build/logs/clover.xml
+  - ./vendor/bin/phpcs --standard=vendor/novactive/phpcs-novastandards/src/NovaPSR2 src/
+  - ./vendor/bin/phpmd src/ text codesize,unusedcode,naming
+  - ./vendor/bin/phpcpd src
 
 after_script:
   - ./vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
