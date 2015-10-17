@@ -91,7 +91,7 @@ class ConfigAction extends BaseAction
         } catch (Exception $e) {
             $subtitle = $e->getMessage();
         }
-        if (count($params) >= 4 && !$subtitle) {
+        if (count($params) >= 4 && false === $subtitle) {
             $this->workflow->result(
                 array(
                     'uid'      => '',
@@ -103,7 +103,7 @@ class ConfigAction extends BaseAction
                 )
             );
         } else {
-            if (!$subtitle) {
+            if (false === $subtitle) {
                 $subtitle = 'Provide params: <identifier> <url> <api-key> <name>';
             }
             $additionalAutoComp = count($params) ? implode(' ', $params) . ' ' : null;
